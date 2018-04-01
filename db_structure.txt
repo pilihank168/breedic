@@ -1,0 +1,199 @@
+boarList
+	(farmNo)
+		(earmark)
+			strain
+			earmark
+			registerNo
+			birthday
+			fatherEar
+			fatherNo
+			motherEar
+			motherNo
+			note
+boars
+	(farmNo)
+		(earmark)
+			arriveDate
+			source
+			earmark
+			weight
+			backFat
+sowList
+	(farmNo)
+		(earmark)
+			strain
+			earmark
+			registerNo
+			birthday
+			fatherEar
+			fatherNo
+			motherEar
+			motherNo
+			weight
+			backFat
+			note
+sows
+	(farmNo)
+		(earmark)
+			arriveDate
+			source
+			identity
+			earmark
+			weight
+			backFat
+litters
+	(farmNo)
+		(litterNo)
+			birthday
+			strain
+			litterNo
+			fatherEar
+			motherEar
+			location
+suckings
+	(farmNo)
+		(litterNo)
+			birthday
+			strain
+			litterNo
+			fatherEar
+			motherEar
+			location
+			(pigNo)
+				gender
+				litterWeight
+				nippleNo
+				weanDate
+				weanWeight
+				identity
+				fostering
+weaners
+	(farmNo)
+		(earmark)
+			earmark
+			lot
+			lacation
+			gender
+			identity
+			quantity
+semen
+	(farmNo)
+		(earmark)
+			(randomNo)
+				earmark
+				date
+				volume
+				concentration
+				activity
+				phenotype
+				diluteRatio
+				available
+				[sowEar]
+				[productionNo]
+		(date)
+			[earmark, semenNo]
+production
+	(farmNo)
+		(earmark)
+			(randomNo)
+				earmark
+				parity
+				serviceDate
+				boarEar
+				diagnoseDate
+				diagnoseResult
+				dueDate
+				parturitionDate
+				litterStrain
+				litterNo
+				totalPiglet
+				live
+				mummy
+				stillborn
+				weight
+				lactateLocation
+				lactateLitter
+				weanDate
+				weanNumber
+				weanWeight
+add
+	(farmNo)
+		(date)
+			(earmark)
+				date
+				source
+				earmark
+				registerNo
+				gender
+				birthday
+				motherEar
+				fatherEar
+				identity
+				location
+				weight
+				backFat
+service
+	(farmNo)
+		(date)
+			(randomNo)
+				date
+				sowEar
+				boarEar
+				serviceMethod
+				location
+				dueDate
+diagnosis
+	(farmNo)
+		(date)
+			(randomNo)
+				date
+				sowEar
+				result
+				location
+translocation
+	(farmNo)
+		(date)
+			(randomNo)
+				date
+				earmark
+				location
+parturition
+	(farmNo)
+		(date)
+			[earmark, productionNo]
+				date
+				sowEar
+				parity
+				litterStrain
+				litterNo
+				totalPiglet
+				live
+				mummy
+				stillborn
+				weight
+				lactateLitter
+				lactateLocation
+wean
+	(farmNo)
+		(date)
+			date
+			sowEar
+			weight
+			location
+remove
+	(farmNo)
+		(date)
+			date
+			earmark
+			reason
+export
+	(farmNo)
+		(date)
+			date
+			earmark
+			note
+log
+	(farmNo)
+		(type)	#boar or sow or sucking or weaner
+			(earmark)
+				work
