@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>預準生物科技</title>
+		<title>台鼎生物科技</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -21,7 +21,7 @@
 				<div id="header">
 
 					<!-- Logo -->
-						<h1><a href="index.html" id="logo">預準生物科技</em></a></h1>
+						<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
 						<button type="submit" id="signoutBtn">登出</button>
 					<!-- Nav -->
 						<nav id="nav">
@@ -38,42 +38,40 @@
 								</li>
 								<li>
 									<a href="#gene">基因檢測</a>
+									<ul>
+										<li><a href="service.html">服務說明</a></li>
+										<li><a href="application.html">提出申請</a></li>
+										<li><a href="progress.html">進度查詢</a></li>
+										<li><a href="diagnose.html">查看檢測報告</a></li>
+									</ul>
 								</li>
 								<li><a href="login.html">登入</a></li>
-								<li><a href="connect.html">聯絡我們</a></li>
+								<li><a href="#contact">聯絡我們</a></li>
 							</ul>
 						</nav>
 				</div>
 
 			<!-- Banner -->
-				<section class="wrapper style1" id="login">
+				<section class="wrapper style1" id="loginSec">
 					<div class="container">
 						<div>
 							<div>
-								<form>
-									<div class="row 50%">
-										<div class="12u">
+								<form method="POST">
+									<div class="row 200%">
+										<div class="4u 12u">
 											使用者名稱
-											<input type="text" name="account" id="accountL"/>
+											<input type="text" name="name" id="accountL"/>
 										</div>
-									</div>
-									<div class="row 50%">
-										<div class="12u">
+										<div class="4u 12u">
 											密碼
-											<input type="password" name="pwd" id="pwdL"/>
+											<input type="password" name="password" id="pwdL"/>
 										</div>
-									</div>
-									<div class="row 5%">
-										
-									</div>
-									<div class="row 50%">
-										<div class="12u">
+										<div class="3u 12u">
 											<a href="#">忘記密碼？</a>
 											<ul>
-												<li><input type="submit" class="button" value="登入" id="loginSmtBtn" onclick="login(this.form)"/></li>
+												<li><input type="submit" class="button" value="登入" id="loginSmtBtn" /></li>
 											</ul>
-										</div>
-									</div>
+									</div></div>
 								</form>
 							</div>
 
@@ -81,7 +79,7 @@
 				</section>
 				<section id="banner">
 					<header>
-						<h2>預準<em> - 胎胎都是萬中選一</em></h2>
+						<h2>台鼎<em> - 胎胎都是萬中選一</em></h2>
 						<a href="#contact" class="button">立刻體驗</a>
 					</header>
 				</section>
@@ -132,7 +130,7 @@
 
 				<section class="wrapper style1" id="data">
 					<div class="container">
-						<div class="row">
+						<center><div class="row">
 							<section class="6u 12u(narrower)">
 								<h2>數據分析</h2>
 								育種價描述,母豬情形
@@ -141,13 +139,13 @@
 								<p style="height: 2em;"><a href="#" class="button">何謂育種價</a></p>
 								<p style="height: 2em;"><a href="#" class="button">選拔建議</a></p>
 							</section>
-						</div>
+						</div></center>
 					</div>
 				</section>
 
 				<section class="wrapper style1" id="gene">
 					<div class="container">
-						<div class="row">
+						<center><div class="row">
 							<section class="6u 12u(narrower)">
 								<h2>基因檢測</h2>
 								根據您的需求,針對您的畜群進行分子選拔
@@ -156,14 +154,14 @@
 								<p style="height: 2em;"><a href="#" class="button">種豬相關基因</a><p/>
 								<p style="height: 2em;"><a href="#" class="button">肉豬相關基因</a></p>
 							</section>
-						</div>
+						</div></center>
 					</div>
 				</section>
-				<section class="wrapper style1" id="contact">
+				<section  id="contact">
 					<div class="container">
 							<div>
 								<h3>加入會員</h3>
-								<p>輸入您的資料,我們將由專人為您服務。</p>
+								<!--p>輸入您的資料,我們將由專人為您服務。</p-->
 								<form method="POST">
 									<div class="row 50%">
 										<div class="4u 12u(mobilep)">
@@ -176,7 +174,7 @@
 										</div>
 										<div class="4u 12u(mobilep)">
 											豬場規模(核心母豬群)
-											<input type="number" name="size" id="size" placeholder="1000" />
+											<input type="text" name="size" id="size" placeholder="1000" />
 										</div>
 									</div>
 									<div class="row 50%">
@@ -198,13 +196,13 @@
 											<textarea name="message" id="message" placeholder="如有問題或需求請在此留言,我們將由專人為您服務。" rows="5"></textarea>
 										</div>
 									</div>
-									<div class="row 50%">
+									<center><div class="row 50%">
 										<div class="12u">
 											<ul class="actions">
 												<li><input type="submit" class="button" value="提交" /></li>
 											</ul>
 										</div>
-									</div>
+									</div></center>
 								</form>
 							</div>
 					</div>
@@ -215,17 +213,14 @@
 				<div id="footer">
 					<!-- Icons -->
 						<ul class="icons">
-							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-							<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+							<li><p>電話：02-23691499</p></li>
+							<li><p>電子信箱：service@breedic.com</p></li>
 						</ul>
 
 					<!-- Copyright -->
 						<div class="copyright">
 							<ul class="menu">
-								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								<li>&copy; Untitled. All rights reserved</li><li><a href="index.html">台鼎生物科技</a></li>
 							</ul>
 						</div>
 

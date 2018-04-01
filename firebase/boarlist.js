@@ -29,7 +29,7 @@ var table = document.getElementById("boarTable");
 			var cell6 = row.insertCell(6);
 			var cell7 = row.insertCell(7);
 			cell0.innerHTML = entry.strain;
-			cell1.innerHTML = entry.earmark;
+			cell1.innerHTML = '<a href="'+'boardata.html?ear='+entry.earmark+'">'+entry.earmark+'</a>';
 			cell2.innerHTML = entry.registerNo;
 			cell3.innerHTML = entry.birthday;
 			//cell4.innerHTML = x

@@ -21,7 +21,7 @@
 </style>
 <html>
 	<head>
-		<title>預準生物科技</title>
+		<title>台鼎生物科技</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -36,14 +36,13 @@
 				<div id="header">
 
 					<!-- Logo -->
-						<h1><a href="index.html" id="logo">預準生物科技</em></a></h1>
-
+						<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
 					<!-- Nav -->
 						<nav id="nav">
 							<ul>
 								<li><a href="index.html">首頁</a></li>
 								<li class="current">
-									<a href="#">數據分析</a>
+									<a href="#data">數據分析</a>
 									<ul>
 										<li><a href="upload.html">豬隻資料</a></li>
 										<li><a href="record.html">上傳紀錄</a></li>
@@ -52,16 +51,14 @@
 									</ul>
 								</li>
 								<li>
-									<a href="#">基因檢測</a>
+									<a href="#gene">基因檢測</a>
 									<ul>
-										<li><a href="white.html">基因檢測項目:白豬</a></li>
-										<li><a href="black.html">基因檢測項目:黑豬</a></li>
-										<li><a href="#">查看分析報告</a></li>
+										<li><a href="service.html">服務說明</a></li>
+										<li><a href="application.html">提出申請</a></li>
+										<li><a href="progress.html">進度查詢</a></li>
+										<li><a href="diagnose.html">查看檢測報告</a></li>
 									</ul>
 								</li>
-								<li><a href="inquiry.html">豬隻查詢</a></li>
-								<li><a href="login.html">登入</a></li>
-								<li><a href="connect.html">聯絡我們</a></li>
 							</ul>
 						</nav>
 						<div style="margin: 0px auto;">
@@ -80,7 +77,7 @@
 				<section class="wrapper style1">
 					<div class="container">
 						<div class="row 200%">
-							<div class="4u 12u(narrower)">
+							<div class="2u 12u(narrower)">
 								<div id="sidebar">
 
 									<!-- Sidebar -->
@@ -91,19 +88,12 @@
 											<ul>
 												<li><a href="upload.html" style="color:black;">一次上傳</a></li>
 											</ul>
-											<h3>手動上傳</h3>
-											<ul>
-												<li><a href="uploadBoar.html" style="color:black;">公豬</a></li>
-												<li><a href="uploadSow.html" style="color:black;">母豬</a></li>
-												<li><a href="uploadSucking.html" style="color:black;">仔豬</a></li>
-												<li><a href="uploadWeaner.html" style="color:black;">保育豬</a></li>
-											</ul>
 											<h3>檢視資料</h3>
 											<ul>
-												<li><a href="boardata.html" style="color:black;">公豬</a></li>
-												<li><a href="sowdata.html" style="color:black;">母豬</a></li>
-												<li><a href="suckingdata.html" style="color:black;">仔豬</a></li>
-												<li><a href="weanerdata.html" style="color:black;">保育豬</a></li>
+												<li><a href="boarlist.html" style="color:black;">公豬</a></li>
+												<li><a href="sowlist.html" style="color:black;">母豬</a></li>
+												<li><a href="suckinglist.html" style="color:black;">仔豬</a></li>
+												<li><a href="weanerlist.html" style="color:black;">保育豬</a></li>
 											</ul>
 										</section>
 
@@ -113,8 +103,31 @@
 								<div id="content">
 
 									<!-- Content -->
-									<h4 id="boarList">公豬資料</h4>
-									<table id="boarTable">
+									<center><h2 id="boarList">公豬資料</h2></center>
+									<div class="row">
+										<div class="4u 12u(narrower)">
+											<input type="search"/>
+										</div>
+										<div class="4u 12u(narrower)">
+											<input list="filters">
+
+											<datalist id="filters">
+											<option value="耳號">
+											<option value="品種">
+											<option value="序號">
+											<option value="生日">
+											<option value="父畜">
+											<option value="母畜">
+											</datalist>
+										</div>
+										<div>
+											<button type="submit">查詢</button>
+										</div>
+										<div>
+											<a href="uploadBoar.html">新增</a>
+										</div>
+									</div>
+									<table align="center" id="boarTable">
 									<tr>
 										<th>品種</th>
 										<th>公豬耳號</th> 

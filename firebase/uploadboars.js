@@ -37,6 +37,7 @@ boarSmtBtn.addEventListener("click", function(){
 		note:note.value
 	}).then(function(){
 		console.log("新增公豬資料成功");
+		window.location.replace("boardata.html?ear="+earmark.value);
 	}).catch(function(err){
 			console.error("新增公豬資料錯誤：",err);
 	})

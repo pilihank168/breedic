@@ -12,19 +12,21 @@ firebase.initializeApp(config);
 var accountL = document.getElementById("accountL");
 var pwdL = document.getElementById("pwdL");
 var loginSmtBtn = document.getElementById("loginSmtBtn");
-//loginSmtBtn.addEventListener("click",function(){
-function login(form){
-	console.log(form.account.value);
-	firebase.auth().signInWithEmailAndPassword(form.account.value, form.pwd.value).catch(function(error) {
+loginSmtBtn.addEventListener("click",function(){
+	console.log(accountL.value);
+	firebase.auth().signInWithEmailAndPassword(accountL.value, pwdL.value).then(function(){
+		console.log("login");
+	})
+	.catch(function(error) {
 		// Handle Errors here.
 		var errorCode = error.code;
 		var errorMessage = error.message;
 		console.log(errorMessage);
 	})
-}
-//},false);
+},false);
 //logout
 var signoutBtn = document.getElementById("signoutBtn");
+var loginSection = document.getElementById("loginSec");
 signoutBtn.addEventListener("click", function(){
 	firebase.auth().signOut().then(function() {
 		console.log("User sign out!");
@@ -36,10 +38,12 @@ signoutBtn.addEventListener("click", function(){
 var user;
 firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
-		//signoutBtn.style.display="block";
+		signoutBtn.style.display="block";
+		loginSection.style.display="none";
 		console.log("User is logined", user)
 	} else {
-	//	signoutBtn.style.display="none";
+		signoutBtn.style.display="none";
+		loginSection.style.display="none";
 		console.log("User is not logined yet.");
 	}
 });
