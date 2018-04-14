@@ -1,3 +1,9 @@
+users
+	(uid)
+		name
+		farmNo
+		role:owner/employee
+
 boarList
 	(farmNo)
 		(earmark)

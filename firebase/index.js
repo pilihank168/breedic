@@ -8,25 +8,9 @@ apiKey: "AIzaSyDARFJhNCdtGa3rWyJmE8zGawiwlbNBFpE",
 		messagingSenderId: "607804503321"
 };
 firebase.initializeApp(config);
-//login
-var accountL = document.getElementById("accountL");
-var pwdL = document.getElementById("pwdL");
-var loginSmtBtn = document.getElementById("loginSmtBtn");
-loginSmtBtn.addEventListener("click",function(){
-	console.log(accountL.value);
-	firebase.auth().signInWithEmailAndPassword(accountL.value, pwdL.value).then(function(){
-		console.log("login");
-	})
-	.catch(function(error) {
-		// Handle Errors here.
-		var errorCode = error.code;
-		var errorMessage = error.message;
-		console.log(errorMessage);
-	})
-},false);
 //logout
 var signoutBtn = document.getElementById("signoutBtn");
-var loginSection = document.getElementById("loginSec");
+signoutBtn.style.display="none";
 signoutBtn.addEventListener("click", function(){
 	firebase.auth().signOut().then(function() {
 		console.log("User sign out!");
@@ -39,11 +23,21 @@ var user;
 firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
 		signoutBtn.style.display="block";
-		loginSection.style.display="none";
 		console.log("User is logined", user)
 	} else {
 		signoutBtn.style.display="none";
-		loginSection.style.display="none";
 		console.log("User is not logined yet.");
 	}
 });
+//contact form(fail)
+var contactName = document.getElementById("name");
+var contactFarm = document.getElementById("farm");
+var contactSize = document.getElementById("size");
+var contactMail = document.getElementById("email");
+var contactPhone = document.getElementById("phone");
+var contactLocation = document.getElementById("location");
+var contactText = document.getElementById("message");
+var contactBtn = document.getElementById("contactBtn");
+contactBtn.addEventListener("click", function(){
+	window.location.href="mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value;
+})
