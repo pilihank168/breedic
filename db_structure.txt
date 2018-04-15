@@ -15,6 +15,7 @@ boarList
 			fatherNo
 			motherEar
 			motherNo
+			position
 			note
 boars
 	(farmNo)

@@ -109,22 +109,25 @@
 											<input type="search"/>
 										</div>
 										<div class="4u 12u(narrower)">
-											<input list="filters">
-
-											<datalist id="filters">
-											<option value="耳號">
-											<option value="品種">
-											<option value="序號">
-											<option value="生日">
-											<option value="父畜">
-											<option value="母畜">
-											</datalist>
+											<select id="filters">
+											<option value="earmark">耳號</option>
+											<option value="strain">品種</option>
+											<option value="number">序號</option>
+											<option value="birthday">生日</option>
+											<option value="father">父畜</option>
+											<option value="mother">母畜</option>
+											</select>
 										</div>
 										<div>
 											<button type="submit">查詢</button>
 										</div>
 										<div>
-											<a href="uploadBoar.html">新增</a>
+											<a href="uploadBoar.html">新增公豬</a>
+										</div>
+									</div>
+									<div class="row">
+										<div class="4u 12u(narrower)">
+										<h1> 點擊查看個別豬隻資料 </h1>
 										</div>
 									</div>
 									<table align="center" id="boarTable">

@@ -4,6 +4,24 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<style>
+	table{
+		width:100%;
+	}
+	table tr:nth-child(even) {
+		background-color: #eee;
+	}
+	table tr:nth-child(odd) {
+		background-color: #fff;
+	}
+	table th {
+		background-color: #3498db;
+		color: white;
+	}
+	input {display: block; padding: 0; margin: 0; border: 0; width: 100%;}
+	td {margin: 0; padding: 0;}
+
+</style>
 <html>
 	<head>
 		<title>台鼎生物科技</title>
@@ -89,30 +107,80 @@
 
 									<!-- Content -->
 									<h2>新增公豬資料</h2>
-									<label>耳號</label>
+									<table align="center" id="boarTable">
+									<tr>
+										<th>品種</th>
+										<th>公豬耳號</th> 
+										<th>公豬序號</th>
+										<th>出生日期</th>
+										<th>父畜序號</th>
+										<th>母畜序號</th>
+										<th>位置</th>
+										<th>備註</th>
+									</tr>
+									<tr>
+										<td>
+										<input id="strain" type="text">
+										</td>
+										<td>
+										<input id="earmark" type="text">
+										</td>
+										<td>
+										<input id="registerNo" type="text">
+										</td>
+										<td>
+										<input id="birthday" type="date">
+										</td>
+										<td>
+										<input id="fatherNo" type="text">
+										</td>
+										<td>
+										<input id="motherNo" type="text">
+										</td>
+										<td>
+										<input id="position" type="text">
+										</td>
+										<td>
+										<input id="note" type="text">
+										</td>
+									</table>
+									<div class="row">
+										<div class="2u">
+										<h4>豬隻來源：</h4>
+										</div>
+										<div class="10u">
+										<input id="source" type="text">
+										</div>
+									</div>
+									<form id="preview">
+									<input id="photo" type="file" accept="image/*">
+									<div class="3u">
+									<input class="button" id="resetPhoto" value="reset photo"/></div>
+									</form>
+<!--									<label>耳號</label>
 									<input id="earmark" type="text">
 									<label>序號</label>
 									<input id="registerNo" type="text">
 									<label>品種</label>
 									<input id="strain" type="text">
 									<label>出生日期</label>
-									<input id="birthday" type="date">
+									<input id="birthday" type="date"-->
 									<label>父畜耳號</label>
-									<input id="fatherEar" type="text">
+									<input id="fatherEar" type="text"><!--
 									<label>父畜序號</label>
-									<input id="fatherNo" type="text">
+									<input id="fatherNo" type="text"-->
 									<label>母畜耳號</label>
-									<input id="motherEar" type="text">
+									<input id="motherEar" type="text"><!--
 									<label>母畜序號</label>
-									<input id="motherNo" type="text">
+									<input id="motherNo" type="text"-->
 									<label>體重</label>
 									<input id="weight" type="number">
 									<label>背脂厚度</label>
-									<input id="backFat" type="number">
+									<input id="backFat" type="number"><!--
 									<label>備註</label>
 									<input id="note" type="text">
+-->
 									<button type="submit" id="boarSmtBtn">Upload</button>
-
 								</div>
 							</div>
 						</div>

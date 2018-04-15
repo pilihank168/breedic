@@ -1936,7 +1936,7 @@
 		}
 
 /* Form */
-
+	input[type="date"],
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
@@ -1960,6 +1960,7 @@
 		width: 100%;
 	}
 
+	input[type="date"]:focus,
 		input[type="text"]:focus,
 		input[type="password"]:focus,
 		input[type="email"]:focus,
@@ -1967,6 +1968,7 @@
 			border-color: #37c0fb;
 		}
 
+	input[type="date"],
 	input[type="text"],
 	input[type="password"],
 	input[type="email"] {
