@@ -42,5 +42,10 @@ contactBtn.addEventListener("click", function(){
 //	window.location.href="mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value;
 })
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
-window.recaptchaVerifier.render().then(function(num){
-	console.log(num);});
+window.recaptchaVerifier.render().then(function(widgetId){
+	window.recaptchaWidgetId = widgetId;
+	console.log(widgetId);});
+window.recaptchaVerifier.very().then(function(result){
+	console.log(result);});
+var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
+console.log(recaptchaResponse);
