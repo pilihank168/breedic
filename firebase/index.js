@@ -39,6 +39,7 @@ var contactLocation = document.getElementById("location");
 var contactText = document.getElementById("message");
 var contactBtn = document.getElementById("contactBtn");
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+	'size' : 'normal',
 	'callback' : function(response){
 	console.log('verified');
 contactBtn.addEventListener("click", function(){
