@@ -56,3 +56,14 @@ var origin = document.getElementById("origin");
 		photo.src=url;});
 	});
 //}, false);
+var content = document.getElementById("content");
+var user;
+firebase.auth().onAuthStateChanged(function(user) {
+	if (user) {
+		content.style.display="none";
+		console.log("User is logined", user)
+	} else {
+		content.style.display="block";
+		console.log("User is not logined yet.");
+	}
+});
