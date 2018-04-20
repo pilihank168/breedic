@@ -41,6 +41,7 @@ var contactBtn = document.getElementById("contactBtn");
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	'size' : 'normal',
 	'callback' : function(response){
+	contactBtn.setAttribute("type","submit");
 	console.log('verified');
 contactBtn.addEventListener("click", function(){
 	console.log("mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
