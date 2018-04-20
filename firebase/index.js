@@ -46,8 +46,8 @@ contactBtn.addEventListener("click", function(){
 });
 	}
 });
-//window.recaptchaVerifier.render().then(function(widgetId){
-//	window.recaptchaWidgetId = widgetId;
-//	console.log(widgetId);});
-//var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
-//console.log(recaptchaResponse);
+window.recaptchaVerifier.render().then(function(widgetId){
+	window.recaptchaWidgetId = widgetId;
+	console.log(widgetId);});
+var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
+console.log(recaptchaResponse);
