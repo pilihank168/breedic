@@ -41,15 +41,5 @@ var contactBtn = document.getElementById("contactBtn");
 contactBtn.addEventListener("click", function(){
 //	window.location.href="mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value;
 })
-window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
-	'callback': (response) => {
-		console.log("mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
-		// reCAPTCHA solved, allow signInWithPhoneNumber.
-		// ...
-	},
-	'expired-callback': () => {
-		// Response expired. Ask user to solve reCAPTCHA again.
-		// ...
-	}
-})
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
 window.recaptchaVerifier.render()
