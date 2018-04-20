@@ -38,14 +38,16 @@ var contactPhone = document.getElementById("phone");
 var contactLocation = document.getElementById("location");
 var contactText = document.getElementById("message");
 var contactBtn = document.getElementById("contactBtn");
+window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+	'callback' : function(response){
+	console.log('verified');
 contactBtn.addEventListener("click", function(){
-//	window.location.href="mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value;
-})
-window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha');
-window.recaptchaVerifier.render().then(function(widgetId){
-	window.recaptchaWidgetId = widgetId;
-	console.log(widgetId);});
-window.recaptchaVerifier.very().then(function(result){
-	console.log(result);});
-var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
-console.log(recaptchaResponse);
+	console.log("mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
+});
+	}
+});
+//window.recaptchaVerifier.render().then(function(widgetId){
+//	window.recaptchaWidgetId = widgetId;
+//	console.log(widgetId);});
+//var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
+//console.log(recaptchaResponse);
