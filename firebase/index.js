@@ -43,7 +43,8 @@ window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	'callback' : function(response){
 	contactBtn.setAttribute("type","submit");
 	console.log('verified');
-contactBtn.addEventListener("submit", function(){
+contactBtn.addEventListener("submit", function(evt){
+	evt.preventDefault();
 	console.log("mailto:pilihank168@gmail.com?subject=test&body=name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
 });
 	}
