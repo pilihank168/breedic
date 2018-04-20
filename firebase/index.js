@@ -46,8 +46,8 @@ window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	var contactForm = document.getElementById("contactForm");
 	contactBtn.addEventListener("click", function(evt){
 		evt.preventDefault();
-		console.log("name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
 		contactForm.reset();
+		console.log("name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
 		window.location.reload(false);
 	});
 	}
