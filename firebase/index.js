@@ -50,10 +50,10 @@ window.recaptchaVerifier.render().then(function(widgetId){
 
 var contactForm = document.getElementById("contactForm");
 contactBtn.addEventListener("click", function(evt){
-	evt.preventDefault();
+	//evt.preventDefault();
 	//contactForm.reset();
 	console.log("name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
 var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
 console.log(recaptchaResponse);
-	window.location.reload(false);
+	//window.location.reload(false);
 });
