@@ -59,7 +59,7 @@ window.recaptchaVerifier.render().then(function(widgetId){
 contactBtn.addEventListener("click", function(evt){
 	//evt.preventDefault();
 	console.log(verified);
-	if(verified){
+	if(verified && contactPhone != '' && contactMail != '' && contactText!='' && contactName!=''){
 	contactForm.reset();
 	window.location.reload(false);}
 });
