@@ -41,7 +41,6 @@ var contactBtn = document.getElementById("contactBtn");
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	'size' : 'normal',
 	'callback' : function(response){
-	contactBtn.setAttribute("type","submit");
 	console.log('verified');
 	var contactForm = document.getElementById("contactForm");
 	contactBtn.addEventListener("click", function(evt){
