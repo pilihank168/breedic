@@ -38,21 +38,24 @@ var contactPhone = document.getElementById("phone");
 var contactLocation = document.getElementById("location");
 var contactText = document.getElementById("message");
 var contactBtn = document.getElementById("contactBtn");
+var contactForm = document.getElementById("contactForm");
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	'size' : 'normal',
 	'callback' : function(response){
+	contactBtn.setAttribute('type','submit');
 	console.log('verified');
+	},
+	'callback-expired' : function(){
+	contactBtn.removeAttribute('type');
 	}
 });
 window.recaptchaVerifier.render().then(function(widgetId){
 	window.recaptchaWidgetId = widgetId;
 	console.log(widgetId);});
 
-var contactForm = document.getElementById("contactForm");
 contactBtn.addEventListener("click", function(evt){
 	//evt.preventDefault();
-	//contactForm.reset();
-	console.log("name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
+	contactForm.reset();
 var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
 console.log(recaptchaResponse);
 	//window.location.reload(false);
