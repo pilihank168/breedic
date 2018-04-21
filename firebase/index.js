@@ -39,14 +39,17 @@ var contactLocation = document.getElementById("location");
 var contactText = document.getElementById("message");
 var contactBtn = document.getElementById("contactBtn");
 var contactForm = document.getElementById("contactForm");
+var verified = 0;
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	'size' : 'normal',
 	'callback' : function(response){
 	contactBtn.setAttribute('type','submit');
 	console.log('verified');
+	verified = 1;
 	},
 	'callback-expired' : function(){
-	contactBtn.removeAttribute('type');
+	contactBtn.setAttribute('type','text');
+	verified = 0;
 	}
 });
 window.recaptchaVerifier.render().then(function(widgetId){
@@ -55,8 +58,7 @@ window.recaptchaVerifier.render().then(function(widgetId){
 
 contactBtn.addEventListener("click", function(evt){
 	//evt.preventDefault();
+	if(verified){
 	contactForm.reset();
-var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
-console.log(recaptchaResponse);
-	//window.location.reload(false);
+	window.location.reload(false);}
 });
