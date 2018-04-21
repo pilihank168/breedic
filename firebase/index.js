@@ -47,7 +47,7 @@ window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	console.log('verified');
 	verified = 1;
 	},
-	'callback-expired' : function(){
+	'expired-callback' : function(){
 	contactBtn.setAttribute('type','text');
 	verified = 0;
 	}
@@ -60,6 +60,6 @@ contactBtn.addEventListener("click", function(evt){
 	//evt.preventDefault();
 	console.log(contactPhone);
 	if(verified && contactPhone != '' && contactMail != '' && contactText!='' && contactName!=''){
-	contactForm.reset();
+	//contactForm.reset();
 	window.location.reload(false);}
 });
