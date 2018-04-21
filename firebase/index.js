@@ -54,6 +54,6 @@ contactBtn.addEventListener("click", function(evt){
 	//contactForm.reset();
 	console.log("name:"+contactName.value+"farm:"+contactFarm.value+"size:"+contactSize.value+"email:"+contactMail.value+"phone:"+contactPhone.value+"location:"+contactLocation.value+"message"+contactText.value);
 	window.location.reload(false);
-});
 var recaptchaResponse = grecaptcha.getResponse(window.recaptchaWidgetId);
 console.log(recaptchaResponse);
+});
