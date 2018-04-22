@@ -60,7 +60,7 @@ window.recaptchaVerifier.render().then(function(widgetId){
 
 contactBtn.addEventListener("click", function(evt){
 	if(contactPhone.value!='' && contactMail.value!='' && contactText.value!='' && contactName.value!=''){
-		evt.preventDefault();
+		//evt.preventDefault();
 		contactForm.reset();
 		window.location.reload(false);
 	}
