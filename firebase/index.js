@@ -43,12 +43,14 @@ var verified = 0;
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	'size' : 'normal',
 	'callback' : function(response){
+	contactBtn.classList.remove('disabled');
 	contactBtn.setAttribute('type','submit');
 	console.log('verified');
 	verified = 1;
 	},
 	'expired-callback' : function(){
 	contactBtn.setAttribute('type','text');
+	contactBtn.classList.add('disabled');
 	verified = 0;
 	}
 });
@@ -57,9 +59,9 @@ window.recaptchaVerifier.render().then(function(widgetId){
 	console.log(widgetId);});
 
 contactBtn.addEventListener("click", function(evt){
-	//evt.preventDefault();
-	console.log(contactPhone);
-	if(verified && contactPhone != '' && contactMail != '' && contactText!='' && contactName!=''){
-	//contactForm.reset();
-	window.location.reload(false);}
+	if(contactPhone.value!='' && contactMail.value!='' && contactText.value!='' && contactName.value!=''){
+		evt.preventDefault();
+		contactForm.reset();
+		window.location.reload(false);
+	}
 });
