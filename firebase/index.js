@@ -61,7 +61,7 @@ window.recaptchaVerifier.render().then(function(widgetId){
 contactBtn.addEventListener("click", function(evt){
 	if(contactPhone.value!='' && contactMail.value!='' && contactText.value!='' && contactName.value!=''){
 		//evt.preventDefault();
-		contactForm.reset();
+		//contactForm.reset();
 		window.location.reload(false);
 	}
 });
