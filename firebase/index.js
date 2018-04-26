@@ -58,10 +58,10 @@ window.recaptchaVerifier.render().then(function(widgetId){
 	window.recaptchaWidgetId = widgetId;
 	console.log(widgetId);});
 
-contactBtn.addEventListener("click", function(evt){
-	if(contactPhone.value!='' && contactMail.value!='' && contactText.value!='' && contactName.value!=''){
+//contactBtn.addEventListener("click", function(evt){
+	//if(contactPhone.value!='' && contactMail.value!='' && contactText.value!='' && contactName.value!=''){
 		//evt.preventDefault();
 		//contactForm.reset();
-		window.location.reload(false);
-	}
-});
+		//window.location.reload(false);
+	//}
+//});
