@@ -101,7 +101,7 @@ sowSmtBtn.addEventListener("click", function(){
 	if(photo){
 		var photoRef = firebase.storage().ref("0/"+earmark.value+".png");
 		const p3 = photoRef.put(photo);
-		promise_array.push(p1);
+		promise_array.push(p3);
 	}
 
 // productions data

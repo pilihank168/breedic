@@ -1,11 +1,11 @@
 // Initialize Firebase
 var config = {
-apiKey: "AIzaSyDARFJhNCdtGa3rWyJmE8zGawiwlbNBFpE",
-		authDomain: "breedic-ba254.firebaseapp.com",
-		databaseURL: "https://breedic-ba254.firebaseio.com",
-		projectId: "breedic-ba254",
-		storageBucket: "breedic-ba254.appspot.com",
-		messagingSenderId: "607804503321"
+	apiKey: "AIzaSyDARFJhNCdtGa3rWyJmE8zGawiwlbNBFpE",
+	authDomain: "breedic-ba254.firebaseapp.com",
+	databaseURL: "https://breedic-ba254.firebaseio.com",
+	projectId: "breedic-ba254",
+	storageBucket: "breedic-ba254.appspot.com",
+	messagingSenderId: "607804503321"
 };
 firebase.initializeApp(config);
 
@@ -23,7 +23,7 @@ var position = document.getElementById("position");
 var source = document.getElementById("source");
 var note = document.getElementById("note");
 var boarSmtBtn = document.getElementById("boarSmtBtn");
-var photo = {};
+var photo = '';
 var preview = document.getElementById("preview");
 var fileInput = document.getElementById('photo');
 var img = new Image();
@@ -46,34 +46,40 @@ fileInput.addEventListener('change', function(e) {
 });
 
 var resetPhoto = document.getElementById("resetPhoto");
-resetPhoto.addEventListener("click", function(){
+resetPhoto.addEventListener("click", function(evt){
+	evt.preventDefault();
 	preview.reset();
 	preview.removeChild(img);
+	photo='';
 });
 
 boarSmtBtn.addEventListener("click", function(){
-	var photoRef = firebase.storage().ref("0/"+earmark.value+".png");
 	var boarRef = firebase.database().ref('/boars/0/'+earmark.value);
-	const p1 = photoRef.put(photo);
-	const p2 = boarRef.set({
-			earmark:earmark.value,
-			registerNo:registerNo.value,
-			strain:strain.value,
-			birthday:birthday.value,
-			fatherEar:fatherEar.value,
-			fatherNo:fatherNo.value,
-			motherEar:motherEar.value,
-			motherNo:motherNo.value,
-			weight:weight.value,
-			backFat:backFat.value,
-			position:position.value,
-			source:source.value,
-			note:note.value
-		});
-	Promise.all([p1, p2]).then(function(){
+	const p1 = boarRef.set({
+		earmark:earmark.value,
+		registerNo:registerNo.value,
+		strain:strain.value,
+		birthday:birthday.value,
+		fatherEar:fatherEar.value,
+		fatherNo:fatherNo.value,
+		motherEar:motherEar.value,
+		motherNo:motherNo.value,
+		weight:weight.value,
+		backFat:backFat.value,
+		position:position.value,
+		source:source.value,
+		note:note.value
+	});
+	var promise_array = [p1];
+	if(photo){
+		const p2 = photoRef.put(photo);
+		var photoRef = firebase.storage().ref("0/"+earmark.value+".png");
+		promise_array.phsu(p2)
+	}
+	Promise.all(promise_array).then(function(){
 		console.log("新增公豬資料成功");
 		window.location.replace("boardata.html?ear="+earmark.value);
 	}).catch(function(err){
-			console.error("新增公豬資料錯誤：",err);
+		console.error("新增公豬資料錯誤：",err);
 	});
 });

@@ -15,7 +15,6 @@
 		background-color: #fff;
 	}
 	table th {
-		word-break: keep-all;
 		background-color: #3498db;
 		color: white;
 	}
@@ -27,7 +26,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link href="assets/css/stepProgressBar.css" rel="stylesheet" type="text/css">
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -105,108 +103,20 @@
 								<div id="content">
 
 									<!-- Content -->
-									<center><h2 id="sowList">母豬資料</h2>
-									<div class="row">
-										<div class="9u"><img id="photo" width="100%"></div>
-										<div class="3u" id="weight"></div>
-									</div>
-									<table id="sowTable" align="center">
+									<center><h2 id="litterList">仔豬資料</h2></center>
+									<table align="center" id="litterTable">
 									<tr>
 										<th>品種</th>
-										<th>母豬耳號</th> 
-										<th>母豬序號</th>
-										<th>出生日期</th>
+										<th>胎號</th> 
 										<th>父畜序號</th>
 										<th>母畜序號</th>
+										<th>出生日期</th>
 										<th>位置</th>
-										<th>目前狀況</th>
+										<th>離乳日期</th>
+										<th>小豬卡</th>
 										<th>備註</th>
 									</tr>
 									</table>
-									<h4 id="origin">豬隻來源</h4>
-									</center>
-									<div id="progressBar"></div>
-									<center>
-									<h2 id="geneTest"></br>基因檢測</h2>
-									<table id="testTable" align="center">
-									<tr>
-										<th>基因</th>
-										<th>A</th>
-										<th>B</th> 
-										<th>C</th>
-										<th>D</th>
-										<th>E</th>
-										<th>F</th>
-										<th>G</th>
-										<th>H</th>
-									</tr>
-									<tr>
-										<td width="12%"><center>結果</center></td>
-										<td width="11%"><center>-</center></td>
-										<td width="11%"><center>-</center></td>
-										<td width="11%"><center>-</center></td>
-										<td width="11%"><center>-</center></td>
-										<td width="11%"><center>-</center></td>
-										<td width="11%"><center>-</center></td>
-										<td width="11%"><center>-</center></td>
-										<td width="11%"><center>-</center></td>
-									</tr>
-									</table>
-									<input type="button" value="基因檢測申請" />
-									<h2 id="productionList"></br>生產記錄</h2>
-									<div style="overflow-x:scroll;">
-									<table id="productionTable" width="300%">
-									<tbody>
-									<tr>
-										<th>胎次</th>
-										<th>配種日</th> 
-										<th>與配公豬</th>
-										<th>預產期</th>
-										<th>測孕時間</th>
-										<th>分娩日</th>
-										<th>孕期</th>
-										<th>總仔</th>
-										<th>胎號</th>
-										<th>活仔</th>
-										<th>黑仔</th>
-										<th>白仔</th>
-										<th>位置</th>
-										<th>出生窩重</th>
-										<th>離乳日</th>
-										<th>離乳仔數</th>
-										<th>離乳窩重</th>
-										<th>備註</th>
-									</tr>
-									</tbody>
-									</table>
-									</div>
-									<h2 id="evaluation"></br>綜合評估</h2>
-									<table id="evaluationTable" align="center">
-									<tr>
-										<th>項目</th>
-										<th>生長</th>
-										<th>繁殖</th> 
-										<th>C</th>
-										<th>D</th>
-										<th>E</th>
-										<th>F</th>
-										<th>G</th>
-										<th>H</th>
-									</tr>
-									<tr>
-										<td width="12%"><center>指數</center></td>
-										<td width="11%"><center></center></td>
-										<td width="11%"><center></center></td>
-										<td width="11%"><center></center></td>
-										<td width="11%"><center></center></td>
-										<td width="11%"><center></center></td>
-										<td width="11%"><center></center></td>
-										<td width="11%"><center></center></td>
-										<td width="11%"><center></center></td>
-									</tr>
-									</table>
-									</center>
-
 
 								</div>
 							</div>
@@ -244,9 +154,7 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-			<script src="firebase/sowdata.js"></script>
-			<script src="http://code.jquery.com/jquery-1.12.2.min.js"></script>
-			<script src="assets/js/stepProgressBar.js"></script>
+			<script src="firebase/litters.js"></script>
 
 	</body>
 </html>
