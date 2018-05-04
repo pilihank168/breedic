@@ -26,6 +26,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -103,10 +104,10 @@
 								<div id="content">
 
 									<!-- Content -->
-									<center><h2 id="boarList">公豬資料</h2></center>
+									<center><h2 id="boarList">公豬列表</h2></center>
 									<div class="row">
 										<div class="4u 12u(narrower)">
-											<input type="search"/>
+											<input type="text" placeholder="搜尋"/>
 										</div>
 										<div class="2u 12u(narrower)">
 											<select id="filters">
@@ -114,25 +115,38 @@
 											<option value="strain">品種</option>
 											<option value="number">序號</option>
 											<option value="birthday">生日</option>
-											<option value="father">父畜</option>
-											<option value="mother">母畜</option>
 											</select>
 										</div>
 										<div class="2u 12u(narrower)">
 											<button class="button alt" type="submit">查詢</button>
 										</div>
-										<div class="2u 12u(narrower)">
+										<div class="1u 12u(narrower)">
 										</div>
-										<div class="2u 12u(narrower)">
-											<a href="uploadBoar.html">新增公豬</a>
+										<div class="3u 12u(narrower)">
+										<p>依
+											<select id="tableFilter">
+											<option value="earmark">耳號</option>
+											<option value="strain">品種</option>
+											<option value="location">位置</option>
+											<option value="birthday">生日</option>
+											</select>
+										排列</p>
 										</div>
 									</div>
 									<div class="row">
 										<div class="4u 12u(narrower)">
 										<h1> 點擊查看個別豬隻資料 </h1>
 										</div>
+										<div class="5u 12u(narrower)">
+										</div>
+										<div class="3u 12u(narrower)">
+										<input type="submit" value="新增公豬" class='small'
+										    onclick="window.location='uploadBoar.html';" />  
+										</div>
 									</div>
-									<table align="center" id="boarTable">
+									</br>
+									<table align="center" id="aboarTable" class="hover stripe">
+									<thead>
 									<tr>
 										<th>品種</th>
 										<th>公豬耳號</th> 
@@ -143,6 +157,9 @@
 										<th>可用</th>
 										<th>備註</th>
 									</tr>
+									</thead>
+									<tbody id="boarTable">
+									</tbody>
 									</table>
 
 								</div>
@@ -181,6 +198,8 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+			<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 			<script src="firebase/boarlist.js"></script>
 
 	</body>

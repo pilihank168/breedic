@@ -17,7 +17,11 @@ loginSmtBtn.addEventListener("click",function(){
 	firebase.auth().signInWithEmailAndPassword(accountL.value, pwdL.value).then(function(){
 		console.log("login");
 		document.forms["loginForm"].reset();
-		window.location.replace("index.html");
+		var url_string = window.location.href;
+		var url = new URL(url_string);
+		var path = path ? url.searchParams.get("go") : 'index.html';
+		console.log(path);
+		window.location.replace(path);
 	})
 	.catch(function(error) {
 		// Handle Errors here.

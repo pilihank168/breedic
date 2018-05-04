@@ -17,15 +17,15 @@ function centerCell(row,i){
 
 function defined(content){return content ? content : '';}
 
+// Get Element
 var litterList = document.getElementById("litterList");
 var table = document.getElementById("litterTable");
 var suckingTable = document.getElementById("suckingTable");
+
+// Parse Url
 var url_string = window.location.href;
 var url = new URL(url_string);
 var litter = url.searchParams.get("litter");
-var parser = document.createElement('a');
-parser.href = url;
-console.log(parser.pathname);
 
 var litterRef = firebase.database().ref('litters/0/'+litter);
 var suckingRef = firebase.database().ref('suckings/0/'+litter).orderByChild('pigNo');

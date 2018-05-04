@@ -34,31 +34,39 @@
 				<div id="header">
 
 					<!-- Logo -->
-						<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+						<div class='row'>
+							<div class='2u 12u(narrower)'>
+							</div>
+							<div class='8u 12u(narrower)'>
+								<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+							</div>
+							<div class='2u 12u(narrower)'>
+								<p id='logInOut'></p>
+							</div>
+						</div>
 					<!-- Nav -->
 						<nav id="nav">
 							<ul>
 								<li class="current"><a href="index.html">首頁</a></li>
 								<li>
 									<a href="#data">數據分析</a>
-									<ul>
-										<li><a href="upload.html">豬隻資料</a></li>
-										<li><a href="record.html">上傳紀錄</a></li>
-										<li><a href="report.html">查看分析報告</a></li>
-										<li><a href="recommend.html">選拔建議</a></li>
+									<ul id='dataList'>
+										<li><a href="upload.html" name='list'>豬隻資料</a></li>
+										<li><a href="record.html" name='list'>上傳紀錄</a></li>
+										<li><a href="report.html" name='list'>查看分析報告</a></li>
+										<li><a href="recommend.html" name='list'>選拔建議</a></li>
 									</ul>
 								</li>
 								<li>
 									<a href="#gene">基因檢測</a>
-									<ul>
-										<li><a href="service.html">服務說明</a></li>
-										<li><a href="application.html">提出申請</a></li>
-										<li><a href="progress.html">進度查詢</a></li>
-										<li><a href="diagnose.html">查看檢測報告</a></li>
+									<ul id='geneList'>
+										<li><a href="service.html" name='list'>服務說明</a></li>
+										<li><a href="application.html" name='list'>提出申請</a></li>
+										<li><a href="progress.html" name='list'>進度查詢</a></li>
+										<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
 									</ul>
 								</li>
-								<li><a href="login.html">登入</a></li>
-								<li><input type="submit" class="button" id="signoutBtn" value="登出"/></li>
+								<li id='logInOu'><a href="login.html">登入</a></li>
 								<li><a href="#contact">聯絡我們</a></li>
 							</ul>
 						</nav>
@@ -110,7 +118,7 @@
 				<section class="wrapper style2">
 					<div class="container">
 						<header class="major">
-							<h2>最科學的養殖,難以抗拒的產能。</h2>
+							<h2>最科學的養殖，難以抗拒的產能。</h2>
 							<p>豬事繁忙?您專屬的數據分析服務!</p>
 						</header>
 					</div>
@@ -153,8 +161,8 @@
 					<div class="container">
 							<div>
 								<center><div class="8u 12u(narrower) 10u(mobilep)">
-								<h2>聯絡我們</h2>
-								<p>輸入您的資料,我們將由專人為您服務。</p>
+								<h2></br>聯絡我們</h2>
+								<p>輸入您的資料，我們將由專人為您服務。</p>
 								<form id="contactForm" method="POST" action="https://us-central1-breedic-ba254.cloudfunctions.net/helloWorld">
 									<div class="row 50%">
 										<div class="4u 12u(mobilep)">
@@ -222,9 +230,7 @@
 								<li>&copy; Untitled. All rights reserved</li><li><a href="index.html">台鼎生物科技</a></li>
 							</ul>
 						</div>
-
 				</div>
-
 		</div>
 
 		<!-- Scripts -->
