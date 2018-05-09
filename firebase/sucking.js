@@ -37,7 +37,7 @@ Promise.all([p1, p2]).then(function(snapshot){
 	entry1 = snapshot[0].val();
 	var row = table.insertRow(1);
 	var cells = [];
-	for(i=0;i<9;i++){
+	for(i=0;i<7;i++){
 		var cell = centerCell(row,i);
 		cells.push(cell);
 	}

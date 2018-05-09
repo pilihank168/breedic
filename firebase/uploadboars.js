@@ -39,21 +39,23 @@ fileInput.addEventListener('change', function(e) {
 			preview.appendChild(img);
 		}
 		reader.readAsDataURL(file);	
+		resetPhoto.style.display="inline-block";
 	} else {
 		preview.innerHTML = "File not supported!"
-
 	}
 });
 
 var resetPhoto = document.getElementById("resetPhoto");
 resetPhoto.addEventListener("click", function(evt){
 	evt.preventDefault();
+	resetPhoto.style.display="none";
 	preview.reset();
 	preview.removeChild(img);
 	photo='';
 });
 
 boarSmtBtn.addEventListener("click", function(){
+	console.log(photo);
 	var boarRef = firebase.database().ref('/boars/0/'+earmark.value);
 	const p1 = boarRef.set({
 		earmark:earmark.value,
@@ -72,9 +74,9 @@ boarSmtBtn.addEventListener("click", function(){
 	});
 	var promise_array = [p1];
 	if(photo){
-		const p2 = photoRef.put(photo);
 		var photoRef = firebase.storage().ref("0/"+earmark.value+".png");
-		promise_array.phsu(p2)
+		const p2 = photoRef.put(photo);
+		promise_array.push(p2)
 	}
 	Promise.all(promise_array).then(function(){
 		console.log("新增公豬資料成功");

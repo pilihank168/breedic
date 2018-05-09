@@ -1,5 +1,5 @@
 /*
-	Arcana by HTML5 UP
+	Alpha by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
@@ -18,14 +18,9 @@
 	$(function() {
 
 		var	$window = $(window),
-			$body = $('body');
-
-		// Disable animations/transitions until the page has loaded.
-			$body.addClass('is-loading');
-
-			$window.on('load', function() {
-				$body.removeClass('is-loading');
-			});
+			$body = $('body'),
+			$header = $('#header'),
+			$banner = $('#banner');
 
 		// Fix: Placeholder polyfill.
 			$('form').placeholder();
@@ -40,18 +35,15 @@
 
 		// Dropdowns.
 			$('#nav > ul').dropotron({
-				offsetY: -15,
-				hoverDelay: 0,
-				alignment: 'center'
+				alignment: 'right'
 			});
 
 		// Off-Canvas Navigation.
 
-			// Title Bar.
+			// Navigation Button.
 				$(
-					'<div id="titleBar">' +
+					'<div id="navButton">' +
 						'<a href="#navPanel" class="toggle"></a>' +
-						'<span class="title">' + $('#logo').html() + '</span>' +
 					'</div>'
 				)
 					.appendTo($body);
@@ -75,11 +67,33 @@
 						target: $body,
 						visibleClass: 'navPanel-visible'
 					});
-
+			console.log($('#nav').navList());
 			// Fix: Remove navPanel transitions on WP<10 (poor/buggy performance).
 				if (skel.vars.os == 'wp' && skel.vars.osVersion < 10)
-					$('#titleBar, #navPanel, #page-wrapper')
+					$('#navButton, #navPanel, #page-wrapper')
 						.css('transition', 'none');
+
+		// Header.
+		// If the header is using "alt" styling and #banner is present, use scrollwatch
+		// to revert it back to normal styling once the user scrolls past the banner.
+		// Note: This is disabled on mobile devices.
+			if (!skel.vars.mobile
+			&&	$header.hasClass('alt')
+			&&	$banner.length > 0) {
+
+				$window.on('load', function() {
+
+					$banner.scrollwatch({
+						delay:		0,
+						range:		0.5,
+						anchor:		'top',
+						on:			function() { $header.addClass('alt reveal'); },
+						off:		function() { $header.removeClass('alt'); }
+					});
+
+				});
+
+			}
 
 	});
 

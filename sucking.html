@@ -14,10 +14,11 @@
 	table tr:nth-child(odd) {
 		background-color: #fff;
 	}
-	table th {
-		word-break: keep-all;
-		background-color: #3498db;
-		color: white;
+	table th{
+		word-break: keep-all !important;
+		text-align: center !important;
+		background-color: #e89980 !important;
+		color: white !important;
 	}
 </style>
 <html>
@@ -35,34 +36,39 @@
 		<div id="page-wrapper">
 
 			<!-- Header -->
-				<div id="header">
-
-					<!-- Logo -->
-						<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+				<header id="header">
+					<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
 					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li><a href="index.html">首頁</a></li>
-								<li class="current">
-									<a href="#data">數據分析</a>
-									<ul>
-										<li><a href="upload.html">豬隻資料</a></li>
-										<li><a href="record.html">上傳紀錄</a></li>
-										<li><a href="report.html">查看分析報告</a></li>
-										<li><a href="recommend.html">選拔建議</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#gene">基因檢測</a>
-									<ul>
-										<li><a href="service.html">服務說明</a></li>
-										<li><a href="application.html">提出申請</a></li>
-										<li><a href="progress.html">進度查詢</a></li>
-										<li><a href="diagnose.html">查看檢測報告</a></li>
-									</ul>
-								</li>
-							</ul>
-						</nav>
+					<nav id="nav">
+						<ul id="ul">
+							<li><a href="index.html">首頁</a></li>
+							<li class="current">
+								<a href="#data" class="icon fa-angle-down">數據分析</a>
+								<ul id='dataList'>
+									<li><a href="upload.html" name='list'>豬隻資料</a></li>
+									<li><a href="record.html" name='list'>上傳紀錄</a></li>
+									<li><a href="report.html" name='list'>查看分析報告</a></li>
+									<li><a href="recommend.html" name='list'>選拔建議</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#gene" class="icon fa-angle-down">基因檢測</a>
+								<ul id='geneList'>
+									<li><a href="service.html" name='list'>服務說明</a></li>
+									<li><a href="application.html" name='list'>提出申請</a></li>
+									<li><a href="progress.html" name='list'>進度查詢</a></li>
+									<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
+								</ul>
+							</li>
+							<li><a href="#contact">聯絡我們</a></li>
+							<li id='logInOut'></li>
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Main -->
+				<section id="main" class="container 125%">
+					<header>
 						<div style="margin: 0px auto;">
 							<a href="upload.html">豬隻資料</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -72,40 +78,34 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="recommend.html" style="color:gray;">選拔建議</a>
 						</div>
-
-				</div>
-
-			<!-- Main -->
-				<section class="wrapper style1">
-					<div class="container">
-						<div class="row 200%">
+						</br>
+						<h2>仔豬卡</h2>
+					</header>
+					<div class="box">
+						<div class="row uniform 200%">
 							<div class="2u 12u(narrower)">
 								<div id="sidebar">
-
 									<!-- Sidebar -->
-
 										<section>
-
-											
-											<ul>
-												<li><a href="upload.html" style="color:black;">一次上傳</a></li>
+											<ul class="alt">
+												<li><a href="upload.html" class="button alt fit small">一次上傳</a></li>
 											</ul>
-											<h3>檢視資料</h3>
-											<ul>
-												<li><a href="boarlist.html" style="color:black;">公豬</a></li>
-												<li><a href="sowlist.html" style="color:black;">母豬</a></li>
-												<li><a href="litters.html" style="color:black;">仔豬</a></li>
-												<li><a href="weanerlist.html" style="color:black;">保育豬</a></li>
+											<ul class="alt">
+												<li><a href="boarlist.html" class="button alt fit">公豬</a></li>
+												<li><a href="sowlist.html" class="button alt fit">母豬</a></li>
+												<li><a href="litters.html" class="button special fit">仔豬</a></li>
+												<li><a href="weanerlist.html" class="button alt fit">保育豬</a></li>
+											</ul>
+											<ul class="alt">
+												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
 											</ul>
 										</section>
-
 								</div>
 							</div>
 							<div class="8u  12u(narrower) important(narrower)">
 								<div id="content">
 
 									<!-- Content -->
-									<center><h2 id="litterList">仔豬卡</h2>
 									<table align="center" id="litterTable">
 										<tr>
 											<th>品種</th>
@@ -166,11 +166,13 @@
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 			<script src="firebase/sucking.js"></script>
 			<script src="firebase/auth.js"></script>
+			<script src="firebase/logBtn.js"></script>
 
 	</body>
 </html>

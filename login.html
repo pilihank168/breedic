@@ -18,74 +18,64 @@
 		<div id="page-wrapper">
 
 			<!-- Header -->
-				<div id="header">
-
-					<!-- Logo -->
-						<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+				<header id="header">
+					<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
 					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li><a href="index.html">首頁</a></li>
-								<li>
-									<a href="#data">數據分析</a>
-									<ul>
-										<li><a href="upload.html">豬隻資料</a></li>
-										<li><a href="record.html">上傳紀錄</a></li>
-										<li><a href="report.html">查看分析報告</a></li>
-										<li><a href="recommend.html">選拔建議</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#gene">基因檢測</a>
-									<ul>
-										<li><a href="service.html">服務說明</a></li>
-										<li><a href="application.html">提出申請</a></li>
-										<li><a href="progress.html">進度查詢</a></li>
-										<li><a href="diagnose.html">查看檢測報告</a></li>
-									</ul>
-								</li>
-								<li class="current"><a href="login.html">登入</a></li>
-								<li><a href="connect.html">聯絡我們</a></li>
-							</ul>
-						</nav>
-
-				</div>
+					<nav id="nav">
+						<ul id="ul">
+							<li class="current"><a href="index.html">首頁</a></li>
+							<li>
+								<a href="#data" class="icon fa-angle-down">數據分析</a>
+								<ul id='dataList'>
+									<li><a href="upload.html" name='list'>豬隻資料</a></li>
+									<li><a href="record.html" name='list'>上傳紀錄</a></li>
+									<li><a href="report.html" name='list'>查看分析報告</a></li>
+									<li><a href="recommend.html" name='list'>選拔建議</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#gene" class="icon fa-angle-down">基因檢測</a>
+								<ul id='geneList'>
+									<li><a href="service.html" name='list'>服務說明</a></li>
+									<li><a href="application.html" name='list'>提出申請</a></li>
+									<li><a href="progress.html" name='list'>進度查詢</a></li>
+									<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
+								</ul>
+							</li>
+							<li><a href="#contact">聯絡我們</a></li>
+							<li id='logInOut'></li>
+						</ul>
+					</nav>
+				</header>
 
 			<!-- Main -->
-				<section class="wrapper style1" id="loginSec">
-					<div class="container">
-						<div class="row 200%">
-							<div class="4u 12u(narrower)"></div>
-							<div class="4u 12u(narrower)">
-								<h3>登入</h3>
-								<form method="POST" id="loginForm">
-									<div class="row 50%">
-										<div class="12u">
-											使用者名稱
-											<input type="text" name="name" id="account"/>
-										</div>
-									</div>
-									<div class="row 50%">
-										<div class="12u">
-											密碼
-											<input type="password" name="password" id="password"/>
-										</div>
-									</div>
-									<div class="row 5%">
-										
-									</div>
-									<div class="row 50%">
-										<div class="12u">
-											<a href="#">忘記密碼？</a>
-											<ul class="actions">
-												<li><input class="button" value="登入" id="loginBtn" /></li>
-											</ul>
-										</div>
-									</div>
-								</form>
+				<section id="main" class="container 50%">
+					<header>
+						<h2>登入</h2>
+					</header>
+					<div class="box">
+						<form method="POST" id="loginForm">
+							<div class="row uniform 50%">
+								<div class="12u">
+									使用者名稱
+									<input type="text" name="name" id="account"/>
+								</div>
+								<div class="12u">
+									密碼 (<a href="#">忘記密碼？</a>)
+									<input type="password" name="password" id="password"/>
+								</div>
 							</div>
-							<div class="4u 12u(narrower)"></div>
-
+							<div class="row uniform">
+								<div class="3u">
+								</br>
+								</div>
+								<div class="6u 12u(mobilep)">
+									<ul class="actions">
+										<li><input class="button fit" value="登入" id="loginBtn" /></li>
+									</ul>
+								</div>
+							</div>
+						</form>
 					</div>
 				</section>
 
@@ -114,6 +104,7 @@
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->

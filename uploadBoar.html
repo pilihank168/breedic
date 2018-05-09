@@ -14,12 +14,13 @@
 	table tr:nth-child(odd) {
 		background-color: #fff;
 	}
-	table th {
-		background-color: #3498db;
-		color: white;
+	table th{
+		word-break: keep-all !important;
+		text-align: center !important;
+		background-color: #e89980 !important;
+		color: white !important;
 	}
-	input {display: block; padding: 0; margin: 0; border: 0; width: 100%;}
-	td {margin: 0; padding: 0;}
+	td {margin: 0 !important; padding: 0!important;}
 
 </style>
 <html>
@@ -36,34 +37,39 @@
 		<div id="page-wrapper">
 
 			<!-- Header -->
-				<div id="header">
-
-					<!-- Logo -->
-						<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+				<header id="header">
+					<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
 					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li><a href="index.html">首頁</a></li>
-								<li class="current">
-									<a href="#data">數據分析</a>
-									<ul>
-										<li><a href="upload.html">豬隻資料</a></li>
-										<li><a href="record.html">上傳紀錄</a></li>
-										<li><a href="report.html">查看分析報告</a></li>
-										<li><a href="recommend.html">選拔建議</a></li>
-									</ul>
-								</li>
-								<li>
-									<a href="#gene">基因檢測</a>
-									<ul>
-										<li><a href="service.html">服務說明</a></li>
-										<li><a href="application.html">提出申請</a></li>
-										<li><a href="progress.html">進度查詢</a></li>
-										<li><a href="diagnose.html">查看檢測報告</a></li>
-									</ul>
-								</li>
-							</ul>
-						</nav>
+					<nav id="nav">
+						<ul id="ul">
+							<li><a href="index.html">首頁</a></li>
+							<li class="current">
+								<a href="#data" class="icon fa-angle-down">數據分析</a>
+								<ul id='dataList'>
+									<li><a href="upload.html" name='list'>豬隻資料</a></li>
+									<li><a href="record.html" name='list'>上傳紀錄</a></li>
+									<li><a href="report.html" name='list'>查看分析報告</a></li>
+									<li><a href="recommend.html" name='list'>選拔建議</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#gene" class="icon fa-angle-down">基因檢測</a>
+								<ul id='geneList'>
+									<li><a href="service.html" name='list'>服務說明</a></li>
+									<li><a href="application.html" name='list'>提出申請</a></li>
+									<li><a href="progress.html" name='list'>進度查詢</a></li>
+									<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
+								</ul>
+							</li>
+							<li><a href="#contact">聯絡我們</a></li>
+							<li id='logInOut'></li>
+						</ul>
+					</nav>
+				</header>
+
+			<!-- Main -->
+				<section id="main" class="container 125%">
+					<header>
 						<div style="margin: 0px auto;">
 							<a href="upload.html">豬隻資料</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -73,40 +79,34 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="recommend.html" style="color:gray;">選拔建議</a>
 						</div>
-
-				</div>
-
-			<!-- Main -->
-				<section class="wrapper style1">
-					<div class="container">
-						<div class="row 200%">
+						</br>
+						<h2>新增公豬</h2>
+					</header>
+					<div class="box">
+						<div class="row uniform 200%">
 							<div class="2u 12u(narrower)">
+								<!-- Sidebar -->
 								<div id="sidebar">
-
-									<!-- Sidebar -->
-
-										<section>
-
-											
-											<ul>
-												<li><a href="upload.html" style="color:black;">一次上傳</a></li>
-											</ul>
-											<h3>檢視資料</h3>
-											<ul>
-												<li><a href="boarlist.html" style="color:black;">公豬</a></li>
-												<li><a href="sowlist.html" style="color:black;">母豬</a></li>
-												<li><a href="suckinglist.html" style="color:black;">仔豬</a></li>
-												<li><a href="weanerlist.html" style="color:black;">保育豬</a></li>
-											</ul>
-										</section>
-
+									<section>
+										<ul class="alt">
+											<li><a href="upload.html" class="button alt fit small">一次上傳</a></li>
+										</ul>
+										<ul class="alt">
+											<li><a href="boarlist.html" class="button special fit">公豬</a></li>
+											<li><a href="sowlist.html" class="button alt fit">母豬</a></li>
+											<li><a href="litters.html" class="button alt fit">仔豬</a></li>
+											<li><a href="weanerlist.html" class="button alt fit">保育豬</a></li>
+										</ul>
+										<ul class="alt">
+											<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
+										</ul>
+									</section>
 								</div>
 							</div>
 							<div class="8u  12u(narrower) important(narrower)">
 								<div id="content">
 
 									<!-- Content -->
-									<h2>新增公豬資料</h2>
 									<table align="center" id="boarTable">
 									<tr>
 										<th>品種</th>
@@ -145,43 +145,43 @@
 										</td>
 									</table>
 									<div class="row">
-										<div class="2u">
-										<h4>豬隻來源：</h4>
-										</div>
-										<div class="10u">
-										<input id="source" type="text">
-										</div>
 									</div>
 									<form id="preview">
-									<input id="photo" type="file" accept="image/*">
-									<div class="3u">
-									<button class="button alt" id="resetPhoto">放棄照片</button>
-									<!--input class="button small" id="resetPhoto" value="reset photo"/--></div>
+										<input id="photo" type="file" accept="image/*">
+										<button class="button" id="resetPhoto" style="display:none;">放棄照片</button>
 									</form>
-<!--									<label>耳號</label>
-									<input id="earmark" type="text">
-									<label>序號</label>
-									<input id="registerNo" type="text">
-									<label>品種</label>
-									<input id="strain" type="text">
-									<label>出生日期</label>
-									<input id="birthday" type="date"-->
-									<label>父畜耳號</label>
-									<input id="fatherEar" type="text"><!--
-									<label>父畜序號</label>
-									<input id="fatherNo" type="text"-->
-									<label>母畜耳號</label>
-									<input id="motherEar" type="text"><!--
-									<label>母畜序號</label>
-									<input id="motherNo" type="text"-->
-									<label>體重</label>
-									<input id="weight" type="number">
-									<label>背脂厚度</label>
-									<input id="backFat" type="number"><!--
+									<div class="row 50% uniform">
+										<div class="4u 12u(narrower)">
+											<label>豬隻來源</label>
+											<input id="source" type="text">
+										</div>
+										<div class="2u 6u(narrower)">
+											<label>父畜耳號</label>
+											<input id="fatherEar" type="text">
+										</div>
+										<div class="2u 6u(narrower)">
+											<label>母畜耳號</label>
+											<input id="motherEar" type="text">
+										</div>
+										<div class="2u 12u(narrower)">
+											<label>體重</label>
+											<input id="weight" type="text">
+										</div>
+										<div class="2u 12u(narrower)">
+											<label>背脂厚度</label>
+											<input id="backFat" type="text">
+										</div>
+									</div>
+									<div class="row 50% uniform">
+										<div class="2u 12u(narrower)">
+											</br>
+											<input class="button fit" type="submit" id="boarSmtBtn" value="上傳"/>
+										</div>
+									</div>
+									<!--
 									<label>備註</label>
 									<input id="note" type="text">
 -->
-									<button class="button small" type="submit" id="boarSmtBtn">上傳</button>
 								</div>
 							</div>
 						</div>
@@ -215,10 +215,12 @@
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 			<script src="firebase/uploadboars.js"></script>
+			<script src="firebase/logBtn.js"></script>
 
 	</body>
 </html>

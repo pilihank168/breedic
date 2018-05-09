@@ -411,7 +411,7 @@
             	//step.stepElement.html('<span>now</br>'+this.settings.currentValue+' day</span>');
 				}//, step.progressValue + '%');
 			if(step.progressValue == 0){
-				step.stepElement.html('<h1>   配種後' + this.settings.currentValue+' 天</h1>');
+				step.stepElement.html('<h4>   配種後' + this.settings.currentValue+' 天</h4>');
 				step.stepElement.css('color','white');// + this.settings.currentValue+' day</span>');
 			}
         },

@@ -19,7 +19,8 @@ loginSmtBtn.addEventListener("click",function(){
 		document.forms["loginForm"].reset();
 		var url_string = window.location.href;
 		var url = new URL(url_string);
-		var path = path ? url.searchParams.get("go") : 'index.html';
+		console.log(url.searchParams.get("go"));
+		var path = url.searchParams.get("go") ? url.searchParams.get("go") : 'index.html';
 		console.log(path);
 		window.location.replace(path);
 	})

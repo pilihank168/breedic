@@ -10,8 +10,12 @@ apiKey: "AIzaSyDARFJhNCdtGa3rWyJmE8zGawiwlbNBFpE",
 firebase.initializeApp(config);
 
 // Get Elements
+var ul = document.getElementById('ul');
+console.log(ul.childNodes);
+var logInOut = ul.childNodes[9];
+console.log(logInOut);
 var login = document.getElementById('login');
-var logInOut = document.getElementById('logInOut');
+//var logInOut = document.getElementById('logInOut');
 
 // Logout
 function logout(){
@@ -26,10 +30,10 @@ function logout(){
 // Content Control
 firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
-		logInOut.innerHTML="<a href='#' onclick='logout()'>登出</em></a>";
+		logInOut.innerHTML="<a href='#' class='button'  onclick='logout()'>登出</em></a>";
 		console.log("User is logined", user)
 	} else {
-		logInOut.innerHTML = '<a href="login.html">登入</em></a>';
+		logInOut.innerHTML = '<a href="login.html" class="button">登入</em></a>';
 		console.log("User is not logined yet.", geneList.style.display);
 	}
 });

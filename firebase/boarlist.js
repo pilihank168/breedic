@@ -30,21 +30,24 @@ function loadTable(key){
 				cells.push(cell);
 			}
 			cells[0].innerHTML = entry.strain;
-			cells[1].innerHTML = '<a href="'+'boardata.html?ear='+entry.earmark+'">'+entry.earmark+'</a>';
+			cells[1].innerHTML = entry.earmark;
 			cells[2].innerHTML = entry.registerNo;
 			cells[3].innerHTML = entry.birthday;
 			cells[4].innerHTML = defined(entry.position);
 			//cell5.innerHTML = entry.age
 			cells[6].innerHTML = 'X';
-			//cell7.innerHTML = entry.age
+			cells[7].innerHTML = defined(entry.note);
 		});
 	}).then(function(){
 		dataTable = $('#aboarTable').DataTable({
 			searching:false,
 			ordering:false,
+			order:[1,'asc'],
 			lengthChange:false,
 			language: {
+				'lengthMenu':'<input type="submit" value="新增公豬" class="button small alt" onclick="window.location="uploadBoar.html";" />',  
 				'info':'',
+				search:'搜尋:',
 				paginate: {
 					first:    '«',
 					previous: '上一頁',//'‹',
@@ -83,4 +86,8 @@ tableFilter.addEventListener('change',function(){
 	loadTable(tableFilter.value);
 });
 
-
+// Clickable Row in DataTable
+$('#aboarTable tbody').on('click', 'tr', function () {
+	var data = dataTable.row( this ).data();
+	window.location='boardata.html?ear='+data[1];
+});
