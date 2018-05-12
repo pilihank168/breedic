@@ -11,17 +11,16 @@
 			b = [];
 
 		$a.each(function() {
-
 			var	$this = $(this),
 				indent = Math.max(0, $this.parents('li').length - 1),
 				href = $this.attr('href'),
 				target = $this.attr('target');
-
 			b.push(
 				'<a ' +
 					'class="link depth-' + indent + '"' +
 					( (typeof target !== 'undefined' && target != '') ? ' target="' + target + '"' : '') +
 					( (typeof href !== 'undefined' && href != '') ? ' href="' + href + '"' : '') +
+					( ($this.text() == '登出') ? ' onclick="logout()"' : '') +
 				'>' +
 					'<span class="indent-' + indent + '"></span>' +
 					$this.text() +
@@ -29,7 +28,7 @@
 			);
 
 		});
-
+			
 		return b.join('');
 
 	};
