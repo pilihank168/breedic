@@ -106,21 +106,33 @@
 							<div class="8u  12u(narrower) important(narrower)">
 								<div id="content">
 
+									<div  style="overflow-x:scroll;">
 									<!-- Content -->
 									<table align="center" id="boarTable">
 									<tr>
-										<th>品種</th>
-										<th>公豬耳號</th> 
-										<th>公豬序號</th>
+										<th width=12%>品種</th>
+										<th width=10%>公豬耳號</th> 
+										<th width=10%>公豬序號</th>
 										<th>出生日期</th>
-										<th>父畜序號</th>
-										<th>母畜序號</th>
-										<th>位置</th>
+										<th width=10%>父畜序號</th>
+										<th width=10%>母畜序號</th>
+										<th width=10%>位置</th>
 										<th>備註</th>
 									</tr>
 									<tr>
 										<td>
-										<input id="strain" type="text">
+											<div class="select-wrapper">
+												<select id="strain">
+												<option value="L">L</option>
+												<option value="Y">Y</option>
+												<option value="D">D</option>
+												<option value="LY">LY</option>
+												<option value="YL">YL</option>
+												<option value="LYD">LYD</option>
+												<option value="YLD">YLD</option>
+												<option value="B">B</option>
+												</select>
+											</div>
 										</td>
 										<td>
 										<input id="earmark" type="text">
@@ -144,6 +156,7 @@
 										<input id="note" type="text">
 										</td>
 									</table>
+									</div>
 									<div class="row">
 									</div>
 									<form id="preview">
@@ -163,11 +176,11 @@
 											<label>母畜耳號</label>
 											<input id="motherEar" type="text">
 										</div>
-										<div class="2u 12u(narrower)">
+										<div class="2u 6u(narrower)">
 											<label>體重</label>
 											<input id="weight" type="text">
 										</div>
-										<div class="2u 12u(narrower)">
+										<div class="2u 6u(narrower)">
 											<label>背脂厚度</label>
 											<input id="backFat" type="text">
 										</div>
