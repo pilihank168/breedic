@@ -2220,10 +2220,14 @@
 				display: block;
 			}
 
-			.box.features .features-row section {
+			.box.features .features-row:not(:last-child) section {
 				float: left;
 				padding: 3em;
 				width: 50%;
+			}
+
+			.box.features .features-row:last-child section {
+				padding-top: 3em;
 			}
 
 				.box.features .features-row section :last-child {
