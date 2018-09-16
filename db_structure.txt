@@ -1,12 +1,41 @@
 users
 	(uid)
+		email
+		pwd
 		name
 		farmNo
-		role:owner/employee
+		role:admin/owner/employee
+		currentFarm
+		privilege
+		active
+
+owner
+	(uid)
+		farmNo
+		farmName
+		farmSize
+		farmType
+		address
+		email
+		name
+		phone
+		active
+		note
+
+employee
+	(farmNo)
+		(uid)
+			email
+			name
+			position
+			phone
+			active
+			privilege
+			note
 
 boarList
 	(farmNo)
-		(earmark)
+		(registerNo)
 			strain
 			earmark
 			registerNo
@@ -15,11 +44,12 @@ boarList
 			fatherNo
 			motherEar
 			motherNo
-			position
+			location
 			note
+			[semenList]
 boars
 	(farmNo)
-		(earmark)
+		(registerNo)
 			arriveDate
 			source
 			earmark
@@ -27,28 +57,31 @@ boars
 			backFat
 sowList
 	(farmNo)
-		(earmark)
+		(registerNo)
 			strain
 			earmark
 			registerNo
 			birthday
-			fatherEar
 			fatherNo
-			motherEar
 			motherNo
-			weight
-			backFat
+			location
 			note
 sows
 	(farmNo)
-		(earmark)
+		(registerNo)
 			arriveDate
+			fatherEar
+			motherEar
+			weight
+			backFat
 			source
 			identity
 			earmark
 			weight
 			backFat
-litters
+			parities
+			[registerNo+'-'+parity]
+litters				//仔豬列表
 	(farmNo)
 		(litterNo)
 			birthday
@@ -57,24 +90,19 @@ litters
 			fatherEar
 			motherEar
 			location
-suckings
+			weanDate
+suckings			//仔豬卡
 	(farmNo)
 		(litterNo)
-			birthday
-			strain
-			litterNo
-			fatherEar
-			motherEar
-			location
 			(pigNo)
+				pigNo
 				gender
 				litterWeight
 				nippleNo
-				weanDate
 				weanWeight
 				identity
 				fostering
-weaners
+weaners				//保育豬列表
 	(farmNo)
 		(earmark)
 			earmark
@@ -85,44 +113,45 @@ weaners
 			quantity
 semen
 	(farmNo)
-		(earmark)
-			(randomNo)
-				earmark
-				date
-				volume
-				concentration
-				activity
-				phenotype
-				diluteRatio
-				available
-				[sowEar]
-				[productionNo]
+		(randomNo)
+			earmark
+			date
+			volume
+			concentration
+			activity
+			phenotype
+			diluteRatio
+			available
+			[sowNo, productionNo]
 		(date)
-			[earmark, semenNo]
+			[semenNo]
 production
 	(farmNo)
-		(earmark)
-			(randomNo)
-				earmark
-				parity
-				serviceDate
-				boarEar
-				diagnoseDate
-				diagnoseResult
-				dueDate
-				parturitionDate
-				litterStrain
-				litterNo
-				totalPiglet
-				live
-				mummy
-				stillborn
-				weight
-				lactateLocation
-				lactateLitter
-				weanDate
-				weanNumber
-				weanWeight
+		(registerNo+'-'+parity)
+			earmark
+			parity
+			=============== //配種
+			serviceDate
+			boarEar
+			=============== //測孕
+			diagnoseDate
+			diagnoseResult
+			dueDate
+			=============== //分娩
+			parturitionDate
+			litterStrain
+			litterNo
+			totalPiglet
+			live
+			mummy
+			stillborn
+			weight
+			lactateLocation
+			lactateLitter
+			============== //離乳(出豬)
+			weanDate
+			weanNumber
+			weanWeight
 add
 	(farmNo)
 		(date)
@@ -144,17 +173,18 @@ service
 		(date)
 			(randomNo)
 				date
-				sowEar
-				boarEar
+				sowNo
+				boarNo
 				serviceMethod
 				location
 				dueDate
+				productionNo
 diagnosis
 	(farmNo)
 		(date)
-			(randomNo)
+			(registerNo+'-'+parity)
 				date
-				sowEar
+				sowNo
 				result
 				location
 translocation
@@ -167,7 +197,7 @@ translocation
 parturition
 	(farmNo)
 		(date)
-			[earmark, productionNo]
+			(registerNo+'-'+parity)
 				date
 				sowEar
 				parity
