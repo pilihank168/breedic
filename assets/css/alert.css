@@ -1,0 +1,10 @@
+.alertBox {
+   border: 1pt solid #737373;
+   background-color: white;
+   position: fixed;
+   top: 50px;
+   left: 30%;
+   height: 90%;
+   width: 40%;
+   padding: 20px;
+}
