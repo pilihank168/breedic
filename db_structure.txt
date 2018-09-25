@@ -6,7 +6,7 @@ users
 		farmNo
 		role:admin/owner/employee
 		currentFarm
-		privilege
+		permission
 		active
 
 owner
@@ -30,7 +30,7 @@ employee
 			position
 			phone
 			active
-			privilege
+			permission
 			note
 
 boarList

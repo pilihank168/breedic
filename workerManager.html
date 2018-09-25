@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+		<title>台鼎生物科技</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/alert.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+      <script src="assets/js/jquery.min.js"></script>
+      <script src="assets/js/jquery.dropotron.min.js"></script>
+      <script src="assets/js/skel.min.js"></script>
+      <script src="assets/js/util.js"></script>
+      <script src="assets/js/jquery.scrollgress.min.js"></script>
+      <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+      <script src="assets/js/main.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+      <script src="firebase/workerManager.js"></script>
+	</head>
+
+   <body>
+      <div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+					<!-- Nav -->
+					<nav id="nav">
+						<ul id="ul">
+							<li><a href="index.html">首頁</a></li>
+							<li class="current">
+								<a href="#data" class="icon fa-angle-down">數據分析</a>
+								<ul id='dataList'>
+									<li><a href="upload.html" name='list'>豬隻資料</a></li>
+									<li><a href="record.html" name='list'>上傳紀錄</a></li>
+									<li><a href="report.html" name='list'>查看分析報告</a></li>
+									<li><a href="recommend.html" name='list'>選拔建議</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#gene" class="icon fa-angle-down">基因檢測</a>
+								<ul id='geneList'>
+									<li><a href="service.html" name='list'>服務說明</a></li>
+									<li><a href="application.html" name='list'>提出申請</a></li>
+									<li><a href="progress.html" name='list'>進度查詢</a></li>
+									<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
+								</ul>
+							</li>
+                     <li>
+                        <a href="#setting" class="icon fa-angle-down">設定</a>
+                        <ul id="settingList">
+                           <li><a href="workerManager.html" name='list'>員工管理</a></li>
+                           <li><a href="#plan" name="list">飼養計畫</a></li>
+                        </ul>
+                     </li>
+							<li><a href="#contact">聯絡我們</a></li>
+							<li id='logInOut'><a href="#" class="button"  onclick="logout()">登出</em></a></li>
+						</ul>
+					</nav>
+				</header>
+
+            <!-- Main Content -->
+            <section id="main" class="container 125%">
+               <header>
+                  <h2>員工管理</h2>
+               </header>
+               <div class="box">
+                  <section>
+                     <table id="workers">
+                        <tr>
+                           <td>信箱</td>
+                           <td>姓名</td>
+                           <td>職稱</td>
+                           <td>權限</td>
+                           <td>在職</td>
+                           <td>詳細資料</td>
+                        </tr>
+                     </table>
+                     <div align="center">
+                        <button id="create-user" class="button big alt" type="button" onClick="showAddWindow()" disabled>新增</button>
+                     </div>
+                  </section>
+               </div>
+            </section>
+
+
+            <!-- footer -->
+            <div id="footer">
+					<!-- Icons -->
+						<ul class="icons">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+						</ul>
+
+					<!-- Copyright -->
+						<div class="copyright">
+							<ul class="menu">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+
+				</div>
+
+      </div>
+      
+      <!-- alert box -->
+      <div id='create-user-box' class='alertBox' style='display: none'>
+         <button class='button alt' onClick='closeWindow(0)' style='display:inline-block;float:right;position:absolute; top:10px; right:10px;'>X</button>
+         <center>
+            <h2>新增員工</h2>
+         </center>
+         <div id="form1">
+            <div class='row' style='margin:10px;'>
+               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">密碼：</div><div class='10u'><input type='password' name="password"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">姓名：</div><div class='10u'><input type='text' name="name"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">職稱：</div><div class='10u'><input type='text' name="position"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">電話：</div><div class='10u'><input type='text' name="number"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>   
+               <div class='2u'>在職：</div>
+               <div class='10u'>
+                  <input id='work-yes1' type='radio' value='yes' name='work'/><label for='work-yes1'>是</label>
+                  <input id='work-no1' type='radio' value='no' name='work'><label for='work-no1'>否</label><br>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='2u'>權限：</div>
+               <div class='10u'>
+                  <input id='auth-view1' type='checkbox' value='view'/><label for='auth-view1'>檢視</label>
+                  <input id='auth-add1' type='checkbox' value='add'><label for='auth-add1'>新增</label>
+                  <input id='auth-edit1' type='checkbox' value='edit'/><label for='auth-edit1'>修改</label>
+                  <input id='auth-report1' type='checkbox' value='report'/><label for='auth-report1'>報表</label><br>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='2u'>備註：</div>
+               <div class='10u'><input type='text' name="note"/></div>
+            </div>
+            <center><button class='button' style='background-color:#e89980;' onClick='addEmployee()'>送出</button></center>
+         </div>
+
+      </div>
+
+      <!-- employee's data -->
+      <div id="view-user-box" class="alertBox" style="display:none;">
+         <button class='button alt' onClick='closeWindow(1)' style='display:inline-block;float:right;position:absolute; top:10px; right:10px;'>X</button>
+         <center>
+            <h2>查看員工</h2>
+         </center>
+         <div id="form2">
+            <div class='row' style='margin:10px;'>
+               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">密碼：</div><div class='10u'><input type='text' name="password"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">姓名：</div><div class='10u'><input type='text' name="name"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">職稱：</div><div class='10u'><input type='text' name="position"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">電話：</div><div class='10u'><input type='text' name="number"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>   
+               <div class='2u'>在職：</div>
+               <div class='10u'>
+                  <input id='work-yes2' type='radio' value='yes' name='work'/><label for='work-yes2'>是</label>
+                  <input id='work-no2' type='radio' value='no' name='work'/><label for='work-no2'>否</label><br>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='2u'>權限：</div>
+               <div class='10u'>
+                  <input id='auth-view2' type='checkbox' value='view'/><label for='auth-view2'>檢視</label>
+                  <input id='auth-add2' type='checkbox' value='add'/><label for='auth-add2'>新增</label>
+                  <input id='auth-edit2' type='checkbox' value='edit'/><label for='auth-edit2'>修改</label>
+                  <input id='auth-report2' type='checkbox' value='report'/><label for='auth-report2'>報表</label><br>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='2u'>備註：</div>
+               <div class='10u'><input type='text' name="note"/></div>
+            </div>
+            <center><button class='button' style='background-color:#e89980;'>送出</button></center>
+         </div>
+      </div>
+
+   </body>
+</html>
+

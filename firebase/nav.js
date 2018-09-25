@@ -25,7 +25,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 			var userType = snapshot.val().role;
 			console.log(userType);
 			if (userType=='admin'){
-				ul.innerHTML = '<li><a href="index.html">首頁</a></li>' + 
+				ul.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
 				'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 					'<ul id="dataList">' +
 						'<li><a href="upload.html" name="list">資料查看</a></li>' +
@@ -43,42 +43,55 @@ firebase.auth().onAuthStateChanged(function(user) {
 				'<li> <a href="accountManage.html" name="list">帳號管理 </li>';
 			}
 			else if (userType=='analyst'){
-				data.innerHTML = '<a href="#data" class="icon fa-angle-down">數據分析</a>' +
+				ul.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
+				'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 					'<ul id="dataList">' +
 						'<li><a href="upload.html" name="list">資料查看</a></li>' +
 						'<li><a href="record.html" name="list">資料分析</a></li>' +
-					'</ul>';
-				gene.innerHTML = '<a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
+					'</ul>'+
+				'</li>' +
+				'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
 					'<ul id="geneList">' +
 						'<li><a href="#" name="list">訂單管理</a></li>' +
 						'<li><a href="#" name="list">檢測結果上傳</a></li>' +
 						'<li><a href="#" name="list">歷史訂單</a></li>' +
-					'</ul>';
+					'</ul>' +
+				'</li>';
 			}
 			else if (userType=='owner'){
-				data.innerHTML = '<a href="#data" class="icon fa-angle-down">數據分析</a>' +
+				ul.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
+				'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 					'<ul id="dataList">' +
 						'<li><a href="upload.html" name="list">豬隻資料</a></li>' +
 						'<li><a href="record.html" name="list">工作紀錄</a></li>' +
 						'<li><a href="report.html" name="list">查看分析報告</a></li>' +
 						'<li><a href="recommend.html" name="list">選拔建議</a></li>' +
-					'</ul>';
-				gene.innerHTML = '<a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
+					'</ul>' +
+				'</li>' +
+				'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
 					'<ul id="geneList">' +
 						'<li><a href="#" name="list">訂單管理</a></li>' +
 						'<li><a href="#" name="list">檢測結果上傳</a></li>' +
 						'<li><a href="#" name="list">歷史訂單</a></li>' +
-					'</ul>';
-				contact.innerHTML = '<a href="#contact">聯絡我們</a>';
-				member.innerHTML = '<a href="accountManage.html" name="list">設定';
+					'</ul>' +
+				'</li>' +
+				'<li> <a href="#contact">聯絡我們</a> </li>' +
+				'<li> <a href="workerManager.html" class="icon fa-angle-down">設定</a>' + 
+					'<ul id="settingList">' +
+						'<li><a href="workerManager.html" name="list">員工管理</a></li>' +
+						'<li><a href="#plan" name="list">飼養計畫</a></li>' +
+					'</ul>' +
+				'</li>';
 			}
 			else if (userType=='employee'){
-				data.innerHTML = '<a href="#data" class="icon fa-angle-down">數據分析</a>' +
+				ul.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
+				'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 					'<ul id="dataList">' +
 						'<li><a href="upload.html" name="list">豬隻資料</a></li>' +
 						'<li><a href="record.html" name="list">工作紀錄</a></li>' +
-					'</ul>';
-				contact.innerHTML = '<a href="#cta">聯絡我們</a>';
+					'</ul>' +
+				'</li>' +
+				'<li> <a href="#cta">聯絡我們</a> </li>';
 			}
 			ul.innerHTML+='<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
 			rander();
