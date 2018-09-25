@@ -8,7 +8,10 @@ var config = {
 	messagingSenderId: "607804503321"
 };
 
-function defined(content) { return content? content:""}
+function defined(content) { 
+   if(content == 0) return content;
+   return content? content:""
+}
 
 function permissionMaking(p){
    var view, add, edit, report;
@@ -51,6 +54,7 @@ $(document).ready(function(){
    firebase.initializeApp(config);
 
    firebase.auth().onAuthStateChanged(function(user){
+      console.log(user);
       if(user){
          uid = user.uid;
          var memberRef = firebase.database().ref("users/" + uid);
@@ -65,28 +69,28 @@ $(document).ready(function(){
                snapshot.forEach(function(employee){
                   item = [];
                   entry = employee.val();
-                  console.log(entry);
+                  //console.log(entry);
 
-                  var account = defined(entry.account);
+                  var email = defined(entry.email);
                   var name = defined(entry.name);
                   var position = defined(entry.position);
                   var permission = defined(entry.permission);
                   var work = defined(entry.work);
 
-                  item.push(account);
+                  item.push(email);
                   item.push(defined(entry.password));
                   item.push(name);
                   item.push(position);
-                  item.push(defined(entry.email));
                   item.push(defined(entry.number));
                   item.push(work);
                   item.push(permission);
                   item.push(defined(entry.note));
+                  item.push(defined(entry.uid));
 
                   permission_string = permissionMaking(permission);
                   work_string = work? "是":"否";
                   var button_string = "<button class='button' style='background-color:#e89980;' onClick='showEmployee(" + i + ")'>查看</button>"
-                  $("#workers tr:last").after("<tr id='employee" + i + "'><td>" + account + "</td><td>" + name + "</td><td>" + position + "</td><td>" + permission_string + "</td><td>" + work_string + "</td><td>" + button_string + "</td></tr>");
+                  $("#workers tr:last").after("<tr id='employee" + i + "'><td>" + email + "</td><td>" + name + "</td><td>" + position + "</td><td>" + permission_string + "</td><td>" + work_string + "</td><td>" + button_string + "</td></tr>");
 
                   i = i + 1;
                   employees.push(item);
@@ -117,14 +121,16 @@ function closeWindow(choice){
 }
 
 function showEmployee(employeeNo){
-   $("#view-user-box").slideToggle();
-   $("#form2 input[name='account']").val(employees[employeeNo][0]);
+   if($("#view-user-box").is(':hidden')){
+      $("#view-user-box").slideToggle();
+   }
+   $("#form2 input[name='email']").val(employees[employeeNo][0]);
    $("#form2 input[name='password']").val(employees[employeeNo][1]);
    $("#form2 input[name='name']").val(employees[employeeNo][2]);
    $("#form2 input[name='position']").val(employees[employeeNo][3]);
-   $("#form2 input[name='email']").val(employees[employeeNo][4]);
-   $("#form2 input[name='number']").val(employees[employeeNo][5]);
-   if(employees[employeeNo][6]){
+   $("#form2 input[name='number']").val(employees[employeeNo][4]);
+   $("#form2 input[name='note']").val(employees[employeeNo][7]);
+   if(employees[employeeNo][5]){
       $("#form2 input#work-yes2").prop("checked", true);
       $("#form2 input#work-no2").prop("checked", false);
    }
@@ -132,7 +138,7 @@ function showEmployee(employeeNo){
       $("#form2 input#work-yes2").prop("checked", false);
       $("#form2 input#work-no2").prop("checked", true);
    }
-   var per = employees[employeeNo][7];
+   var per = employees[employeeNo][6];
    if(per.search("view") != -1){
       $("#form2 input#auth-view2").prop("checked", true);
    }else{
@@ -153,14 +159,15 @@ function showEmployee(employeeNo){
    }else{
       $("#form2 input#auth-report2").prop("checked", false);
    }
+   $("#form2 button").attr("onClick", "editEmployee(" + employeeNo + ");");
+   console.log(employees[employeeNo][8]);
 }
 
 function readData(form){
-   var account = $("#form"+ form + " input[name='account']").val();
+   var email = $("#form" + form + " input[name='email']").val();
    var password = $("#form"+ form + " input[name='password']").val();
    var name = $("#form" + form + " input[name='name']").val();
    var position = $("#form" + form + " input[name='position']").val();
-   var email = $("#form" + form + " input[name='email']").val();
    var number = $("#form" + form + " input[name='number']").val();
    var note = $("#form" + form + " input[name='note']").val();
    var permission;
@@ -183,49 +190,88 @@ function readData(form){
    if($("input#auth-report" + form).is(':checked')){
       permission = permission + ",report";
    }
-   return [account, password, name, position, email, number, work, permission, note];
+   return [email, password, name, position, number, work, permission, note];
 }
 
 
 function addEmployee(){
-   var account, password, name, position, email, number, work, permission, note;
-   [account, password, name, position, email, number, work, permission, note] = readData(1);
+   var email, password, name, position, number, work, permission, note;
+   [email, password, name, position, number, work, permission, note] = readData(1);
    console.log(email);
    var uid;
+   const p1 = null, p2 = null;
    firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user){
       uid = user.uid;
-      console.log(uid);
+      console.log("farm number = " + farmNo);
+      employee = firebase.database().ref("employee/"+ farmNo + "/" + uid);
+      p1 = employee.set({
+         "email": email,
+         "password": password,
+         "name": name,
+         "position": position,
+         "number": number,
+         "work": work,
+         "permission": permission,
+         "note": note,
+         "uid": uid
+      });
+      newuser = firebase.database().ref("users/" + uid);
+      p2 = newuser.set({
+         "email": email,
+         "password": password,
+         "name": name,
+         "farmNo": farmNo,
+         "role": "employee",
+         "privilege": permission, 
+         "active": work,
+         "currentFarm": farmNo,
+         "note": note,
+         "uid": uid
+      });
+
    }).catch(function(error){
       console.log("Fail to create user. Error: " + error.code + ", " + error.message);
    });
 
-   employeeRef.push({
-      "account": account,
-      "password": password,
-      "name": name,
-      "position": position,
-      "email": email,
-      "number": number,
-      "work": work,
-      "permission": permission,
-      "note": note
-   });
-
-   userRef = firebase.database().ref("users");
-   userRef.push({
-      "email": email,
-      "password": password,
-      "name": name,
-      "farmNo": farmNo,
-      "role": "employee",
-      "privilege": permission, 
-      "active": work,
-      "currentFarm": farmNo,
-      "note": note
+   Promise.all([p1, p2]).then(function(){
+      console.log("Finish!");
    });
 }
 
-function EditEmployee(){
-   var account, password, name, position, email, number, work, permission, note = readData(2);
+function editEmployee(employeeNo){
+   var email, password, name, position, number, work, permission, note, uid;
+   [email, password, name, position, number, work, permission, note] = readData(2);
+   uid = employees[employeeNo][8];
+   console.log("employee number is " + employeeNo);
+   console.log("uid = " + uid);
+   employee = firebase.database().ref("employee/"+ farmNo + "/" + uid);
+   const p1 = employee.set({
+         "email": email,
+         "password": password,
+         "name": name,
+         "position": position,
+         "number": number,
+         "work": work,
+         "permission": permission,
+         "note": note,
+         "uid": uid
+   });
+   edituser = firebase.database().ref("users/" + uid);
+   const p2 = edituser.set({
+         "email": email,
+         "password": password,
+         "name": name,
+         "farmNo": farmNo,
+         "role": "employee",
+         "privilege": permission, 
+         "active": work,
+         "currentFarm": farmNo,
+         "note": note,
+         "uid": uid
+   });
 
+   Promise.all([p1, p2]).then(function(){
+      console.log("Finish!");
+      location.reload();
+   });
 }

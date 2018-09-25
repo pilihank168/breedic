@@ -70,7 +70,7 @@
                   <section>
                      <table id="workers">
                         <tr>
-                           <td>帳號</td>
+                           <td>信箱</td>
                            <td>姓名</td>
                            <td>職稱</td>
                            <td>權限</td>
@@ -116,7 +116,7 @@
          </center>
          <div id="form1">
             <div class='row' style='margin:10px;'>
-               <div class="2u">帳號：</div><div class='10u'><input type='text' name="account"/></div>
+               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
             </div>
             <div class='row' style='margin:10px;'>
                <div class="2u">密碼：</div><div class='10u'><input type='text' name="password"/></div>
@@ -128,16 +128,13 @@
                <div class="2u">職稱：</div><div class='10u'><input type='text' name="position"/></div>
             </div>
             <div class='row' style='margin:10px;'>
-               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
-            </div>
-            <div class='row' style='margin:10px;'>
                <div class="2u">電話：</div><div class='10u'><input type='text' name="number"/></div>
             </div>
             <div class='row' style='margin:10px;'>   
                <div class='2u'>在職：</div>
                <div class='10u'>
-                  <input id='work-yes1' type='checkbox' value='yes'/><label for='work-yes1'>是</label>
-                     <input id='work-no1' type='checkbox' value='no'><label for='work-no1'>否</label><br>
+                  <input id='work-yes1' type='radio' value='yes' name='work'/><label for='work-yes1'>是</label>
+                  <input id='work-no1' type='radio' value='no' name='work'><label for='work-no1'>否</label><br>
                </div>
             </div>
             <div class='row' style='margin:10px'>   
@@ -166,7 +163,7 @@
          </center>
          <div id="form2">
             <div class='row' style='margin:10px;'>
-               <div class="2u">帳號：</div><div class='10u'><input type='text' name="account"/></div>
+               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
             </div>
             <div class='row' style='margin:10px;'>
                <div class="2u">密碼：</div><div class='10u'><input type='text' name="password"/></div>
@@ -178,16 +175,13 @@
                <div class="2u">職稱：</div><div class='10u'><input type='text' name="position"/></div>
             </div>
             <div class='row' style='margin:10px;'>
-               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
-            </div>
-            <div class='row' style='margin:10px;'>
                <div class="2u">電話：</div><div class='10u'><input type='text' name="number"/></div>
             </div>
             <div class='row' style='margin:10px;'>   
                <div class='2u'>在職：</div>
                <div class='10u'>
-                  <input id='work-yes2' type='checkbox' value='yes' /><label for='work-yes2'>是</label>
-                  <input id='work-no2' type='checkbox' value='no' /><label for='work-no2'>否</label><br>
+                  <input id='work-yes2' type='radio' value='yes' name='work'/><label for='work-yes2'>是</label>
+                  <input id='work-no2' type='radio' value='no' name='work'/><label for='work-no2'>否</label><br>
                </div>
             </div>
             <div class='row' style='margin:10px'>   
@@ -201,9 +195,9 @@
             </div>
             <div class='row' style='margin:10px'>   
                <div class='2u'>備註：</div>
-               <div class='10u'><input type='text'/></div>
+               <div class='10u'><input type='text' name="note"/></div>
             </div>
-            <center><button class='button' style='background-color:#e89980;' onClick='EditEmployee()'>送出</button></center>
+            <center><button class='button' style='background-color:#e89980;'>送出</button></center>
          </div>
       </div>
 
