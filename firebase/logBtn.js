@@ -1,6 +1,6 @@
 
 var ul = document.getElementById('ul');
-var logInOut = ul.childNodes[9];
+var logInOut = ul.childNodes[11];
 
 // Logout
 function logout(){
