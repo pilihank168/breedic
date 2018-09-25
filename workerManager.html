@@ -17,7 +17,7 @@
       <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
       <script src="assets/js/main.js"></script>
       <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-      <script src="workerManager.js"></script>
+      <script src="firebase/workerManager.js"></script>
 	</head>
 
    <body>
@@ -79,7 +79,7 @@
                         </tr>
                      </table>
                      <div align="center">
-                        <button id="create-user" class="button big alt" type="button" onClick="AddUser()">新增</button>
+                        <button id="create-user" class="button big alt" type="button" onClick="showAddWindow()" disabled>新增</button>
                      </div>
                   </section>
                </div>
@@ -110,11 +110,11 @@
       
       <!-- alert box -->
       <div id='create-user-box' class='alertBox' style='display: none'>
-         <button class='button alt' onClick='closeAlert()' style='display:inline-block;float:right;position:absolute; top:10px; right:10px;'>X</button>
+         <button class='button alt' onClick='closeWindow(0)' style='display:inline-block;float:right;position:absolute; top:10px; right:10px;'>X</button>
          <center>
             <h2>新增員工</h2>
          </center>
-         <form id="form">
+         <div id="form1">
             <div class='row' style='margin:10px;'>
                <div class="2u">帳號：</div><div class='10u'><input type='text' name="account"/></div>
             </div>
@@ -136,26 +136,75 @@
             <div class='row' style='margin:10px;'>   
                <div class='2u'>在職：</div>
                <div class='10u'>
-                  <input id='work-yes' type='checkbox' value='yes'/><label for='work-yes'>是</label>
-                     <input id='work-no' type='checkbox' value='no'><label for='work-no'>否</label><br>
+                  <input id='work-yes1' type='checkbox' value='yes'/><label for='work-yes1'>是</label>
+                     <input id='work-no1' type='checkbox' value='no'><label for='work-no1'>否</label><br>
                </div>
             </div>
             <div class='row' style='margin:10px'>   
                <div class='2u'>權限：</div>
                <div class='10u'>
-                  <input id='auth-view' type='checkbox' value='view'/><label for='auth-view'>檢視</label>
-                  <input id='auth-add' type='checkbox' value='add'><label for='auth-add'>新增</label>
-                  <input id='auth-edit' type='checkbox' value='edit'/><label for='auth-edit'>修改</label>
-                  <input id='auth-report' type='checkbox' value='report'/><label for='auth-report'>報表</label><br>
+                  <input id='auth-view1' type='checkbox' value='view'/><label for='auth-view1'>檢視</label>
+                  <input id='auth-add1' type='checkbox' value='add'><label for='auth-add1'>新增</label>
+                  <input id='auth-edit1' type='checkbox' value='edit'/><label for='auth-edit1'>修改</label>
+                  <input id='auth-report1' type='checkbox' value='report'/><label for='auth-report1'>報表</label><br>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='2u'>備註：</div>
+               <div class='10u'><input type='text' name="note"/></div>
+            </div>
+            <center><button class='button' style='background-color:#e89980;' onClick='addEmployee()'>送出</button></center>
+         </div>
+
+      </div>
+
+      <!-- employee's data -->
+      <div id="view-user-box" class="alertBox" style="display:none;">
+         <button class='button alt' onClick='closeWindow(1)' style='display:inline-block;float:right;position:absolute; top:10px; right:10px;'>X</button>
+         <center>
+            <h2>查看員工</h2>
+         </center>
+         <div id="form2">
+            <div class='row' style='margin:10px;'>
+               <div class="2u">帳號：</div><div class='10u'><input type='text' name="account"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">密碼：</div><div class='10u'><input type='text' name="password"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">姓名：</div><div class='10u'><input type='text' name="name"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">職稱：</div><div class='10u'><input type='text' name="position"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="2u">電話：</div><div class='10u'><input type='text' name="number"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>   
+               <div class='2u'>在職：</div>
+               <div class='10u'>
+                  <input id='work-yes2' type='checkbox' value='yes' /><label for='work-yes2'>是</label>
+                  <input id='work-no2' type='checkbox' value='no' /><label for='work-no2'>否</label><br>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='2u'>權限：</div>
+               <div class='10u'>
+                  <input id='auth-view2' type='checkbox' value='view'/><label for='auth-view2'>檢視</label>
+                  <input id='auth-add2' type='checkbox' value='add'/><label for='auth-add2'>新增</label>
+                  <input id='auth-edit2' type='checkbox' value='edit'/><label for='auth-edit2'>修改</label>
+                  <input id='auth-report2' type='checkbox' value='report'/><label for='auth-report2'>報表</label><br>
                </div>
             </div>
             <div class='row' style='margin:10px'>   
                <div class='2u'>備註：</div>
                <div class='10u'><input type='text'/></div>
             </div>
-            <center><button class='button' style='background-color:#e89980;' onClick='AddEmployee()'>送出</button></center>
-         </form>
-
+            <center><button class='button' style='background-color:#e89980;' onClick='EditEmployee()'>送出</button></center>
+         </div>
       </div>
 
    </body>
