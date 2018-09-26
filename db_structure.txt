@@ -1,13 +1,12 @@
 users
 	(uid)
 		email
-		pwd
 		name
 		farmNo
 		role:admin/owner/employee
 		currentFarm
 		permission
-		active
+		active #就是disable
 
 owner
 	(uid)
