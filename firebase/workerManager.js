@@ -7,6 +7,7 @@ var config = {
 	storageBucket: "breedic-ba254.appspot.com",
 	messagingSenderId: "607804503321"
 };
+   firebase.initializeApp(config);
 
 function defined(content) { 
    if(content == 0) return content;
@@ -51,7 +52,6 @@ var employees = [];
 var item, i;
 
 $(document).ready(function(){
-   firebase.initializeApp(config);
 
    firebase.auth().onAuthStateChanged(function(user){
       console.log(user);
