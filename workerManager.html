@@ -86,7 +86,11 @@
          </center>
          <div id="form1">
             <div class='row' style='margin:10px;'>
-               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
+               <div class="2u">信箱：</div>
+               <div class='8u'><input type='text' name="email"/></div>
+               <div class='2u button alt' style="padding-left:25px;" onClick="checkEmailRepeat();">檢查</div>
+               <div class="2u">&nbsp;</div>
+               <div id="msg-zone"></div>
             </div>
             <div class='row' style='margin:10px;'>
                <div class="2u">密碼：</div><div class='10u'><input type='password' name="password"/></div>
@@ -133,7 +137,7 @@
          </center>
          <div id="form2">
             <div class='row' style='margin:10px;'>
-               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email"/></div>
+               <div class="2u">信箱：</div><div class='10u'><input type='text' name="email" disabled/></div>
             </div>
             <div class='row' style='margin:10px;'>
                <div class="2u">密碼：</div>
@@ -152,7 +156,7 @@
                </div>
             </div>
             <div class='row' style='margin:10px;'>
-               <div class="2u">姓名：</div><div class='10u'><input type='text' name="name"/></div>
+               <div class="2u">姓名：</div><div class='10u'><input type='text' name="name" disabled/></div>
             </div>
             <div class='row' style='margin:10px;'>
                <div class="2u">職稱：</div><div class='10u'><input type='text' name="position"/></div>

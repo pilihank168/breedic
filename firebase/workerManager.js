@@ -50,6 +50,7 @@ var uid, farmNo;
 var employeeRef;
 var employees = [];
 var item, i;
+var emails = [];
 
 $(document).ready(function(){
 
@@ -93,6 +94,14 @@ $(document).ready(function(){
 
                   i = i + 1;
                   employees.push(item);
+               });
+            });
+         }).then(function(){
+            var usersRef = firebase.database().ref("users");
+            usersRef.once("value").then(function(snapshot){
+               snapshot.forEach(function(u){
+                  email = defined(u.val().email);
+                  emails.push(email);
                });
             });
          });
@@ -344,5 +353,20 @@ function changeActive(employeeNo){
    }
    else{
       closeActiveWin();
+   }
+}
+
+function checkEmailRepeat(){
+   var email = $("#form1 input[name=email]").val();
+   if(email){
+      if($.inArray(email, emails) != -1){
+         $("#msg-zone").text("該信箱已有人使用。");
+      }  
+      else{
+         $("#msg-zone").text("恭喜！您可以使用該信箱。");
+      }
+   }
+   else{
+      $("#msg-zone").text("您還未輸入信箱。")
    }
 }
