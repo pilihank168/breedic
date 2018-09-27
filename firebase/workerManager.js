@@ -209,6 +209,7 @@ function addEmployee(){
    console.log(email);
    toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
    const p1 = toBeCreated.push({
+   		 "type": 'create',
 		 "email": email,
 		 "password": password,
 		 "name": name,
@@ -282,11 +283,12 @@ function closePwdWin(){
 }
 function changePassword(employeeNo){
    var toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
-   var email = employees[employeeNo][0];
+   var uid = employees[employeeNo][7];
    var password = $("#form2 input[name=password]").val();
    if(password == $("#form2 input[name=password2]")){
       const p1 = toBeCreated.push({
-          "email": email,
+	  	  "type": "changePwd",
+          "uid": uid,
           "password": password,
       });
       Promise.all([p1]).then(function(){
@@ -331,7 +333,7 @@ function closeActiveWin(){
 }
 function changeActive(employeeNo){
    var toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
-   var email = employees[employeeNo][0];
+   var uid = employees[employeeNo][7];
    var active;
    var original = $("#changeActiveWin").attr("original");
    if($("input#active-yes2").is(':checked')){
@@ -343,7 +345,8 @@ function changeActive(employeeNo){
    console.log("active is " + active + ", original is " + original);
    if(original != active){
       const p1 =  toBeCreated.push({
-         "email": email,
+	  	 "type": "disable",
+         "uid": uid,
          "active": active
       });
       Promise.all([p1]).then(function(){
