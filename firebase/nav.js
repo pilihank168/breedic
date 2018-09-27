@@ -98,11 +98,11 @@ firebase.auth().onAuthStateChanged(function(user) {
 		});
 		console.log("User is logined", user.uid, member)
 	} else {
-		logInOut.innerHTML = '<a href="login.html" class="button">登入</em></a>';
-		data.innerHTML = '<a href="#data">數據分析</a>'
-		gene.innerHTML = '<a href="#gene">基因檢測</a>'
-		member.innerHTML = '';
-		contact.innerHTML = '<a href="#cta">聯絡我們</a>';
+		ul.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
+		'<li> <a href="#data">數據分析</a> </li>' +
+		'<li> <a href="#gene">基因檢測</a> </li>' +
+		'<li> <a href="#cta">聯絡我們</a> </li>' +
+		'<li> <a href="login.html" class="button">登入</em></a> </li>';
 		console.log("User is not logined yet.");
 		rander();
 	}
