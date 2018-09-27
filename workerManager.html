@@ -144,8 +144,8 @@
                <div class='10u'>
                   <div id="changePwdBtn" class="button" style='background-color: #e89980;' onClick='changePwdWin();'>更改密碼</div>
                   <div id="changePwdWin" style='display:none;'>
-                     <input type='text' name='password' placeholder='輸入新密碼'/>
-                     <input type='text' name='password2' placeholder='再次輸入新密碼' style="margin-top:10px;"/>
+                     <input type='text' name='password' placeholder='輸入新密碼' oninput='pwdFunction1();'/>
+                     <input type='text' name='password2' placeholder='再次輸入新密碼' style="margin-top:10px;" oninput='pwdFunction2();'/>
                      <div id='alarm-zone'></div>
                      <div class='row' >
                         <div class='1u'>&nbsp;</div>

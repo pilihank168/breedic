@@ -268,6 +268,29 @@ function editEmployee(employeeNo){
 }
 
 //Change Password
+var canSetPwd1 = 0;
+var canSetPwd2 = 0;
+
+function pwdFunction1(){
+   if($("#form2 input[name=password]").val().length < 6){
+      $("#form2 #alarm-zone").text("密碼長度不得短於6碼");
+   }
+   else{
+      $("#form2 #alarm-zone").text("");
+      canSetPwd1 = 1;
+   }
+}
+
+function pwdFunction2(){
+   if($("#form2 input[name=password]").val() == $("#form2 input[name=password2]").val()){
+      $("#form2 #alarm-zone").text("");
+      canSetPwd2 = 1;
+   }
+   else{
+      $("#form2 #alarm-zone").text("二次密碼輸入錯誤");
+   }
+}
+
 
 function changePwdWin(){
    $("#changePwdBtn").hide();
@@ -285,9 +308,9 @@ function changePassword(employeeNo){
    var toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
    var uid = employees[employeeNo][7];
    var password = $("#form2 input[name=password]").val();
-   if(password == $("#form2 input[name=password2]")){
+   if(canSetPwd1 && canSetPwd2){
       const p1 = toBeCreated.push({
-	  	  "type": "changePwd",
+        "type": "changePwd",
           "uid": uid,
           "password": password,
       });
@@ -295,10 +318,6 @@ function changePassword(employeeNo){
          console.log("Finish! Change Pwd.");
          location.reload();
       });
-   }
-   else{
-      console.log("wrong password:" + password);
-      $("#alarm-zone").text("二次密碼輸入錯誤");
    }
 }
 
@@ -358,6 +377,8 @@ function changeActive(employeeNo){
       closeActiveWin();
    }
 }
+
+//Check email
 
 function checkEmailRepeat(){
    var email = $("#form1 input[name=email]").val();
