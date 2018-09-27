@@ -354,6 +354,7 @@ function closeActiveWin(){
 function changeActive(employeeNo){
    var uid = employees[employeeNo][7];
    var changeActive = firebase.database().ref("users/" + uid + "/active");
+   var changeActive2 = firebase.database().ref("employee/" + farmNo + '/' + uid + "/active");
    var active;
    var original = $("#changeActiveWin").attr("original");
    if($("input#active-yes2").is(':checked')){
@@ -364,7 +365,9 @@ function changeActive(employeeNo){
    }
    console.log("active is " + active + ", original is " + original);
    if(original != active){
-      changeActive.push({"active": active}).then(function(){
+      const p1 = changeActive.set(active)
+      const p2 = changeActive2.set(active)
+	  Promise.all([p1, p2]).then(function(){
          console.log("Finish! Change Active.");
          location.reload();
       });
