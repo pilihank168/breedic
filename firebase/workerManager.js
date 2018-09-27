@@ -350,9 +350,10 @@ function closeActiveWin(){
    $("#active-yes2").attr("disabled", true);
    $("#active-no2").attr("disabled", true);
 }
+
 function changeActive(employeeNo){
-   var toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
    var uid = employees[employeeNo][7];
+   var changeActive = firebase.database().ref("users/" + uid + "/active");
    var active;
    var original = $("#changeActiveWin").attr("original");
    if($("input#active-yes2").is(':checked')){
@@ -363,12 +364,7 @@ function changeActive(employeeNo){
    }
    console.log("active is " + active + ", original is " + original);
    if(original != active){
-      const p1 =  toBeCreated.push({
-	  	 "type": "disable",
-         "uid": uid,
-         "active": active
-      });
-      Promise.all([p1]).then(function(){
+      changeActive.push({"active": active}).then(function(){
          console.log("Finish! Change Active.");
          location.reload();
       });
