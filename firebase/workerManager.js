@@ -75,22 +75,21 @@ $(document).ready(function(){
                   var name = defined(entry.name);
                   var position = defined(entry.position);
                   var permission = defined(entry.permission);
-                  var work = defined(entry.work);
+                  var active = defined(entry.active);
 
                   item.push(email);
-                  item.push(defined(entry.password));
                   item.push(name);
                   item.push(position);
                   item.push(defined(entry.phone));
-                  item.push(work);
+                  item.push(active);
                   item.push(permission);
                   item.push(defined(entry.note));
                   item.push(defined(entry.uid));
 
                   permission_string = permissionMaking(permission);
-                  work_string = work? "是":"否";
+                  active_string = active? "是":"否";
                   var button_string = "<button class='button' style='background-color:#e89980;' onClick='showEmployee(" + i + ")'>查看</button>"
-                  $("#workers tr:last").after("<tr id='employee" + i + "'><td>" + email + "</td><td>" + name + "</td><td>" + position + "</td><td>" + permission_string + "</td><td>" + work_string + "</td><td>" + button_string + "</td></tr>");
+                  $("#activeers tr:last").after("<tr id='employee" + i + "'><td>" + email + "</td><td>" + name + "</td><td>" + position + "</td><td>" + permission_string + "</td><td>" + active_string + "</td><td>" + button_string + "</td></tr>");
 
                   i = i + 1;
                   employees.push(item);
@@ -125,20 +124,19 @@ function showEmployee(employeeNo){
       $("#view-user-box").slideToggle();
    }
    $("#form2 input[name='email']").val(employees[employeeNo][0]);
-   $("#form2 input[name='password']").val(employees[employeeNo][1]);
-   $("#form2 input[name='name']").val(employees[employeeNo][2]);
-   $("#form2 input[name='position']").val(employees[employeeNo][3]);
-   $("#form2 input[name='number']").val(employees[employeeNo][4]);
-   $("#form2 input[name='note']").val(employees[employeeNo][7]);
-   if(employees[employeeNo][5]){
-      $("#form2 input#work-yes2").prop("checked", true);
-      $("#form2 input#work-no2").prop("checked", false);
+   $("#form2 input[name='name']").val(employees[employeeNo][1]);
+   $("#form2 input[name='position']").val(employees[employeeNo][2]);
+   $("#form2 input[name='phone']").val(employees[employeeNo][3]);
+   $("#form2 input[name='note']").val(employees[employeeNo][6]);
+   if(employees[employeeNo][4]){
+      $("#form2 input#active-yes2").prop("checked", true);
+      $("#form2 input#active-no2").prop("checked", false);
    }
    else{
-      $("#form2 input#work-yes2").prop("checked", false);
-      $("#form2 input#work-no2").prop("checked", true);
+      $("#form2 input#active-yes2").prop("checked", false);
+      $("#form2 input#active-no2").prop("checked", true);
    }
-   var per = employees[employeeNo][6];
+   var per = employees[employeeNo][5];
    if(per.search("view") != -1){
       $("#form2 input#auth-view2").prop("checked", true);
    }else{
@@ -160,7 +158,9 @@ function showEmployee(employeeNo){
       $("#form2 input#auth-report2").prop("checked", false);
    }
    $("#form2 button").attr("onClick", "editEmployee(" + employeeNo + ");");
-   console.log(employees[employeeNo][8]);
+   $("#form2 #changePwdYes").attr("onClick", "changePassword(" + employeeNo + ");");
+   $("#form2 #changeActiveYes").attr("onClick", "changeActive(" + employeeNo + ");");
+   console.log(employees[employeeNo][7]);
 }
 
 function readData(form){
@@ -168,15 +168,15 @@ function readData(form){
    var password = $("#form"+ form + " input[name='password']").val();
    var name = $("#form" + form + " input[name='name']").val();
    var position = $("#form" + form + " input[name='position']").val();
-   var number = $("#form" + form + " input[name='number']").val();
+   var phone = $("#form" + form + " input[name='phone']").val();
    var note = $("#form" + form + " input[name='note']").val();
    var permission;
-   var work;
-   if($("input#work-yes" + form).is(':checked')){
-      work = 1;
+   var active;
+   if($("input#active-yes" + form).is(':checked')){
+      active = 1;
    }
    else{
-      work = 0;
+      active = 0;
    }
    if($("input#auth-view" + form).is(':checked')){
       permission = permission + "view";
@@ -190,22 +190,22 @@ function readData(form){
    if($("input#auth-report" + form).is(':checked')){
       permission = permission + ",report";
    }
-   return [email, password, name, position, number, work, permission, note];
+   return [email, password, name, position, phone, active, permission, note];
 }
 
 
 function addEmployee(){
-   var email, password, name, position, number, work, permission, note;
-   [email, password, name, position, number, work, permission, note] = readData(1);
+   var email, password, name, position, phone, active, permission, note;
+   [email, password, name, position, phone, active, permission, note] = readData(1);
    console.log(email);
    toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
-   toBeCreated.push({
+   const p1 = toBeCreated.push({
 		 "email": email,
 		 "password": password,
 		 "name": name,
 		 "position": position,
-         "phone": number,
-         "active": work,
+         "phone": phone,
+         "active": active,
          "permission": permission,
          "note": note,
          "farmNo": farmNo,
@@ -213,22 +213,27 @@ function addEmployee(){
          "currentFarm": farmNo
 	});
 	// insert row to table 'creating'
+   // refresh page
+   Promise.all([p1]).then(function(){
+      console.log("Finish adding member!");
+      location.reload();
+   });
+
 }
 
 function editEmployee(employeeNo){
-   var email, password, name, position, number, work, permission, note, uid;
-   [email, password, name, position, number, work, permission, note] = readData(2);
-   uid = employees[employeeNo][8];
+   var email, password, name, position, phone, active, permission, note, uid;
+   [email, password, name, position, phone, active, permission, note] = readData(2);
+   uid = employees[employeeNo][7];
    console.log("employee number is " + employeeNo);
    console.log("uid = " + uid);
    employee = firebase.database().ref("employee/"+ farmNo + "/" + uid);
    const p1 = employee.set({
          "email": email,
-         "password": password,
          "name": name,
          "position": position,
-         "phone": number,
-         "work": work,
+         "phone": phone,
+         "active": active,
          "permission": permission,
          "note": note,
          "uid": uid
@@ -236,12 +241,11 @@ function editEmployee(employeeNo){
    edituser = firebase.database().ref("users/" + uid);
    const p2 = edituser.set({
          "email": email,
-         "password": password,
          "name": name,
          "farmNo": farmNo,
          "role": "employee",
          "privilege": permission, 
-         "active": work,
+         "active": active,
          "currentFarm": farmNo,
          "note": note,
          "uid": uid
@@ -251,4 +255,94 @@ function editEmployee(employeeNo){
       console.log("Finish!");
       location.reload();
    });
+}
+
+//Change Password
+
+function changePwdWin(){
+   $("#changePwdBtn").hide();
+   $("#form2 input[name=password]").val("");
+   $("#form2 input[name=password2]").val("");
+   $("#form2 #alarm-zone").text("");
+   $("#changePwdWin").slideToggle();
+}
+function closePwdWin(){
+   $("#changePwdWin").slideToggle(function(){
+      $("#changePwdBtn").show();
+   });
+}
+function changePassword(employeeNo){
+   var toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
+   var email = employees[employeeNo][0];
+   var password = $("#form2 input[name=password]").val();
+   if(password == $("#form2 input[name=password2]")){
+      const p1 = toBeCreated.push({
+          "email": email,
+          "password": password,
+      });
+      Promise.all([p1]).then(function(){
+         console.log("Finish! Change Pwd.");
+         location.reload();
+      });
+   }
+   else{
+      console.log("wrong password:" + password);
+      $("#alarm-zone").text("二次密碼輸入錯誤");
+   }
+}
+
+//Change Active
+
+function changeActiveWin(){
+   $("#changeActiveBtn").hide();
+   $("#changeActiveWin").show();
+   if($("input#active-yes2").is(':checked')){
+      $("#changeActiveWin").attr("original", 1)
+   }
+   else{
+      $("#changeActiveWin").attr("original", 0)
+   }
+   $("#active-yes2").attr("disabled", false);
+   $("#active-no2").attr("disabled", false);
+}
+function closeActiveWin(){
+   if($("#changeActiveWin").attr("original") == 1){
+      $("#active-yes2").prop("checked", true);
+      $("#active-no2").prop("checked", false);
+   }
+   else{
+      $("#active-yes2").prop("checked", false);
+      $("#active-no2").prop("checked", true);
+   }
+ 
+   $("#changeActiveWin").hide();
+   $("#changeActiveBtn").show();
+   $("#active-yes2").attr("disabled", true);
+   $("#active-no2").attr("disabled", true);
+}
+function changeActive(employeeNo){
+   var toBeCreated = firebase.database().ref("employeeToBeCreated/" + farmNo);
+   var email = employees[employeeNo][0];
+   var active;
+   var original = $("#changeActiveWin").attr("original");
+   if($("input#active-yes2").is(':checked')){
+      active = 1;
+   }
+   else{
+      active = 0;
+   }
+   console.log("active is " + active + ", original is " + original);
+   if(original != active){
+      const p1 =  toBeCreated.push({
+         "email": email,
+         "active": active
+      });
+      Promise.all([p1]).then(function(){
+         console.log("Finish! Change Active.");
+         location.reload();
+      });
+   }
+   else{
+      closeActiveWin();
+   }
 }
