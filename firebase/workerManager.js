@@ -53,7 +53,8 @@ var item, i;
 var emails = [];
 
 $(document).ready(function(){
-
+	$('#active-yes2').attr('disabled', true);
+	$('#active-no2').attr('disabled', true);
    firebase.auth().onAuthStateChanged(function(user){
       console.log(user);
       if(user){
