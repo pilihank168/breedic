@@ -2,7 +2,7 @@ users
 	(uid)
 		email
 		name
-		farmNo
+		farmNo:farmName
 		role:admin/owner/employee
 		currentFarm
 		permission
@@ -11,9 +11,6 @@ users
 owner
 	(uid)
 		farmNo
-		farmName
-		farmSize
-		farmType
 		address
 		email
 		name
@@ -31,6 +28,17 @@ employee
 			active
 			permission
 			note
+
+farms
+	total_num
+	(uid)
+		(farmNo) #可以考慮用total_num給
+			farmNo
+			owner
+			name
+			size
+			type
+			address
 
 boarList
 	(farmNo)

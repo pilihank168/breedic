@@ -17,10 +17,32 @@ function logout(){
 	return false;
 }
 
+function makeFarmList(currentFarm, farms){
+	var farmList = '';
+	var promiseArray = [];
+	for(var i=0; i<farms.length; i++){
+		const p = firebase.database().ref('farms/' + farms[i]);
+		promiseArray.push(p);
+	}
+	Promise.all(promiseArray).then((snapshot)=>{
+		for(var i=0; i<promiseArray.length; i++){
+			if(farms[i]===currentFarm){
+				farmList += '<li><a href="#" nam="list"><b>' + snapshot[i].val().name + '</b></a></li>';
+			}
+			else{
+				farmList += '<li><a href="#" nam="list">' + snapshot[i].val().name + '</a></li>';
+			}
+		}
+		return '<li><ul>' + farmList + '</ul></li>';
+	}).catch((error)=>{
+		console.log(error);
+	})
+}
+
 // Content Control
 firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
-		var userRef = firebase.database().ref('members/'+user.uid);
+		var userRef = firebase.database().ref('users/'+user.uid);
 		userRef.once('value').then(function(snapshot){
 			var userType = snapshot.val().role;
 			console.log(userType);
@@ -80,6 +102,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 					'<ul id="settingList">' +
 						'<li><a href="workerManager.html" name="list">員工管理</a></li>' +
 						'<li><a href="#plan" name="list">飼養計畫</a></li>' +
+						// makeFarmList() +
 					'</ul>' +
 				'</li>';
 			}
@@ -109,7 +132,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 var rander = function() {
-
+console.log(ul);
 	skel.breakpoints({
 		wide: '(max-width: 1680px)',
 		normal: '(max-width: 1280px)',
