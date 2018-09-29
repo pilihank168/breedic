@@ -31,14 +31,13 @@ employee
 
 farms
 	total_num
-	(uid)
+	(farmNo) #可以考慮用total_num給
 		owner
-		(farmNo) #可以考慮用total_num給
-			farmNo
-			name
-			size
-			type
-			address
+		farmNo
+		name
+		size
+		type
+		address
 
 boarList
 	(farmNo)
