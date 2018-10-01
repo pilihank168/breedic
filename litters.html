@@ -14,11 +14,11 @@
 	table tr:nth-child(odd) {
 		background-color: #fff;
 	}
+	table td:hover{
+		cursor:pointer;
+	}
 	table th{
-		word-break: keep-all !important;
 		text-align: center !important;
-		background-color: #e89980 !important;
-		color: white !important;
 	}
 </style>
 <html>
@@ -28,6 +28,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -105,18 +106,21 @@
 								<div id="content">
 
 									<!-- Content -->
-									<table align="center" id="litterTable">
-									<tr>
-										<th>品種</th>
-										<th>胎號</th> 
-										<th>父畜序號</th>
-										<th>母畜序號</th>
-										<th>出生日期</th>
-										<th>位置</th>
-										<th>離乳日期</th>
-										<th>小豬卡</th>
-										<th>備註</th>
-									</tr>
+									<table align="center" id="table" class="hover stripe" style='visibility:hidden'>
+									<thead>
+										<tr>
+											<th>品種</th>
+											<th>胎號</th> 
+											<th>父畜序號</th>
+											<th>母畜序號</th>
+											<th>出生日期</th>
+											<th>位置</th>
+											<th>離乳日期</th>
+											<th>備註</th>
+										</tr>
+									</thead>
+									<tbody id='tableBody'>
+									</tbody>
 									</table>
 
 								</div>
@@ -156,6 +160,11 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+			<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+			<script src="firebase/init.js"></script>
+			<script src="firebase/main.js"></script>
+			<script src="firebase/listDataTable.js"></script>
+			<script src="firebase/nav.js"></script>
 			<script src="firebase/litters.js"></script>
 
 	</body>

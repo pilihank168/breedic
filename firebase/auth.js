@@ -7,7 +7,7 @@ var uid, farmNo;
 firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
 		uid = user.uid;
-		console.log("User is logined", uid)
+		console.log("User is logined", uid, url)
 		var memberRef = firebase.database().ref('members/'+uid);
 		memberRef.once('value').then(function(snapshot){
 			entry = snapshot.val();
