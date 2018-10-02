@@ -8,8 +8,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 		userRef.once('value').then(function(snapshot){
 			userData = snapshot.val();
 			makeNav(userData.role);
-			initPage();
-		console.log("User is logined", user.uid, userData)
+		   console.log("User is logined", user.uid, userData)
+         initPage();
 		}).catch((error)=>{console.log(error)});
 	}
 	else{

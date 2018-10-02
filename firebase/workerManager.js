@@ -41,67 +41,54 @@ var employees = [];
 var item, i;
 var emails = [];
 
-$(document).ready(function(){
+function initPage(){
 	$('#active-yes2').attr('disabled', true);
 	$('#active-no2').attr('disabled', true);
-   firebase.auth().onAuthStateChanged(function(user){
-      console.log(user);
-      if(user){
-         uid = user.uid;
-         var memberRef = firebase.database().ref("users/" + uid);
-         memberRef.once("value").then(function(snapshot){
-            entry = snapshot.val();
-            farmNo = entry.currentFarm;
-            $("#create-user").attr("disabled", false);
-         }).then(function(){
-            employeeRef = firebase.database().ref("employee/" + farmNo);
-            employeeRef.once("value").then(function(snapshot){
-               i = 0;
-               snapshot.forEach(function(employee){
-                  item = [];
-                  entry = employee.val();
-                  //console.log(entry);
+   uid = userData.uid;
+   farmNo = userData.currentFarm;
+   console.log("uid = " + uid + ", farmNo = " + farmNo);
+   $("#create-user").attr("disabled", false);
+   employeeRef = firebase.database().ref("employee/" + farmNo);
+   employeeRef.once("value").then(function(snapshot){
+      i = 0;
+      snapshot.forEach(function(employee){
+         item = [];
+         entry = employee.val();
+         //console.log(entry);
 
-                  var email = defined(entry.email);
-                  var name = defined(entry.name);
-                  var position = defined(entry.position);
-                  var permission = defined(entry.permission);
-                  var active = defined(entry.active);
+         var email = defined(entry.email);
+         var name = defined(entry.name);
+         var position = defined(entry.position);
+         var permission = defined(entry.permission);
+         var active = defined(entry.active);
 
-                  item.push(email);
-                  item.push(name);
-                  item.push(position);
-                  item.push(defined(entry.phone));
-                  item.push(active);
-                  item.push(permission);
-                  item.push(defined(entry.note));
-                  item.push(defined(entry.uid));
+         item.push(email);
+         item.push(name);
+         item.push(position);
+         item.push(defined(entry.phone));
+         item.push(active);
+         item.push(permission);
+         item.push(defined(entry.note));
+         item.push(defined(entry.uid));
 
-                  permission_string = permissionMaking(permission);
-                  active_string = active? "是":"否";
-                  var button_string = "<button class='button' style='background-color:#e89980;' onClick='showEmployee(" + i + ")'>查看</button>"
-                  $("#activeers tr:last").after("<tr id='employee" + i + "'><td>" + email + "</td><td>" + name + "</td><td>" + position + "</td><td>" + permission_string + "</td><td>" + active_string + "</td><td>" + button_string + "</td></tr>");
+          permission_string = permissionMaking(permission);
+         active_string = active? "是":"否";
+         var button_string = "<button class='button' style='background-color:#e89980;' onClick='showEmployee(" + i + ")'>查看</button>"
+         $("#activeers tr:last").after("<tr id='employee" + i + "'><td>" + email + "</td><td>" + name + "</td><td>" + position + "</td><td>" + permission_string + "</td><td>" + active_string + "</td><td>" + button_string + "</td></tr>");
 
-                  i = i + 1;
-                  employees.push(item);
-               });
-            });
-         }).then(function(){
-            var usersRef = firebase.database().ref("users");
-            usersRef.once("value").then(function(snapshot){
-               snapshot.forEach(function(u){
-                  email = defined(u.val().email);
-                  emails.push(email);
-               });
-            });
+         i = i + 1;
+         employees.push(item);
+      });
+   }).then(function(){
+      var usersRef = firebase.database().ref("users");
+      usersRef.once("value").then(function(snapshot){
+         snapshot.forEach(function(u){
+            email = defined(u.val().email);
+            emails.push(email);
          });
-      }
-      else{
-         console.log("User not login yet.");
-      }
+      });
    });
-
-});
+}
 
 function showAddWindow(){
    $("#create-user-box").slideToggle();
