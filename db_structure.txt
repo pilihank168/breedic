@@ -38,6 +38,8 @@ farms
 		size
 		type
 		address
+		phone
+		note
 
 boarList
 	(farmNo)

@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+   <head>
+      <title>台鼎生物科技</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/alert.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+      <script src="assets/js/jquery.min.js"></script>
+      <script src="assets/js/jquery.dropotron.min.js"></script>
+      <script src="assets/js/skel.min.js"></script>
+      <script src="assets/js/util.js"></script>
+      <script src="assets/js/jquery.scrollgress.min.js"></script>
+      <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+      <script src="assets/js/main.js"></script>
+      <style>
+      .email-list{
+         position: absolute;
+         display: none;
+         width: 60%;
+         border: 1px solid #f8f8f8;
+      }
+      .email-item{
+         padding:5px;
+         background-color:white;
+      }
+      .email-item:hover{
+         background-color:#f8f8f8;
+         cursor: pointer;
+      }
+      </style>
+   </head>
+   <body>
+      <div id="page-wrapper">
+         
+         <!-- Header -->
+         <header id="header">
+            <h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+            <!-- Nav -->
+            <nav id="nav">
+               <ul id="ul">
+               </ul>
+            </nav>
+         </header>
+
+         <!-- Main Content -->
+         <section id="main" class="container 125%">
+            <header>
+               <h2>豬場帳號管理</h2>
+            </header>
+            <div class="box">
+               <section>
+                  <table id="activeers">
+                     <tr>
+                        <td>豬場編號</td>
+                        <td>豬場名稱</td>
+                        <td>負責人信箱</td>
+                        <td>負責人姓名</td>
+                        <td>開通</td>
+                        <td>詳細資料</td>
+                     </tr>
+                  </table>
+               </section>
+               <div align="center">
+                  <button id="create-user" class="button big alt" type="button" onClick="showAddWindow()" disabled>新增</button>
+               </div>
+            </div>
+         </section>
+
+
+
+         <!-- footer -->
+         <div id="footer">
+            <!-- Icons -->
+            <ul class="icons">
+               <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+               <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+               <li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+               <li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+               <li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+            </ul>
+
+            <!-- Copyright -->
+            <div class="copyright">
+               <ul class="menu">
+                  <li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+               </ul>
+            </div>
+
+         </div>
+      </div>
+
+      <!--Add User Window-->
+      <div id='create-farm-box' class='alertBox' style='display: none'>
+         <button class='button alt' onClick='closeWindow(0)' style='display:inline-block;float:right;position:absolute; top:10px; right:10px;'>X</button>
+         <center>
+            <h2>新增帳號資訊</h2>
+         </center>
+         <div id="form1">
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場編號：</div><div class='9u' id="farmNo1"></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場名稱：</div><div class='9u'><input type='text' name="name"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場規模：</div><div class='9u'><input type='text' name="size"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場類型：</div><div class='9u'><input type='text' name="type"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u" style="padding-left:58px;">地址：</div><div class='9u'><input type='text' name="address"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">聯絡電話：</div><div class='9u'><input type='text' name="phone"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u" style="padding-left:15px;">負責人信箱：</div>
+               <div class='9u'>
+                  <input type='text' name="owner-email" oninput="showEmailList();" onClick="showEmailList();" onblur="hideEmailList();"/>
+                  <div class="email-list"></div>
+                  <i id="new-user-hint">尚未成為會員? <i style="color:#e89980; cursor:pointer; margin-left:5px;" onClick="showNewPwdName();">新增</i></i>
+               </div>
+            </div>
+            <div id="new-password-name" style="display:none;">
+               <div class='row' style='margin:10px;'>
+                  <div class="3u" style="padding-left:15px;">負責人密碼：</div><div class='9u'><input type='text' name="owner-password"/></div>
+               </div>
+               <div class='row' style='margin:10px;'>
+                  <div class="3u" style="padding-left:15px;">負責人姓名：</div><div class='9u'><input type='text' name="owner"/></div>
+               </div>
+               <div class='row' style='margin:10px;'>
+                  <div class='4u'>&nbsp;</div>
+                  <div class="8u button small" style="width: 150px;" onClick="hideNewPwdName();">取消新增會員</div>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='3u' style="padding-left:58px;">備註：</div>
+               <div class='9u'><input type='text' name="note"/></div>
+            </div>
+            <div style="text-align:center; display:none;" id="new-user-alarm">此帳號尚未成為會員，請點選上方新增會員</div>
+            <center><button id="newFarmBtn" class='button' style='background-color:#e89980;' onClick='addFarm(0)'>送出</button></center>
+         </div>
+      </div>
+
+      <!--Show Farm Information-->
+      <div id="view-farm-box" class="alertBox" style="display:none;">
+         <button class='button alt' onClick='closeWindow(1)' style='display:inline-block;float:right;position:absolute; top:10px; right:10px;'>X</button>
+         <center>
+            <h2>帳號資訊</h2>
+         </center>
+         <div id="form2">
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場編號：</div><div class='9u' id="farmNo2"></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場名稱：</div><div class='9u'><input type='text' name="name"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場規模：</div><div class='9u'><input type='text' name="size"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">豬場類型：</div><div class='9u'><input type='text' name="type"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u" style="padding-left:58px;">地址：</div><div class='9u'><input type='text' name="address"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u">聯絡電話：</div><div class='9u'><input type='text' name="phone"/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u" style="padding-left:15px;">負責人信箱：</div><div class='9u'><input type='text' name="owner-email" disabled/></div>
+            </div>
+            <div class='row' style='margin:10px;'>
+               <div class="3u" style="padding-left:15px;">負責人姓名：</div><div class='9u'><input type='text' name="owner" disabled/></div>
+            </div>
+            <div class='row' style='margin:10px;'>   
+               <div class='3u' style="padding-left:58px;">開通：</div>
+               <div class='9u'>
+                  <input id='active-yes' type='radio' value='yes' name='active' disabled/><label for='active-yes'>是</label>
+                  <input id='active-no' type='radio' value='no' name='active' disabled/><label for='active-no'>否</label><br>
+               </div>
+            </div>
+            <div class='row' style='margin:10px'>   
+               <div class='3u' style="padding-left:58px;">備註：</div>
+               <div class='9u'><input type='text' name="note"/></div>
+            </div>
+            <center><button class='button' style='background-color:#e89980;'>送出</button></center>
+         </div>
+      </div>
+
+
+      <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+      <script src="firebase/init.js"></script>
+      <script src="firebase/main.js"></script>
+      <script src="firebase/nav.js"></script>
+      <script src="firebase/accountManage.js"></script>
+   </body>
+</html>

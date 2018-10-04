@@ -51,6 +51,7 @@ function initPage(){
    employeeRef = firebase.database().ref("employee/" + farmNo);
    employeeRef.once("value").then(function(snapshot){
       i = 0;
+      console.log("snapshot length : " + snapshot.numChildren());
       snapshot.forEach(function(employee){
          item = [];
          entry = employee.val();
