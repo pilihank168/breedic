@@ -268,3 +268,25 @@ function editFarm(farmNo){
       location.reload();
    });
 }
+
+function searchData(){
+   $("#activeers tr").not(":first").remove();
+   var text = $("#search-bar input[name='search']").val();
+   $.each(farms, function(index, value){
+      var flag = false;
+      $.each(value, function(index2, value2){
+         if($.isNumeric(value2)){
+            value2 = value2.toString();
+         }
+         if(value2.search(text) != -1){
+            flag = true;
+         }
+      }); 
+      if(flag){
+         var active_string = value[10]? "是":"否";
+         var button_string = "<button class='button' style='background-color:#e89980;' onClick='showFarm(" + value[0] + ")'>查看</button>"
+
+         $("#activeers tr:last").after("<tr id='farm" + value[0] + "'><td>" + value[0] + "</td><td>" + value[1] + "</td><td>" + value[9] + "</td><td>" + value[8] + "</td><td>" + active_string + "</td><td>" + button_string + "</td></tr>");
+      }
+   });
+}

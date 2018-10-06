@@ -46,12 +46,22 @@
             </nav>
          </header>
 
+
          <!-- Main Content -->
          <section id="main" class="container 125%">
             <header>
                <h2>豬場帳號管理</h2>
             </header>
-            <div class="box">
+            <div class="row" id="search-bar">
+               <div class="3u">&nbsp;</div>
+               <div class="5u">
+                  <input type="text" name="search"/>
+               </div>
+               <div class="1u"><button class="button big" style="background-color:#e89980; padding-up:5px;" onClick="searchData();">搜尋</button></div>
+               <div class="3u">&nbsp;</div>
+            </div>
+            
+            <div class="box" style="margin-top: 20px;">
                <section>
                   <table id="activeers">
                      <tr>
