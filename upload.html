@@ -11,6 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -67,13 +68,26 @@
 								<div id="content">
 									<!-- Content -->
 									<center>
-									<ul class="alt">
-										<li><a href="#">母豬記錄表</a></li>
-										<li><a href="batchBoars.html">公豬記錄表</a></li>
-										<li><a href="#">仔豬記錄表</a></li>
-										<li><a href="#">保育豬記錄表</a></li>
-									</ul>
-										<input class="button small" value="上傳" />
+                              <ul class="alt">
+                                 <li><a href="#">母豬記錄表</a></li>
+                                 <li><a href="batchBoars.html">公豬記錄表</a></li>
+                                 <li><a href="#">仔豬記錄表</a></li>
+                                 <li><a href="#">保育豬記錄表</a></li>
+                              </ul>
+									<!--input class="button small" value="上傳" /-->
+
+                           <form action="" class="dropbox" method="post">
+                              <div class="box_input">
+                                 <input id="file" class="box_file" name="file" type="file"/>
+                                 <label for="file"><strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span></label>
+                                 <center id="upload-files-display"></center>
+                              </div>
+                              <button class="box_button button" type="submit">上傳</button>
+                              <div class="box_uploading">上傳中&hellip;</div>
+                              <div class="box_success">完成！</div>
+                              <div class="box_error">噢不！發生錯誤！</div>
+                           </form>
+
 									</center>
 								</div>
 							</div>
@@ -113,8 +127,10 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-			<script src="firebase/test.js"></script>
+			<!--script src="firebase/test.js"></script-->
 			<script src="firebase/nav.js"></script>
+			<!--script src="firebase/dropzone.js"></script-->
+         <script src="firebase/upload.js"></script>
 
 	</body>
 </html>
