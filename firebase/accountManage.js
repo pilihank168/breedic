@@ -28,8 +28,8 @@ function initPage(){
          var farmOwnerName;
          var farmOwnerEmail;
 
-         userRef = firebase.database().ref("users/" + farmOwner);
-         userRef.once("value").then(function(snapshot2){
+         ownerRef = firebase.database().ref("users/" + farmOwner);
+         ownerRef.once("value").then(function(snapshot2){
             var entry2 = snapshot2.val();
             farmOwnerName = defined(entry2.name);
             farmOwnerEmail = defined(entry2.email);

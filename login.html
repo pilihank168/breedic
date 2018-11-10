@@ -45,11 +45,11 @@
 						<form method="POST" id="loginForm">
 							<div class="row uniform 50%">
 								<div class="12u">
-									使用者名稱
+									<label for="name">使用者名稱</label>
 									<input type="text" name="name" id="account"/>
 								</div>
 								<div class="12u">
-									密碼 (<a href="#">忘記密碼？</a>)
+									<label for="password">密碼 (<a href="#">忘記密碼？</a>)</label>
 									<input type="password" name="password" id="password"/>
 								</div>
 							</div>
@@ -57,10 +57,11 @@
 								<div class="3u">
 								</div>
 								<div class="6u 12u(mobilep)">
-									<center><p id="errMessage" style="color:red;visibility:hidden"></p></center>
+									<center><p id="errMessage" style="color:red;visibility:hidden"></p>
 									<ul class="actions">
-										<li><input class="button fit" value="登入" id="loginBtn" /></li>
+										<li><input type="submit" class="button fit" value="登入" id="loginBtn" /></li>
 									</ul>
+									</center>
 								</div>
 							</div>
 						</form>
@@ -97,10 +98,11 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-			<script src="firebase/index.js"></script>
 			<script src="firebase/init.js"></script>
+			<script src="firebase/index.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/login.js"></script>
+			<script src="firebase/nav.js"></script>
 
 	</body>
 </html>

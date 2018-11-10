@@ -5,22 +5,15 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <style>
-	table td:hover{
-		cursor:pointer;
-	}
 	table{
 		width:100%;
-	}
-	table tr:nth-child(even) {
-		background-color: #eee;
-	}
-	table tr:nth-child(odd) {
-		background-color: #fff;
 	}
 	table th{
 		word-break: keep-all !important;
 		text-align: center !important;
 	}
+	td {margin: 0 !important; padding: 0!important;}
+	input[type='date'] {width: auto !important;}
 </style>
 <html>
 	<head>
@@ -29,7 +22,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -50,16 +43,16 @@
 				<section id="main" class="container 125%">
 					<header>
 						<div style="margin: 0px auto;">
-							<a href="upload.html">豬隻資料</a>
+							<a href="upload.html" style="color:gray;">豬隻資料</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="record.html" style="color:gray;">工作記錄</a>
+							<a href="record.html">工作記錄</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="report.html" style="color:gray;">查看分析報告</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="recommend.html" style="color:gray;">選拔建議</a>
 						</div>
 						</br>
-						<h2>母豬列表</h2>
+						<h2>輸入採精記錄</h2>
 					</header>
 					<div class="box">
 						<div class="row uniform 200%">
@@ -68,13 +61,15 @@
 									<!-- Sidebar -->
 										<section>
 											<ul class="alt">
-												<li><a href="upload.html" class="button alt fit small">一次上傳</a></li>
+												<li><a href="record.html" class="button alt fit small">一次上傳</a></li>
 											</ul>
 											<ul class="alt">
-												<li><a href="boarlist.html" class="button alt fit">公豬</a></li>
-												<li><a href="sowlist.html" class="button special fit">母豬</a></li>
-												<li><a href="litters.html" class="button alt fit">仔豬</a></li>
-												<li><a href="weanerlist.html" class="button alt fit">保育豬</a></li>
+												<li><a href="service.html" class="button alt fit">配種</a></li>
+												<li><a href="semen.html" class="button special fit">採精</a></li>
+												<li><a href="diagnosis.html" class="button alt fit">測孕</a></li>
+												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
+												<li><a href="wean.html" class="button alt fit">離乳</a></li>
+												<li><a href="export.html" class="button alt fit">出豬</a></li>
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -84,65 +79,59 @@
 							</div>
 							<div class="8u  12u(narrower) important(narrower)">
 								<div id="content">
-
 									<!-- Content -->
-									<div class="row uniform">
-										<div class="6u 8u(narrower)">
-											<input type="text" placeholder="搜尋" id='search'/>
+									<form id="form">
+										<div class="row uniform 50%">
+												<span>日期</span>
+											<div class="3u">
+												<input type="date" id="date">
+											</div>
 										</div>
-										<div class="3u 4u(narrower)">
-										<div class="select-wrapper">
-											<select id="filters">
-											<option value='earmark'>耳號</option>
-											<option value='strain'>品種</option>
-											<option value='registerNo'>序號</option>
-											<option value='birthday'>生日</option>
-											<option value='fatherNo'>父畜</option>
-											<option value='motherNo'>母畜</option>
-											</select>
-										</div>
-										</div>
-										<div class="3u 12u(narrower)">
-											<input class="button fit" id='searchBtn' value="查詢"/>
-										</div>
-									</div>
-									<div class="row uniform">
-										<div class="4u 12u(narrower)">
-										<div class="select-wrapper">
-											<select id="tableFilter">
-											<option value="earmark">依耳號排列</option>
-											<option value="strain">依品種排列</option>
-											<option value="location">依位置排列</option>
-											<option value="birthday">依生日排列</option>
-											</select>
-										</div>
-										</div>
-										<div class="8u 12u(narrower)" align='right'>
-										<input type="submit" value="新增母豬" class="special"
-										    onclick="window.location='uploadSow.html';" />  
-										</div>
-									</div>
-									</br>
-									<table align="center" id="table" class="hover stripe" style='visibility:hidden'>
-										<thead>
-											<tr>
-												<th>品種</th>
-												<th>母豬耳號</th> 
-												<th>母豬序號</th>
-												<th>出生日期</th>
-												<th>父畜序號</th>
-												<th>母畜序號</th>
-												<th>位置</th>
-												<th>目前狀況</th>
-												<th>備註</th>
+										<br>
+										<table align="center" id="table" class="hover stripe">
+											<thead>
+												<tr>
+													<th>公豬耳號</th>
+													<th>精液量</th> 
+													<th>精液濃度</th>
+													<th>活力</th>
+													<th>畸形</th> 
+													<th>頭頸</th> 
+													<th>中片</th> 
+													<th>稀釋數</th> 
+													<th>可用</th> 
+													<th>備註</th>
+												</tr>
+											</thead>
+											<tbody id="tableBody">
+											<tr id="inputRow">
+												<td><input id="earmark" type="text" required></td>
+												<td><input id="volume" type="text"></td>
+												<td><input id="concentration" type="text"></td>
+												<td><input id="activity" type="text"></td>
+												<td><input id="a" type="text"></td>
+												<td><input id="b" type="text"></td>
+												<td><input id="c" type="text"></td>
+												<td><input id="dilute" type="text"></td>
+												<td><input id="available" type="text"></td>
+												<td><input id="note" type="text"></td>
 											</tr>
-										</thead>
-										<tbody id="tableBody">
-										</tbody>
-									</table>
+											</tbody>
+										</table>
+										<div class="row">
+											<div class="6u">
+												<input type="submit" class="button" value="+">
+											</div>
+											<div class="6u" align="right">
+												<span class="button">儲存</span>
+											</div>
+										</div>
+									</form>
 								</div>
 							</div>
+							<div class="2u 12u(narrower)"></div>
 						</div>
+					</div>
 					</div>
 				</section>
 
@@ -173,16 +162,14 @@
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
-			<script src="assets/js/jquery.scrollgress.min.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-			<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+			<!--script src="firebase/test.js"></script-->
+			<script src="firebase/nav.js"></script>
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
-			<script src="firebase/nav.js"></script>
-			<script src="firebase/listDataTable.js"></script>
-			<script src="firebase/sowlist.js"></script>
+         	<script src="firebase/uploadSemen.js"></script>
 
 	</body>
 </html>

@@ -25,4 +25,9 @@ $("#file").change(function(){
    var filename = $("#file")[0].files[0].name;
    $("#upload-files-display").empty();
    $("#upload-files-display").append(filename);
+console.log($("#file")[0].files)
 });
+
+var ctx = document.getElementById('myChart').getContext('2d');
+
+renderChart(ctx, ["January", "February", "March", "April", "May", "June", "July"], [0, 10, 5, 2, 20, 30, 45], 'weight');

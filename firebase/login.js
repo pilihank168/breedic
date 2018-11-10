@@ -6,9 +6,10 @@ firebase.auth().onAuthStateChanged(function(user) {
 });
 
 //login
-var loginSmtBtn = document.getElementById("loginBtn");
 var errMessage = document.getElementById("errMessage");
-loginSmtBtn.addEventListener("click",function(){
+var loginForm = document.getElementById("loginForm");
+loginForm.addEventListener("submit",function(event){
+	event.preventDefault();
 	var accountL = document.getElementById("account");
 	var pwdL = document.getElementById("password");
 	console.log(accountL.value);
@@ -21,6 +22,7 @@ loginSmtBtn.addEventListener("click",function(){
 		console.log(url.searchParams.get("go"));
 		var path = url.searchParams.get("go") ? url.searchParams.get("go") : 'index.html';
 		console.log(path);
+		console.log('yoyoyoyoyo');
 		window.location.replace(path);
 	})
 	.catch(function(error) {

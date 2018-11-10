@@ -1,39 +1,26 @@
-// Initialize Firebase
-var config = {
-apiKey: "AIzaSyDARFJhNCdtGa3rWyJmE8zGawiwlbNBFpE",
-		authDomain: "breedic-ba254.firebaseapp.com",
-		databaseURL: "https://breedic-ba254.firebaseio.com",
-		projectId: "breedic-ba254",
-		storageBucket: "breedic-ba254.appspot.com",
-		messagingSenderId: "607804503321"
-};
-firebase.initializeApp(config);
-function centerCell(row,i){
-	cell=row.insertCell(i);
-	cell.setAttribute('style','text-align:center;');
-	return cell;
+// Get Elements
+var table = document.getElementById("tableBody");
+var key = document.getElementById('filters');
+var query = document.getElementById('search');
+var dataTable = '';
+var weanerRefPath;
+var weanerKey = ['strain', 'earmark', 'identity', 'gender', 'age', 'location'];
+
+function weanerSearch(snapshot, key, query){
+	return (key==-1 || query=='' || snapshot.child(key).val().includes(query))
 }
 
-function defined(content){return content ? content : '';}
+// Initial Table
+function initPage(){
+	weanerRefPath = 'weanerList/' + userData.currentFarm + '/';
+	loadTable(weanerRefPath, 'strain', -1, '', weanerSearch, weanerKey).then(function(){makeDataTable('#table');});
+}
 
-var weanerList = document.getElementById("weanerList");
-var table = document.getElementById("weanerTable");
-var weanerRef = firebase.database().ref('weanerList/0/').orderByChild("earmark");
-weanerRef.once('value').then(function(snapshot){
-	snapshot.forEach(function(childSnapshot) {
-		entry = childSnapshot.val();
-		console.log(childSnapshot.key);
-		var row = table.insertRow(-1);
-		var cells = [];
-		for(i=0;i<6;i++){
-			var cell = centerCell(row,i);
-			cells.push(cell);
-		}
-		cells[0].innerHTML = entry.strain;
-		cells[1].innerHTML = entry.earmark;
-		cells[2].innerHTML = entry.identity;
-		cells[3].innerHTML = entry.gender;
-		cells[4].innerHTML = entry.age;
-		cells[5].innerHTML = defined(entry.location);
-	});
-})
+// Search
+$('#searchBtn').click(function(){
+	console.log(query.value, key.value);
+	$('#table').css('visibility', 'hidden');
+	console.log(dataTable);
+	dataTable.destroy();
+	loadTable(weanerRefPath, 'strain', key.value, query.value, weanerSearch, weanerKey).then(function(){makeDataTable('#table');});
+});

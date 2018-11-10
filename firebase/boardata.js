@@ -29,7 +29,7 @@ var boarsRef = firebase.database().ref('boars/0/'+earmark);
 boarsRef.once('value').then(function(snapshot){
 	var photoPath = "gg";
 	entry = snapshot.val();
-	console.log(snapshot.key);
+	console.log(snapshot.key, snapshot.val());
 	var row = table.insertRow(1);
 	var cell0 = centerCell(row,0);
 	var cell1 = centerCell(row,1);

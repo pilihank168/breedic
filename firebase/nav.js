@@ -11,23 +11,31 @@ function logout(){
 	return false;
 }
 
-function makeFarmList(currentFarm, farms){
+function changeCurrentFarm(farmNo){
+	userRef.update({currentFarm:farmNo}).then(()=>{
+		window.location.replace(window.location.href);
+	});
+}
+
+function makeFarmList(){
+	var currentFarm = userData.currentFarm
+	var farms = userData.farmNo
 	var farmList = '';
 	var promiseArray = [];
 	for(var i=0; i<farms.length; i++){
-		const p = firebase.database().ref('farms/' + farms[i]);
+		const p = firebase.database().ref('farms/' + farms[i]).once('value');
 		promiseArray.push(p);
 	}
-	Promise.all(promiseArray).then((snapshot)=>{
+	return Promise.all(promiseArray).then((snapshot)=>{
 		for(var i=0; i<promiseArray.length; i++){
 			if(farms[i]===currentFarm){
-				farmList += '<li><a href="#" nam="list"><b>' + snapshot[i].val().name + '</b></a></li>';
+				farmList += '<li><a href="#" name="list"><b>' + snapshot[i].val().name + '</b></a></li>';
 			}
 			else{
-				farmList += '<li><a href="#" nam="list">' + snapshot[i].val().name + '</a></li>';
+				farmList += '<li><a href="#" name="list" onclick = "changeCurrentFarm('+snapshot[i].val().farmNo+ ')">' + snapshot[i].val().name + '</a></li>';
 			}
 		}
-		return '<li><ul>' + farmList + '</ul></li>';
+		return '<li><a href="#" name="list">選擇豬場</a><ul>' + farmList + '</ul></li>';
 	}).catch((error)=>{
 		console.log(error);
 	})
@@ -71,31 +79,34 @@ function makeNav(role){
 		'<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
 	}
 	else if (role=='owner'){
-		nav.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
-		'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
-			'<ul id="dataList">' +
-				'<li><a href="upload.html" name="list">豬隻資料</a></li>' +
-				'<li><a href="record.html" name="list">工作紀錄</a></li>' +
-				'<li><a href="report.html" name="list">查看分析報告</a></li>' +
-				'<li><a href="recommend.html" name="list">選拔建議</a></li>' +
-			'</ul>' +
-		'</li>' +
-		'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
-			'<ul id="geneList">' +
-				'<li><a href="#" name="list">訂單管理</a></li>' +
-				'<li><a href="#" name="list">檢測結果上傳</a></li>' +
-				'<li><a href="#" name="list">歷史訂單</a></li>' +
-			'</ul>' +
-		'</li>' +
-		'<li> <a href="#contact">聯絡我們</a> </li>' +
-		'<li> <a href="workerManager.html" class="icon fa-angle-down">設定</a>' + 
-			'<ul id="settingList">' +
-				'<li><a href="workerManager.html" name="list">員工管理</a></li>' +
-				'<li><a href="#plan" name="list">飼養計畫</a></li>' +
-				// makeFarmList() +
-			'</ul>' +
-		'</li>' +
-		'<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
+		makeFarmList().then((farmList)=>{
+			nav.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
+			'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
+				'<ul id="dataList">' +
+					'<li><a href="upload.html" name="list">豬隻資料</a></li>' +
+					'<li><a href="record.html" name="list">工作紀錄</a></li>' +
+					'<li><a href="report.html" name="list">分析報告</a></li>' +
+					'<li><a href="recommend.html" name="list">選拔建議</a></li>' +
+				'</ul>' +
+			'</li>' +
+			'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
+				'<ul id="geneList">' +
+					'<li><a href="#" name="list">訂單管理</a></li>' +
+					'<li><a href="#" name="list">檢測結果上傳</a></li>' +
+					'<li><a href="#" name="list">歷史訂單</a></li>' +
+				'</ul>' +
+			'</li>' +
+			'<li> <a href="#contact">聯絡我們</a> </li>' +
+			'<li> <a href="workerManager.html" class="icon fa-angle-down">設定</a>' + 
+				'<ul id="settingList">' +
+					'<li><a href="workerManager.html" name="list">員工管理</a></li>' +
+					'<li><a href="#plan" name="list">飼養計畫</a></li>' +
+					 farmList +
+				'</ul>' +
+			'</li>' +
+			'<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
+			renderNav();
+		});
 	}
 	else if (role=='employee'){
 		nav.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 

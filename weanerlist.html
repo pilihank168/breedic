@@ -17,8 +17,6 @@
 	table th{
 		word-break: keep-all !important;
 		text-align: center !important;
-		background-color: #e89980 !important;
-		color: white !important;
 	}
 </style>
 <html>
@@ -28,6 +26,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -40,27 +39,6 @@
 					<!-- Nav -->
 					<nav id="nav">
 						<ul id="ul">
-							<li><a href="index.html">首頁</a></li>
-							<li class="current">
-								<a href="#data" class="icon fa-angle-down">數據分析</a>
-								<ul id='dataList'>
-									<li><a href="upload.html" name='list'>豬隻資料</a></li>
-									<li><a href="record.html" name='list'>工作記錄</a></li>
-									<li><a href="report.html" name='list'>查看分析報告</a></li>
-									<li><a href="recommend.html" name='list'>選拔建議</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#gene" class="icon fa-angle-down">基因檢測</a>
-								<ul id='geneList'>
-									<li><a href="service.html" name='list'>服務說明</a></li>
-									<li><a href="application.html" name='list'>提出申請</a></li>
-									<li><a href="progress.html" name='list'>進度查詢</a></li>
-									<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
-								</ul>
-							</li>
-							<li><a href="#contact">聯絡我們</a></li>
-							<li id='logInOut'><a href="#" class="button"  onclick="logout()">登出</em></a></li>
 						</ul>
 					</nav>
 				</header>
@@ -71,7 +49,7 @@
 						<div style="margin: 0px auto;">
 							<a href="upload.html">豬隻資料</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="report.html" style="color:gray;">工作記錄</a>
+							<a href="record.html" style="color:gray;">工作記錄</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="report.html" style="color:gray;">查看分析報告</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -112,18 +90,10 @@
 										<div class="3u 4u(narrower)">
 											<div class="select-wrapper">
 												<select id="filters">
-												<option value=1>耳號</option>
-												<option value=0>品種</option>
-												<option value=2>序號</option>
-												<option value=3>生日</option>
 												<option value="earmark">耳號</option>
 												<option value="strain">品種</option>
-												<option value="identity">用途</option>
-												<option value="number">序號</option>
-												<option value="age">日齡</option>
-												<option value="father">父畜</option>
-												<option value="mother">母畜</option>
-												<option value="location">棟舍</option>
+												<option value="registerNo">序號</option>
+												<option value="location">位置</option>
 												</select>
 											</div>
 										</div>
@@ -132,7 +102,8 @@
 										</div>
 									</div>
 									</br>
-									<table align="center" id="weanerTable">
+									<table align="center" id="table" class="hover stripe" style='visibility:hidden'>
+										<thead>
 											<tr>
 												<th>品種</th>
 												<th>耳號</th> 
@@ -141,6 +112,9 @@
 												<th>日齡</th>
 												<th>位置</th>
 											</tr>
+										</thead>
+										<tbody id="tableBody">
+										</tbody>
 									</table>
 
 								</div>
@@ -180,7 +154,12 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+			<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+			<script src="firebase/init.js"></script>
+			<script src="firebase/main.js"></script>
+			<script src="firebase/listDataTable.js"></script>
 			<script src="firebase/weanerlist.js"></script>
+			<script src="firebase/nav.js"></script>
 
 	</body>
 </html>
