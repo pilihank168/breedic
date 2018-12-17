@@ -151,13 +151,13 @@ function addFarm(newuser){
    var farmRef = firebase.database().ref("farms/" + farm_total_count);
 
    if(newuser){
-      toBeCreated = firebase.database().ref("ownerToBeCreated");
-      const p1 = toBeCreated.push({
+      toBeCreated = firebase.database().ref("ownerToBeCreated").push();
+      const p1 = toBeCreated.set({
          "type": 'create',
          "email": ownerEmail,
          "password": ownerPassword,
          "name": ownerName,
-         "active": active,
+         "active": 1,
          "farmNo": farm_total_count,
          "role": "owner",
          "currentFarm": farm_total_count,

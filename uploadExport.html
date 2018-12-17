@@ -8,6 +8,9 @@
 	table th{
 		text-align: center !important;
 	}
+	input[type="number"]{width:100%!important; height:3em!important;}
+	#earmarks .row{margin-top:0.5em!important;}
+	#earmarks .row div{padding-left:0.5em!important;}
 </style>
 <html>
 	<head>
@@ -64,6 +67,7 @@
 												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
 												<li><a href="wean.html" class="button alt fit">離乳</a></li>
 												<li><a href="export.html" class="button special fit">出豬</a></li>
+												<li><a href="physical.html" class="button alt fit">體測</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -74,41 +78,41 @@
 							<div class="8u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<form>
+									<form id="export">
 										<div class="row">
-											<div class="2u" style="align:right">
-											<span class="label">
-												<label for="date">出豬日期：</label>
-											</span>
-											</div>
-											<input type="text" id="date" style="width:auto">
-											<div class="2u" style="align:right">
-											<span class="label">
-												<label for="name">訂單名稱：</label>
-											</span>
-											</div>
-											<input type="text" id="name" style="width:auto">
+										<div class="2u" align="right">
+											<span class="label">出豬日期：</span>
 										</div>
-										<div class="row">
-											<div class="2u" style="align:right">
-											<span class="label">
-												<label for="number">數量：</label>
-											</span>
-											</div>
-											<input type="text" id="number" style="width:auto">
-											<div class="2u" style="align:right">
-											<span class="label">
-												<label for="note">備註：</label>
-											</span>
-											</div>
-											<input type="text" id="note" style="width:auto">
+										<div class="4u" style="padding-left:0.5em!important">
+											<input type="date" id="date" required>
 										</div>
-										<div class="row uniform 50%">
-												<label for="content">訂單內容：</label>
-											<div class="10u">
-												<textarea type="text" rows="6" id="content"></textarea>
-											</div>
+										<div class="2u" align="right">
+											<span class="label">訂單名稱：</span>
 										</div>
+										<div class="4u" style="padding-left:0.5em!important">
+											<input type="text" id="name" required>
+										</div>
+									</div>
+										<br>
+									<div class="row">
+										<div class="2u" align="right">
+											<span class="label">訂單說明：</span>
+										</div>
+										<div class="4u" style="padding-left:0.5em!important">
+											<input type="text" id="note">
+										</div>
+										<div class="2u" align="right">
+											<span class="label">訂單數量：</span>
+										</div>
+										<div class="2u" style="padding-left:0.5em!important">
+											<input type="number" id="number" required min="1" step="1">
+										</div>
+										<div class="2u" style="padding-left:0.5em!important" align="right">
+											<input type="submit" class="button alt" value="下一步">
+										</div>
+									</div>
+									</form>
+									<form id="earmarks">
 									</form>
 								</div>
 							</div>
@@ -154,7 +158,7 @@
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/uploadExport.js"></script>
 
 	</body>
 </html>

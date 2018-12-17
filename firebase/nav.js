@@ -57,7 +57,6 @@ function makeNav(role){
 				'<li><a href="#" name="list">歷史訂單</a></li>' +
 			'</ul>' +
 		'</li>' +
-		'<li> <a href="#contact">聯絡我們</a> </li>' +
 		'<li> <a href="accountManage.html" name="list">帳號管理 </li>' +
 		'<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
 	}
@@ -66,7 +65,7 @@ function makeNav(role){
 		'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 			'<ul id="dataList">' +
 				'<li><a href="upload.html" name="list">資料查看</a></li>' +
-				'<li><a href="record.html" name="list">資料分析</a></li>' +
+				'<li><a href="analysis.html" name="list">資料分析</a></li>' +
 			'</ul>'+
 		'</li>' +
 		'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
@@ -96,7 +95,6 @@ function makeNav(role){
 					'<li><a href="#" name="list">歷史訂單</a></li>' +
 				'</ul>' +
 			'</li>' +
-			'<li> <a href="#contact">聯絡我們</a> </li>' +
 			'<li> <a href="workerManager.html" class="icon fa-angle-down">設定</a>' + 
 				'<ul id="settingList">' +
 					'<li><a href="workerManager.html" name="list">員工管理</a></li>' +
@@ -116,7 +114,6 @@ function makeNav(role){
 				'<li><a href="record.html" name="list">工作紀錄</a></li>' +
 			'</ul>' +
 		'</li>' +
-		'<li> <a href="#cta">聯絡我們</a> </li>' +
 		'<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
 	}
 	else {

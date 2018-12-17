@@ -7,8 +7,15 @@ var upload = document.getElementById("upload");
 var d = new Date();
 var promise_array=[];
 
+function localDateStr(d){
+	str = d.toLocaleDateString().split("/");
+	yStr = str[0];
+	mStr = ("0" + str[1]).slice(-2);
+	dStr = ("0" + str[2]).slice(-2);
+	return [yStr, mStr, dStr].join("-");
+}
 function initPage(){
-	date.valueAsDate=d;
+	date.value = localDateStr(d);
 //	loadExistedData();
 }
 
@@ -17,16 +24,18 @@ function initPage(){
 //});
 
 function loadExistedData(){
-	keyArray = ["earmark", "volume", "concentration", "activity", "var5", "var6", "var7", "dilute", "available", "note"];
-	var listRef = firebase.database().ref("semen/" + userData.currentFarm + "/").orderByChild("earmark");
+	keyArray = ["earmark", "sex", "weight", "fat", "depth", "surface", "note"];
+	var listRef = firebase.database().ref("physical/" + userData.currentFarm + "/").orderByChild("earmark");
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
 			console.log(0);
 			var row = table.insertRow(table.rows.length-1);
 			for(i=0;i<keyArray.length;i++){
 				var cell = row.insertCell(i);
-				cell.innerHTML = childSnapshot.child(keyArray[i]).val()
+				data = childSnapshot.child(keyArray[i]).val()
+				cell.innerHTML = i!=1 ? data : (data=="sow"?"母豬":"公豬")
 			}
+			row.insertCell(-1)
 		});
 	});
 }
@@ -34,46 +43,47 @@ function loadExistedData(){
 upload.addEventListener("click", ()=>{
 	for(i=0;i<table.children.length-1;i++){
 		if(table.children[i].getAttribute('class')=="newRow"){
-			semenPromise(table.children[i]);
+			physicalPromise(table.children[i]);
 		}
 	}
 	Promise.all(promise_array).then( ()=>{
-		window.location.replace("semen.html")//location.href)
+		window.location.replace(location.href)
 	});
 });
 
-function semenPromise(row){
-	semenRef = firebase.database().ref("semen/" + userData.currentFarm + "/").push();
+function physicalPromise(row){
+	physicalRef = firebase.database().ref("physical/" + userData.currentFarm + "/").push();
 	//keys = ["earmark", "volume", "concentration", "activity", var5, var6, var7, "dilute", "available", "note"]
-	const p = semenRef.set({
+	const p = physicalRef.set({
 		earmark:row.children[0].innerHTML,
-		volume:row.children[1].innerHTML,
-		concentration:row.children[2].innerHTML,
-		activity:row.children[3].innerHTML,
-		var5:row.children[4].innerHTML,
-		var6:row.children[5].innerHTML,
-		var7:row.children[6].innerHTML,
-		dilute:row.children[7].innerHTML,
-		available:row.children[8].innerHTML,
-		note:row.children[9].innerHTML
+		sex:(row.children[1].innerHTML=='母豬'?'sow':'boar'),
+		weight:row.children[2].innerHTML,
+		fat:row.children[3].innerHTML,
+		depth:row.children[4].innerHTML,
+		surface:row.children[5].innerHTML,
+		note:row.children[6].innerHTML,
+		date:date.value
 	});
 	promise_array.push(p);
 }
 
 form.addEventListener("submit", (event)=>{
 	event.preventDefault();
+	console.log(row.children[1].children[0].children["sex"].value)
+	console.log(document.getElementById("form"));
 	console.log(table);
 	var newRow = table.insertRow(table.rows.length-1);
 	newRow.setAttribute('class', 'newRow');
 	var cells = [];
-	for(i=0;i<row.children.length;i++){
+	for(i=0;i<row.children.length-1;i++){
 		var cell = newRow.insertCell(i);
-		cell.innerHTML = row.children[i].children[0].value;
+		console.log(row.children[i]);
+		cell.innerHTML = i!=1?row.children[i].children[0].value:(document.getElementById("f").checked?"母豬":"公豬");
 		row.children[i].children[0].value='';
 	}
-	var cell = newRow.insertCell(row.children.length);
+	var cell = newRow.insertCell(row.children.length-1);
 	var deleteBtn = document.createElement('span');
-	deleteBtn.setAttribute("class", "button small");
+	deleteBtn.setAttribute("class", "button small alt");
 	deleteBtn.innerHTML = "×";
 	deleteBtn.addEventListener("click", function(){
 		this.closest("tbody").removeChild(this.closest("tr"));

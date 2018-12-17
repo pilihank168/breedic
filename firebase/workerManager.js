@@ -6,30 +6,30 @@ function defined(content) {
 function permissionMaking(p){
    var view, add, edit, report;
    if(p.search("view") != -1){
-      view = "<input type='checkbox' checked><label>檢視</label>";
+      view = "<span class='label'><input type='checkbox' checked><label>檢視</label></span>";
    }
    else{
-      view = "<input type='checkbox' ><label>檢視</label>";
+      view = "<span class='label'><input type='checkbox' ><label>檢視</label></span>";
    }
    if(p.search("add") != -1){
-      add = "<input type='checkbox' checked><label>新增</label>";
+      add = "<span class='label'><input type='checkbox' checked><label>新增</label></span>";
    }
    else{
-      add = "<input type='checkbox'><label>新增</label>";
+      add = "<span class='label'><input type='checkbox'><label>新增</label></span>";
    }
 
    if(p.search("edit") != -1){
-      edit = "<input type='checkbox' checked><label>修改</label>";
+      edit = "<span class='label'><input type='checkbox' checked><label>修改</label></span>";
    }
    else{
-      edit = "<input type='checkbox'><label>修改</label>";
+      edit = "<span class='label'><input type='checkbox'><label>修改</label></span>";
    }
 
    if(p.search("report") != -1){
-      report = "<input type='checkbox' checked disabled='disabled'><label>報表</label>";
+      report = "<span class='label'><input type='checkbox' checked disabled='disabled'><label>報表</label></span>";
    }
    else{
-      report = "<input type='checkbox' disabled='disabled'><label>報表</label>";
+      report = "<span class='label'><input type='checkbox' disabled='disabled'><label>報表</label></span>";
    }
 
    return view + add + edit + report;

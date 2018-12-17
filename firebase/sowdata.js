@@ -28,6 +28,7 @@ var origin = document.getElementById("origin");
 var sowListRef = firebase.database().ref('sowList/0/'+earmark);
 var sowsRef = firebase.database().ref('sows/0/'+earmark);
 var productionRef = firebase.database().ref('production/0/'+earmark).orderByChild('parity');
+var datail1 = document.getElementById("detail1");
 const p1 = sowListRef.once('value');
 const p2 = sowsRef.once('value');
 const p3 = productionRef.once('value');
@@ -41,6 +42,7 @@ Promise.all([p1, p2, p3]).then(function(snapshot){
 		var cell = centerCell(row,i);
 		cells.push(cell);
 	}
+	detail1.children[0].children[0].children[0].innerHTML = "品種：" + entry1.strain;
 	cells[0].innerHTML = entry1.strain;
 	cells[1].innerHTML = entry1.earmark;
 	cells[2].innerHTML = entry1.registerNo;
@@ -60,7 +62,7 @@ Promise.all([p1, p2, p3]).then(function(snapshot){
 	$('#progressBar').stepProgressBar({
 	  currentValue: 100,
 	  steps: [
-		{ value: 0, bottomLabel : '0 day'},
+		{ value: 0, bottomLabel : '配種日'},
 		{ value: 100, topLabel: '', bottomLabel:' '},
 		{ value: 114, topLabel: '分娩'},
 		{ topLabel: '離乳', value: 135,},

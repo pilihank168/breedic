@@ -8,6 +8,10 @@
 	table th{
 		text-align: center !important;
 	}
+	.hover tbody tr:hover{
+		cursor:pointer;
+		background-color:#eee!important;
+	}
 </style>
 <html>
 	<head>
@@ -15,6 +19,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -33,6 +38,41 @@
 					</nav>
 				</header>
 
+		<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-lg modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title" id="modal-title">訂單詳情</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="modal-content">
+
+									<!-- Content -->
+									<table class="alt" id="content-table">
+										<tr>
+											<td width="20%">1</td>
+											<td width="20%">L201-4</td>
+											<td width="20%">1</td>
+											<td width="20%">1</td>
+											<td width="20%">1</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+											<td>1</td>
+										</tr>
+									</table>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- Main -->
 				<section id="main" class="container 125%">
 					<header>
@@ -64,6 +104,7 @@
 												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
 												<li><a href="wean.html" class="button alt fit">離乳</a></li>
 												<li><a href="export.html" class="button special fit">出豬</a></li>
+												<li><a href="physical.html" class="button alt fit">體測</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -71,20 +112,23 @@
 										</section>
 								</div>
 							</div>
-							<div class="8u  12u(narrower) important(narrower)">
+							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
 									<form>
-										<div class='row'>
-											<div class='4u'>
-												<input type='date' value='1994-11-25'>
+										<div class="row uniform 50%">
+											<div class="2u 12u(narrower)">
+											<span class="label">
+												<a href='uploadExport.html' class="button small special">輸入出豬紀錄</a>
+											</span>
 											</div>
-											<div class='3u'>
-												<input class='button fit' value='以日期查詢'/>
-											</div>
-										</div>
-										<div class='row'>
-											<div class='2u'>
+										<div class="10u 12u(narrower)">
+										<div class="row uniform 50%">
+											<span class="label">
+												<input type="radio" id='boarRadio' name="filter">
+												<label for="boarRadio">以豬隻查詢：</label>
+											</span>
+											<div class="2u">
 												<div class="select-wrapper">
 													<select id="filters">
 													<option value='strain'>品種</option>
@@ -95,26 +139,35 @@
 													</select>
 												</div>
 											</div>
-											<div class='2u'>
-												<input type='text'>
+											<div class="4u">
+											<input type='text'>
 											</div>
-											<div class='3u'>
-												<input class="button fit" id='searchBtn' value="以豬隻查詢"/>
+										</div>
+
+										<div class='row uniform 50%' style="padding-top:0.5em!important;">
+											<span class="label">
+												<input type="radio" id='dateRadio' name="filter" checked>
+												<label for="dateRadio">以日期查詢：</label>
+											</span>
+											<div class='3u 6u(narrower)'>
+											<input type="date">
 											</div>
-											<div class='2u'><p></p></div>
-											<div class='3u'>
-												<a href='uploadExport.html' class="button fit small special">輸入出豬紀錄</a>
+											<div class='1u'>
 											</div>
+											<div class="2u">
+											<a class="button fit" style="text-decoration:none!important; color:white">搜尋</a>
+											</div>
+										</div>
+										</div>
 										</div>
 									</form>
 									<table align="center" id="table" class="hover stripe">
 										<thead>
 											<tr>
-												<th>出豬日期</th>
-												<th>訂單名稱</th> 
-												<th>數量</th>
-												<th>備註</th>
-												<th>查看詳情</th> 
+												<th width="25%">出豬日期</th>
+												<th width="25%">訂單名稱</th> 
+												<th width="25%">數量</th>
+												<th width="25%">備註</th>
 											</tr>
 										</thead>
 										<tbody id="tableBody">
@@ -152,6 +205,7 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
@@ -164,7 +218,7 @@
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/export.js"></script>
 
 	</body>
 </html>

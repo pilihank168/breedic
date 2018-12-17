@@ -5,17 +5,10 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <style>
-	table{
-		width:100%;
-		text-align: center!important;
-	}
 	table th{
-		word-break: keep-all !important;
 		text-align: center !important;
 	}
-	#inputRow > td {margin: 0 !important; padding: 0!important;}
-	.newRow > td {padding:0.5em 0!important;}
-	input[type='date'] {width: auto !important;}
+	input[type="radio"]{height:3em!important; line-height:3em!important;}
 </style>
 <html>
 	<head>
@@ -54,7 +47,7 @@
 							<a href="recommend.html" style="color:gray;">選拔建議</a>
 						</div>
 						</br>
-						<h2>輸入採精記錄</h2>
+						<h2>體測記錄</h2>
 					</header>
 					<div class="box">
 						<div class="row uniform 200%">
@@ -67,12 +60,12 @@
 											</ul>
 											<ul class="alt">
 												<li><a href="service.html" class="button alt fit">配種</a></li>
-												<li><a href="semen.html" class="button special fit">採精</a></li>
+												<li><a href="semen.html" class="button alt fit">採精</a></li>
 												<li><a href="diagnosis.html" class="button alt fit">測孕</a></li>
 												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
 												<li><a href="wean.html" class="button alt fit">離乳</a></li>
 												<li><a href="export.html" class="button alt fit">出豬</a></li>
-												<li><a href="physical.html" class="button alt fit">體測</a></li>	
+												<li><a href="physical.html" class="button special fit">體測</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -83,60 +76,70 @@
 							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<form id="form">
+									<form>
 										<div class="row uniform 50%">
-											<div class="6u">
-												<div class="row unifrom 50%">
-												<span class="label">日期：</span>
-												<div class="6u">
-												<input type="date" id="date" width='auto'>
+											<div class="2u 12u(narrower)">
+											<span class="label">
+												<a href='uploadPhysical.html' class="button small special">輸入體測紀錄</a>
+											</span>
+											</div>
+										<div class="10u 12u(narrower)">
+										<div class="row uniform 50%">
+											<span class="label">
+												<input type="radio" id='boarRadio' name="filter">
+												<label for="boarRadio">以豬隻查詢：</label>
+											</span>
+											<div class="2u">
+												<div class="select-wrapper">
+													<select id="filters">
+													<option value='strain'>品種</option>
+													<option value='registerNo'>序號</option>
+													<option value='earmark'>耳號</option>
+													<option value='age'>年齡</option>
+													<option value='location'>棟舍</option>
+													</select>
 												</div>
-												</div>
+											</div>
+											<div class="4u">
+											<input type='text'>
 											</div>
 										</div>
-										<br>
-										<table align="center" id="table" class="hover stripe">
-											<thead>
-												<tr>
-													<th>公豬耳號</th>
-													<th>精液量</th> 
-													<th>精液濃度</th>
-													<th>活力</th>
-													<th>畸形</th> 
-													<th>頭頸</th> 
-													<th>中片</th> 
-													<th>稀釋數</th> 
-													<th>可用</th> 
-													<th>備註</th>
-												</tr>
-											</thead>
-											<tbody id="tableBody">
-											<tr id="inputRow">
-												<td><input id="earmark" type="text" required></td>
-												<td><input id="volume" type="text"></td>
-												<td><input id="concentration" type="text"></td>
-												<td><input id="activity" type="text"></td>
-												<td><input id="a" type="text"></td>
-												<td><input id="b" type="text"></td>
-												<td><input id="c" type="text"></td>
-												<td><input id="dilute" type="text"></td>
-												<td><input id="available" type="text"></td>
-												<td><input id="note" type="text"></td>
-											</tr>
-											</tbody>
-										</table>
-										<div class="row">
-											<div class="6u">
-												<input type="submit" class="button" value="+">
+
+										<div class='row uniform 50%'>
+											<span class="label">
+												<input type="radio" id='dateRadio' name="filter" checked>
+												<label for="dateRadio">以日期查詢：</label>
+											</span>
+											<div class='3u 6u(narrower)'>
+											<input type="date">
 											</div>
-											<div class="6u" align="right">
-												<span class="button" id="upload">儲存</span>
+											<div class='1u'>
 											</div>
+											<div class="2u">
+											<a class="button fit">搜尋</a>
+											</div>
+										</div>
+										</div>
 										</div>
 									</form>
+									<table align="center" id="table" class="hover stripe">
+										<thead>
+											<tr>
+												<th>日期</th>
+												<th>豬隻耳號</th> 
+												<th>性別</th>
+												<th>體重</th>
+												<th>背脂厚度</th> 
+												<th>腰眼深度</th> 
+												<th>腰眼面積</th> 
+												<th>備註</th> 
+											</tr>
+										</thead>
+										<tbody id="tableBody">
+										</tbody>
+									</table>
 								</div>
 							</div>
-							<div class="2u 12u(narrower)"></div>
 						</div>
 					</div>
 					</div>
@@ -174,9 +177,11 @@
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 			<!--script src="firebase/test.js"></script-->
 			<script src="firebase/nav.js"></script>
+			<!--script src="firebase/dropzone.js"></script-->
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
-         	<script src="firebase/uploadSemen.js"></script>
+			<script src="firebase/nav.js"></script>
+         	<script src="firebase/physical.js"></script>
 
 	</body>
 </html>

@@ -7,7 +7,10 @@
 <style>
 	table th{
 		text-align: center !important;
+		word-break: keep-all !important;
 	}
+	#inputRow td{padding:0!important; vertical-align:middle!important;}
+	.newRow > td {padding:0.5em 0!important;}
 </style>
 <html>
 	<head>
@@ -64,6 +67,7 @@
 												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
 												<li><a href="wean.html" class="button alt fit">離乳</a></li>
 												<li><a href="export.html" class="button alt fit">出豬</a></li>
+												<li><a href="physical.html" class="button alt fit">體測</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -71,36 +75,52 @@
 										</section>
 								</div>
 							</div>
-							<div class="8u  12u(narrower) important(narrower)">
+							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<div class='row'>
+									<div class='row uniform 50%'>
+										<span class="label">
+											<p>配種日：</p>
+										</span>
 										<div class='2u'>
-									<p>配種日期</p>
+											<input type='date' id='date'>
 										</div>
-										<div class='4u'>
-										<form>
-											<input type='date' value='1994-11-25'>
-										</form>
-										</div>
+										<span class="label">
+											<p id="relatedInfo"> </p>
+										</span>
 									</div>
-									<p>預產期：</p>
-									<p>配種母豬：</p>
+									</br>
 									<table align="center" id="table" class="hover stripe">
 										<thead>
 											<tr>
-												<th>配種日期</th>
 												<th>母豬耳號</th> 
 												<th>母豬序號</th>
 												<th>母豬位置</th>
 												<th>公豬耳號</th> 
 												<th>公豬序號</th>
 												<th>劑數</th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody id="tableBody">
+										<form id="form">
+											<tr id="inputRow">
+												<td><input id="sowEarmark" type="text" required></td>
+												<td><input id="sowRegisterNo" type="text" required></td>
+												<td><input id="sowLocation" type="text" required></td>
+												<td><input id="boarEarmark" type="text" required></td>
+												<td><input id="boarRegisterNo" type="text" required></td>
+												<td><input id="number" type="text" required></td>
+												<td style="padding:0 0.5em!important">
+													<input type="submit" class="button small" value="新增">
+												</td>
+											</tr>
+										</form>
 										</tbody>
 									</table>
+									<center>
+										<span class="button" id="upload">儲存</span>
+									</center>
 								</div>
 							</div>
 							<div class="2u 12u(narrower)"></div>
@@ -145,7 +165,7 @@
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/serviceList.js"></script>
 
 	</body>
 </html>

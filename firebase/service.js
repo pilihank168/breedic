@@ -27,29 +27,32 @@ function nextMonth(){
 
 function mData(year, month){
 	monthData = calendarData[year];
-	return monthData ? monthData[month+1] : monthData
+	return monthData ? monthData[("0"+(month+1).toString).slice(-2)] : monthData
 }
 
 function makeMonthString(){
 	var year = d.getFullYear();
 	var month = d.getMonth();
-	return year.toString() + '年' + (month+1).toString() + '月' + (mData(year, month)? '':'(無資料)');
+	return year.toString() + '年' + (month+1).toString() + '月';
 }
 
 function initPage(){
-	var calendarRef = firebase.database().ref('calendar/' + userData.currentFarm + '/');
-		calendarRef.once('value').then((snapshot)=>{
+	var calendarRef = firebase.database().ref('calendar/' + userData.currentFarm);
+	calendarRef.once('value').then((snapshot)=>{
 		calendarData = snapshot.toJSON();
 		text.innerHTML = makeMonthString();
 		renderCalendar();
-	});
+	}).catch((error)=>{console.log(error)});
 }
 
 function makeURL(year, month, date, data){
 	yStr = year.toString();
-	mStr = month.toString();
-	dStr = date.toString();
-	return '<a href="serviceList.html?date=' + [yStr, mStr, dStr].join('-') + '"><h4>' + dStr + '</h4>(' + data.toString() + ')</a>';
+	mStr = ('0'+month.toString()).slice(-2);
+	dStr = ('0'+date.toString()).slice(-2);
+	if(data>0)
+		return '<a href="serviceList.html?date=' + [yStr, mStr, dStr].join('-') + '"><h4 style="display:inline">' + dStr + '</h4> (' + data.toString() + ')</a>';
+	else
+		return '<a href="serviceList.html?date=' + [yStr, mStr, dStr].join('-') + '" style="color:gray">' + dStr + '</a>';
 }
 
 left.addEventListener('click', function(){
@@ -72,6 +75,7 @@ function renderCalendar(){
 	year = d.getFullYear();
 	month = d.getMonth();
 	monthData = mData(year, month);
+	console.log(monthData);
 	for(i = 0; i < d.getDay()+getDayNumber(); i++){
 		if(i < d.getDay()){week.push('');}
 		else{
@@ -80,8 +84,9 @@ function renderCalendar(){
 			if(monthData){
 				data = monthData[date];
 			}
-			if(data){week.push(makeURL(year, month, date, data));}
-			else{week.push(date);}
+			console.log(month+1, data)
+			if(data){week.push(makeURL(year, month+1, date, data));}
+			else{week.push(makeURL(year, month+1, date, 0));}
 		}
 		if((i>0 && i%7==6)||i==d.getDay()+getDayNumber()-1){weeks.push(week); week=[];}
 	}

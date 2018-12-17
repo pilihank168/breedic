@@ -8,6 +8,13 @@
 	table th{
 		text-align: center !important;
 	}
+	#tableBody tr:hover{
+		cursor:pointer;
+		background-color:#eee!important;
+	}
+	.newRow td{padding:1px !important; vertical-align:middle!important;}
+	.deadRow{text-decoration:line-through!important;}
+	input[type="number"]{height:3em;}
 </style>
 <html>
 	<head>
@@ -15,6 +22,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -32,6 +40,109 @@
 						</ul>
 					</nav>
 				</header>
+
+		<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-lg modal-dialog-centered" style="max-width:80%!important;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">仔豬卡離乳工作</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="content">
+
+									<!-- Content -->
+									<table align="center">
+										<thead>
+										<tr>
+											<th>品種</th>
+											<th>胎號</th> 
+											<th>父畜序號</th>
+											<th>母畜序號</th>
+											<th>生日</th>
+											<th>母豬新位置</th>
+										</tr>
+										</thead>
+										<tbody id="litterTable">
+										<tr class="newRow" id="litterRow">
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><input type="text" size="1"></td>
+										</tr>
+										</tbody>
+									</table>
+									<table>
+										<thead>
+										<tr>
+											<th width="9%">總仔</th>
+											<th width="8%">死總</th> 
+											<th width="8%">死亡</th>
+											<th width="9%">黑仔</th>
+											<th width="9%">白仔</th>
+											<th width="8%">壓</th>
+											<th width="8%">弱</th>
+											<th width="8%">小</th>
+											<th width="9%">活總</th>
+											<th width="8%">正常</th>
+											<th width="8%">弱</th>
+											<th width="8%">小</th>
+										</tr>
+										</thead>
+										<tbody id="partTable">
+											<tr class="newRow" id="partRow">
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+												<td><input type="number"></td>
+											</tr>
+										</tbody>
+									</table>
+									<table>
+										<thead>
+											<tr>
+												<th width="10%">胎內號</th>
+												<th width="10%">性別</th> 
+												<th width="10%">出生重</th>
+												<th width="10%">奶頭數</th>
+												<th width="10%">離乳重</th>
+												<th width="10%">用途</th>
+												<th width="10%">新位置</th>
+												<th width="20%">備註</th>
+												<th width="10%">死亡</th>
+											</tr>
+										</thead>
+										<tbody id="suckingTable">
+										</tbody>
+									</table>
+
+								</div>
+						</div>
+						<div class="modal-footer">
+							<div class="6u" align="left">
+								<span class="label" id="totalLitterWeight">出生窩重合計：</span>
+								<span class="label" id="totalWeight">，離乳窩重合計：</span>
+							</div>
+							<div class="6u" align="right">
+								<span class="button" id="upload">儲存</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<!-- Main -->
 				<section id="main" class="container 125%">
@@ -64,6 +175,7 @@
 												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
 												<li><a href="wean.html" class="button special fit">離乳</a></li>
 												<li><a href="export.html" class="button alt fit">出豬</a></li>
+												<li><a href="physical.html" class="button alt fit">體測</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -71,16 +183,16 @@
 										</section>
 								</div>
 							</div>
-							<div class="8u  12u(narrower) important(narrower)">
+							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
 									<div class='row'>
-										<div class='2u'>
-									<p>離乳日期</p>
-										</div>
-										<div class='4u'>
+										<span class="label">
+											<p>離乳日期</p>
+										</span>
+										<div class='3u'>
 										<form>
-											<input type='date' value='1994-11-25'>
+											<input type='date' id="date">
 										</form>
 										</div>
 									</div>
@@ -92,14 +204,16 @@
 												<th>母畜耳號</th>
 												<th>生日</th>
 												<th>位置</th> 
-												<th>離乳頭數</th>
-												<th>仔豬卡</th>
-												<th>母豬位置</th>
-												<th>小豬位置</th>
-												<th>備註</th>
 											</tr>
 										</thead>
 										<tbody id="tableBody">
+											<tr>
+												<td>L</td>
+												<td>881</td>
+												<td>201-6</td>
+												<td>2018-10-15</td>
+												<td>5678</td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -134,6 +248,7 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
@@ -146,7 +261,7 @@
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/wean.js"></script>
 
 	</body>
 </html>

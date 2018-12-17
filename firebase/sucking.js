@@ -62,7 +62,7 @@ Promise.all([p1, p2]).then(function(snapshot){
 	var weanWeight = 0;
 	snapshot[1].forEach(function(childSnapshot) {
 		entry = childSnapshot.val();
-		var row = suckingTable.insertRow(-1);
+		var row = suckingTable.children[1].insertRow(-1);
 		var sCells = [];
 		for(i=0;i<7;i++){
 			var cell = centerCell(row,-1);
@@ -77,7 +77,7 @@ Promise.all([p1, p2]).then(function(snapshot){
 		}
 		else{
 			var input = document.createElement("INPUT");
-			input.setAttribute('type','text');
+			input.setAttribute('type','number');
 			input.setAttribute('id', 'weanWeight'+entry.pigNo);
 			sCells[4].appendChild(input);
 			weanWeight -= 1000;
@@ -91,7 +91,16 @@ Promise.all([p1, p2]).then(function(snapshot){
 			input.setAttribute('id', 'identity'+entry.pigNo);
 			sCells[5].appendChild(input);
 		}
-		sCells[6].innerHTML = defined(entry.fostering);
+		if(entry.fostering){
+			sCells[6].innerHTML = entry.identity;
+		}
+		else{
+			var input = document.createElement("INPUT");
+			input.setAttribute('type','text');
+			input.setAttribute('id', 'identity'+entry.pigNo);
+			sCells[6].appendChild(input);
+		}
+		//sCells[6].innerHTML = defined(entry.fostering);
 		litterWeight += parseFloat(entry.litterWeight);
 		weanWeight += parseFloat(entry.weanWeight);
 		suckingNum += 1;

@@ -13,9 +13,12 @@
 		word-break: keep-all !important;
 		text-align: center !important;
 	}
-	#inputRow > td {margin: 0 !important; padding: 0!important;}
+	#inputRow{background-color:#f0f0f0!important;}
+	#inputRow > td {margin: 0 !important; padding: 0!important; vertical-align: middle!important;}
+	#inputRow label{margin: 0 !important;}
 	.newRow > td {padding:0.5em 0!important;}
 	input[type='date'] {width: auto !important;}
+	input[type="number"] {height: 3em!important;}
 </style>
 <html>
 	<head>
@@ -54,7 +57,7 @@
 							<a href="recommend.html" style="color:gray;">選拔建議</a>
 						</div>
 						</br>
-						<h2>輸入採精記錄</h2>
+						<h2>輸入體測記錄</h2>
 					</header>
 					<div class="box">
 						<div class="row uniform 200%">
@@ -67,12 +70,12 @@
 											</ul>
 											<ul class="alt">
 												<li><a href="service.html" class="button alt fit">配種</a></li>
-												<li><a href="semen.html" class="button special fit">採精</a></li>
+												<li><a href="semen.html" class="button alt fit">採精</a></li>
 												<li><a href="diagnosis.html" class="button alt fit">測孕</a></li>
 												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
 												<li><a href="wean.html" class="button alt fit">離乳</a></li>
 												<li><a href="export.html" class="button alt fit">出豬</a></li>
-												<li><a href="physical.html" class="button alt fit">體測</a></li>	
+												<li><a href="physical.html" class="button special fit">體測</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -83,57 +86,50 @@
 							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<form id="form">
-										<div class="row uniform 50%">
-											<div class="6u">
-												<div class="row unifrom 50%">
-												<span class="label">日期：</span>
-												<div class="6u">
-												<input type="date" id="date" width='auto'>
-												</div>
-												</div>
-											</div>
-										</div>
+										<center>
+											<span class="label">日期：</span>
+											<input type="date" id="date" style="display:inline-block!important;">
+										</center>
 										<br>
 										<table align="center" id="table" class="hover stripe">
 											<thead>
 												<tr>
-													<th>公豬耳號</th>
-													<th>精液量</th> 
-													<th>精液濃度</th>
-													<th>活力</th>
-													<th>畸形</th> 
-													<th>頭頸</th> 
-													<th>中片</th> 
-													<th>稀釋數</th> 
-													<th>可用</th> 
-													<th>備註</th>
+													<th width="12%">耳號</th>
+													<th width="20%">性別</th> 
+													<th width="12%">體重</th>
+													<th width="12%">背脂厚度</th>
+													<th width="12%">腰眼深度</th> 
+													<th width="12%">腰眼面積</th> 
+													<th width="20%">備註</th> 
 												</tr>
 											</thead>
 											<tbody id="tableBody">
+											<form id="form">
 											<tr id="inputRow">
 												<td><input id="earmark" type="text" required></td>
-												<td><input id="volume" type="text"></td>
-												<td><input id="concentration" type="text"></td>
-												<td><input id="activity" type="text"></td>
-												<td><input id="a" type="text"></td>
-												<td><input id="b" type="text"></td>
-												<td><input id="c" type="text"></td>
-												<td><input id="dilute" type="text"></td>
-												<td><input id="available" type="text"></td>
+												<td>
+													<span class="label">
+														<input id="f" value="f" type="radio" name="sex" checked>
+														<label for="f">母</label>
+														<input id="m" value="m" type="radio" name="sex">
+														<label for="m">公</label>
+													</span>
+												</td>
+												<td><input id="weight" type="number" step="0.1"></td>
+												<td><input id="fat" type="number" step="0.1"></td>
+												<td><input id="depth" type="number" step="0.1"></td>
+												<td><input id="surface" type="number" step="0.1"></td>
 												<td><input id="note" type="text"></td>
+												<td style="padding:0 0.5em!important">
+													<input type="submit" class="button small" value="新增">
+												</td>
 											</tr>
+											</form>
 											</tbody>
 										</table>
-										<div class="row">
-											<div class="6u">
-												<input type="submit" class="button" value="+">
-											</div>
-											<div class="6u" align="right">
-												<span class="button" id="upload">儲存</span>
-											</div>
-										</div>
-									</form>
+										<center>
+											<span class="button" id="upload">儲存</span>
+										</center>
 								</div>
 							</div>
 							<div class="2u 12u(narrower)"></div>
@@ -176,7 +172,7 @@
 			<script src="firebase/nav.js"></script>
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
-         	<script src="firebase/uploadSemen.js"></script>
+         	<script src="firebase/uploadPhysical.js"></script>
 
 	</body>
 </html>

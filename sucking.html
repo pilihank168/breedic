@@ -8,18 +8,12 @@
 	table{
 		width:100%;
 	}
-	table tr:nth-child(even) {
-		background-color: #eee;
-	}
-	table tr:nth-child(odd) {
-		background-color: #fff;
-	}
 	table th{
 		word-break: keep-all !important;
 		text-align: center !important;
-		background-color: #e89980 !important;
-		color: white !important;
 	}
+	td{padding:0!important; vertical-align:middle!important; margin:0!important;}
+	input[type='number'], input[type="date"]{width: 5em!important; height:3em!important;}
 </style>
 <html>
 	<head>
@@ -102,7 +96,7 @@
 									</section>
 								</div>
 							</div>
-							<div class="8u  12u(narrower) important(narrower)">
+							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 
 									<!-- Content -->
@@ -118,7 +112,7 @@
 										</tr>
 									</table>
 									<table id="suckingTable">
-										<tbody>
+										<thead>
 											<tr>
 												<th>胎內號</th>
 												<th>性別</th> 
@@ -128,6 +122,8 @@
 												<th>用途</th>
 												<th>備註</th>
 											</tr>
+										</thead>
+										<tbody>
 										</tbody>
 									</table>
 									<div class="row 50%">

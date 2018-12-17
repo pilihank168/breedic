@@ -17,6 +17,18 @@
 		font: inherit;
 		vertical-align: baseline;
 	}
+	/* modified by lance*/
+	#sidebar ul.alt li{border-width:0!important;}
+	a{
+		text-decoration: none !important;
+	}
+	span.label{
+		height: 3em;
+		line-height: 3em;
+	}
+	table td, table th{text-align:center!important;}
+	/*la fin de la modification*/
+
 
 	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 		display: block;
@@ -2002,6 +2014,7 @@
 		margin: 0 0 1em 0;
 	}
 
+	input[type="number"],
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
@@ -2023,6 +2036,7 @@
 		width: 100%;
 	}
 
+	input[type="number"]:invalid,
 		input[type="text"]:invalid,
 		input[type="password"]:invalid,
 		input[type="email"]:invalid,
@@ -2031,7 +2045,7 @@
 		textarea:invalid {
 			box-shadow: none;
 		}
-
+	input[type="number"]:focus,
 		input[type="text"]:focus,
 		input[type="password"]:focus,
 		input[type="email"]:focus,
@@ -2044,7 +2058,6 @@
 
 	.select-wrapper {
 		text-decoration: none;
-		display: block;
 		position: relative;
 	}
 
@@ -2075,6 +2088,7 @@
 			display: none;
 		}
 
+	input[type="number"],
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
@@ -2133,16 +2147,18 @@
 				display: inline-block;
 				height: 1.8em;
 				left: 0;
-				line-height: 1.725em;
+				line-height: 1.8em;
 				position: absolute;
 				text-align: center;
 				top: 0;
 				width: 1.8em;
+				margin-top: 0.6em;
+				margin-bottom: 0.6em;
 			}
 
 		input[type="checkbox"]:checked + label:before,
 		input[type="radio"]:checked + label:before {
-			background: #666;
+			background: #666!important;
 			border-color: #666;
 			color: #ffffff;
 			content: '\f00c';
@@ -2723,7 +2739,7 @@
 		input[type="reset"].special,
 		input[type="button"].special,
 		.button.special {
-			background-color: #e89980;
+			background-color: darksalmon;
 			color: #ffffff !important;
 		}
 
@@ -2731,7 +2747,7 @@
 			input[type="reset"].special:hover,
 			input[type="button"].special:hover,
 			.button.special:hover {
-				background-color: #ecaa96;
+				background-color: #eca38b;
 			}
 
 			input[type="submit"].special:active,

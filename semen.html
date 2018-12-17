@@ -65,6 +65,7 @@
 												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
 												<li><a href="wean.html" class="button alt fit">離乳</a></li>
 												<li><a href="export.html" class="button alt fit">出豬</a></li>
+												<li><a href="physical.html" class="button alt fit">體測</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -77,15 +78,17 @@
 									<!-- Content -->
 									<form>
 										<div class="row uniform 50%">
-											<div class="2u">
+											<div class="2u 12u(narrower)">
+											<span class="label">
 												<a href='uploadSemen.html' class="button small special">輸入採精紀錄</a>
+											</span>
 											</div>
-											<div class="3u">
+										<div class="10u 12u(narrower)">
+										<div class="row uniform 50%">
 											<span class="label">
 												<input type="radio" id='boarRadio' name="filter">
 												<label for="boarRadio">以公豬查詢：</label>
 											</span>
-											</div>
 											<div class="2u">
 												<div class="select-wrapper">
 													<select id="filters">
@@ -101,23 +104,22 @@
 											<input type='text'>
 											</div>
 										</div>
+
 										<div class='row uniform 50%'>
-											<div class='2u 12u(narrower)'>
-											</div>
-											<div class="3u">
 											<span class="label">
 												<input type="radio" id='dateRadio' name="filter" checked>
 												<label for="dateRadio">以日期查詢：</label>
 											</span>
-											</div>
-											<div class='3u 12u(narrower)'>
+											<div class='3u 6u(narrower)'>
 											<input type="date">
 											</div>
-											<div class='1u 12u(narrower)'>
+											<div class='1u'>
 											</div>
 											<div class="2u">
 											<a class="button fit">搜尋</a>
 											</div>
+										</div>
+										</div>
 										</div>
 									</form>
 									<table align="center" id="table" class="hover stripe">
@@ -181,7 +183,7 @@
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/semen.js"></script>
 
 	</body>
 </html>

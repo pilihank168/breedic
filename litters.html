@@ -14,12 +14,14 @@
 	table tr:nth-child(odd) {
 		background-color: #fff;
 	}
-	table td:hover{
+	#table td:hover{
 		cursor:pointer;
 	}
 	table th{
 		text-align: center !important;
 	}
+	.inputRow td{padding:0!important; vertical-align:middle!important; margin:0!important;}
+	input[type='number'], input[type="date"]{width: 5em!important; height:3em!important;}
 </style>
 <html>
 	<head>
@@ -27,6 +29,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -41,30 +44,67 @@
 					<!-- Nav -->
 					<nav id="nav">
 						<ul id="ul">
-							<li><a href="index.html">首頁</a></li>
-							<li class="current">
-								<a href="#data" class="icon fa-angle-down">數據分析</a>
-								<ul id='dataList'>
-									<li><a href="upload.html" name='list'>豬隻資料</a></li>
-									<li><a href="record.html" name='list'>上傳紀錄</a></li>
-									<li><a href="report.html" name='list'>查看分析報告</a></li>
-									<li><a href="recommend.html" name='list'>選拔建議</a></li>
-								</ul>
-							</li>
-							<li>
-								<a href="#gene" class="icon fa-angle-down">基因檢測</a>
-								<ul id='geneList'>
-									<li><a href="service.html" name='list'>服務說明</a></li>
-									<li><a href="application.html" name='list'>提出申請</a></li>
-									<li><a href="progress.html" name='list'>進度查詢</a></li>
-									<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
-								</ul>
-							</li>
-							<li><a href="#contact">聯絡我們</a></li>
-							<li id='logInOut'><a href="#" class="button"  onclick="logout()">登出</em></a></li>
 						</ul>
 					</nav>
 				</header>
+		<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-lg modal-dialog-centered" style="max-width:80%!important;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">仔豬卡</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="content">
+
+									<!-- Content -->
+									<table align="center">
+										<thead>
+										<tr>
+											<th>品種</th>
+											<th>胎號</th> 
+											<th>父畜序號</th>
+											<th>母畜序號</th>
+											<th>生日</th>
+											<th>位置</th>
+											<th>預計離乳日</th>
+										</tr>
+										</thead>
+										<tbody id="litterTable">
+										</tbody>
+									</table>
+									<table>
+										<thead>
+											<tr>
+												<th>胎內號</th>
+												<th>性別</th> 
+												<th>出生重</th>
+												<th>奶頭數</th>
+												<th>離乳重</th>
+												<th>用途</th>
+												<th>備註</th>
+											</tr>
+										</thead>
+										<tbody id="suckingTable">
+										</tbody>
+									</table>
+
+								</div>
+						</div>
+						<div class="modal-footer">
+							<div class="6u" align="left">
+								<a href="#" class="button alt" id="previous">前一窩</a>
+							</div>
+							<div class="6u" align="right">
+								<a href="#" class="button alt" id="next">後一窩</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<!-- Main -->
 				<section id="main" class="container 125%">
@@ -102,7 +142,7 @@
 										</section>
 								</div>
 							</div>
-							<div class="8u  12u(narrower) important(narrower)">
+							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 
 									<!-- Content -->
@@ -153,6 +193,7 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>

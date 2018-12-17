@@ -2,7 +2,7 @@ function defined(content){return content ? content : '';}
 
 function centerCell(row,i){
 	cell=row.insertCell(i);
-	cell.setAttribute('style','text-align:center;');
+	//cell.setAttribute('style','text-align:center;');
 	return cell;
 }
 
@@ -15,7 +15,6 @@ function insertRow(keyArray, snapshot){
 			cell.innerHTML = '';
 		else
 			cell.innerHTML = defined(snapshot.child(keyArray[i]).val())
-		cells.push(cell);
 	}
 }
 
