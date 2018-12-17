@@ -51,3 +51,29 @@
         "address":string,
         "phone":string
     }
+
+### firebase database
+
+#### load existed data
+
+    var someRef = firebase.database().ref(PATH);
+    someRef.on("value").then( (snapshot)=>{
+        snapshot.key;
+        snapshot.val();
+        snapshot.children("someKey").val();
+    });
+    
+#### set data
+
+    var someRef = firebase.database().ref(PATH);
+    someRef.set(OBJ).then();
+    
+#### push data
+
+    var someRef = firebase.database().ref(PATH).push();
+    someRef.set(OBJ).then();
+    
+#### push data
+
+    var someRef = firebase.database().ref(PATH);
+    someRef.update(OBJ).then();
