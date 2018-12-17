@@ -63,6 +63,14 @@
         snapshot.children("someKey").val();
     });
     
+#### load list of data
+    var someRef = firebase.database().ref(PATH);
+    someRef.on("value").then( (snapshot)=>{
+        snapShot.forEach( (childSnapshot)=>{
+            childSnapshot.val()
+        });
+    });
+    
 #### set data
 
     var someRef = firebase.database().ref(PATH);
@@ -73,7 +81,7 @@
     var someRef = firebase.database().ref(PATH).push();
     someRef.set(OBJ).then();
     
-#### push data
+#### update data
 
     var someRef = firebase.database().ref(PATH);
     someRef.update(OBJ).then();
