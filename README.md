@@ -1,37 +1,87 @@
-## Welcome to GitHub Pages
+### Database Structure
 
-You can use the [editor on GitHub](https://github.com/pilihank168/breedic/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+    "users"/uid:{
+        "email":string,
+        "name":string,
+        "role":string, #("admin"/"owner"/"employee")
+        "currentFarm":int,
+        "permission":{
+            "view":bool,
+            "add":bool,
+            "edit":bool,
+            "review":bool
+        },
+        "active":bool,
+        "farmNo":{
+            farmID:farmID
+            ...
+        }
+    }
+    
+    "owner"/uid:{
+        "email":string,
+        "name":string,
+        "active":bool,
+        "note":string,
+        "farmNo":{
+            farmID:farmID
+            ...
+        }
+        
+    "employee"/farmNo/uid:{
+        "email":string,
+        "name":string,
+        "position":string,
+        "phone":string,
+        "note":string,
+        "permission":{
+            "view":bool,
+            "add":bool,
+            "edit":bool,
+            "review":bool
+        },
+        "active":bool
+    }
+    
+    "farms"/farmNo:{
+        "name":string,
+        "owner":uid,
+        "size":string,
+        "type":string,
+        "address":string,
+        "phone":string
+    }
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### firebase database
 
-### Markdown
+#### load existed data
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+    var someRef = firebase.database().ref(PATH);
+    someRef.on("value").then( (snapshot)=>{
+        snapshot.key;
+        snapshot.val();
+        snapshot.children("someKey").val();
+    });
+    
+#### load list of data
+    var someRef = firebase.database().ref(PATH);
+    someRef.on("value").then( (snapshot)=>{
+        snapShot.forEach( (childSnapshot)=>{
+            childSnapshot.val()
+        });
+    });
+    
+#### set data
 
-```markdown
-Syntax highlighted code block
+    var someRef = firebase.database().ref(PATH);
+    someRef.set(OBJ).then();
+    
+#### push data
 
-# Header 1
-## Header 2
-### Header 3
+    var someRef = firebase.database().ref(PATH).push();
+    someRef.set(OBJ).then();
+    
+#### update data
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/pilihank168/breedic/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+    var someRef = firebase.database().ref(PATH);
+    someRef.update(OBJ).then();
