@@ -1,0 +1,76 @@
+<form>
+	<div class="row uniform 50%">
+		<div class="12u" align="right">
+			<span class="label">
+				<a href='uploadBoar.html' class="button small special">新增公豬資料</a>
+			</span>
+		</div>
+		<div class="12u 12u(narrower)">
+			<div class='row uniform 50%'>
+				<div class="2u 3u(narrower)">
+					<span class="label">
+						<input type="radio" id='dateRadio' name="filter" checked>
+						<label for="dateRadio">以日期查詢</label>
+					</span>
+				</div>
+				<div class="2u">
+					<div class="select-wrapper">
+						<select id="tableFilter">
+						<option value="earmark">依耳號排列</option>
+						<option value="strain">依品種排列</option>
+						<option value="location">依位置排列</option>
+						<option value="birthday">依生日排列</option>
+						</select>
+					</div>
+				</div>
+				<div class='3u 6u(narrower)'>
+					<input type="date" id="date1" style="display:inline-block!important">
+				</div>
+				<div class="3u 6u(narrower)">
+					<input type="date" id="date2" style="display:inline-block!important">
+				</div>
+				<div class="2u 3u(narrower)">
+					<span class="label" style="display:inline-block!important">
+						<input type="checkbox" id="secondDate" style="display:inline-block!important">
+						<label for="secondDate" style="display:inline-block!important">檢視單日</label>
+					</span>
+				</div>
+			</div>
+			<div class="row uniform 50%">
+				<div class="2u 3u(narrower)">
+					<span class="label">
+						<input type="radio" id='boarRadio' name="filter">
+						<label for="boarRadio">以公豬查詢</label>
+					</span>
+				</div>
+				<div class="2u 3u(narrower)">
+					<div class="select-wrapper">
+						<select id="filters">
+							<option value='strain'>品種</option>
+							<option value='registerNo'>序號</option>
+							<option value='earmark'>耳號</option>
+							<option value='age'>年齡</option>
+							<option value='location'>棟舍</option>
+						</select>
+					</div>
+				</div>
+				<div class="4u 3u(narrower)">
+					<input type='text'>
+				</div>
+				<div class="2u 3u(narrower)">
+					<span class="button fit">搜尋</span>
+				</div>
+				<div class='2u'>
+					<div class="select-wrapper">
+						<select id="sortingKey">
+						<option value="earmark">依耳號排列</option>
+						<option value="strain">依品種排列</option>
+						<option value="location">依位置排列</option>
+						<option value="birthday">依生日排列</option>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
