@@ -14,8 +14,9 @@ function initPage(){
 			for(i=0;i<4;i++){
 				cell = row.insertCell(i);
 				cell.innerHTML = data[i];
-			row.setAttribute("data-earmarks", data[4]);
 			}
+			console.log(Object.keys(data[4]).join());
+			row.setAttribute("data-earmarks", Object.keys(data[4]).join());
 		});
 		console.log(snapshot);
 	});

@@ -401,19 +401,20 @@
             if(index == this.settings.steps.length - 1)
                 step.stepElement.addClass('step-progressbar-laststep');
             step.stepElement.css('left', step.progressValue + '%');
-			if(step.progressValue == this.progressValue){
+			if(step.progressValue ===0 ){// this.progressValue){
 				step.stepElement.css('border-style','none');
 				step.stepElement.css('display','inline-block');
+                step.stepElement.css("text-align", "right");
 				var text = $('<span>');
 				text.css('vertical-align', 'middle');
 				text.html('now');
 				//step.stepElement.append(text);
-            	//step.stepElement.html('<span>now</br>'+this.settings.currentValue+' day</span>');
+            	step.stepElement.html('<h4 style="color:#555!important; padding:5px!important;">'+this.settings.innerText+'</h4>');
 				}//, step.progressValue + '%');
-			if(step.progressValue == 0){
-				step.stepElement.html('<h4 style="color:white!important; padding:5px!important;">   配種後' + this.settings.currentValue+' 天</h4>');
-				step.stepElement.css('color','white');// + this.settings.currentValue+' day</span>');
-			}
+			//if(step.progressValue == 0){
+				//step.stepElement.html('<h4 style="color:white!important; padding:5px!important;">   配種後' + this.settings.currentValue+' 天</h4>');
+				//step.stepElement.css('color','white');// + this.settings.currentValue+' day</span>');
+			//}
         },
 
         // method that delete HTML elements for a step.
@@ -497,8 +498,8 @@
                 step.topLabelElement.addClass('step-progressbar-laststep');
             step.topLabelElement.css('left', step.progressValue + '%');
             step.topLabelElement.html(step.topLabel);
-			if(step.progressValue <= this.progressValue)
-				step.topLabelElement.css('color','#999999');
+//			if(step.progressValue <= this.progressValue)
+//				step.topLabelElement.css('color','#999999');
         },
 
         // method that builds the bottomLabel element. (index is useful to add special classes for 1st and last steps)
@@ -522,8 +523,8 @@
             step.bottomLabelElement.css('left', step.progressValue + '%');
             var label = step.bottomLabel ? step.bottomLabel : (!isNullOrUndefined(step.value) ? (step.value + this.settings.unit) : '');
             step.bottomLabelElement.html(label);
-			if(step.progressValue <= this.progressValue)
-				step.bottomLabelElement.css('color','#999999');
+//			if(step.progressValue <= this.progressValue)
+//				step.bottomLabelElement.css('color','#999999');
         }
     };
 

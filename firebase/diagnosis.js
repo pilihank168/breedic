@@ -7,17 +7,26 @@ var queryBtn = document.getElementById("query");
 var promise_array = [];
 var diagDate = ""
 
+function localDateStr(d){
+	str = d.toLocaleDateString().split("/");
+	yStr = str[0];
+	mStr = ("0" + str[1]).slice(-2);
+	dStr = ("0" + str[2]).slice(-2);
+	return [yStr, mStr, dStr].join("-");
+}
+
 queryBtn.addEventListener("click", function(){
 	loadExistedData();
 });
 
 function initPage(){
 	var d = new Date();
-	date.value = d.toLocaleDateString().replace(/\//g, '-');
+	date.value = localDateStr(d);
 	loadExistedData();
 }
 
 function loadExistedData(){
+    console.log(date.value);
 	table.innerHTML = "";
 	var d = new Date(date.value);
 	d.setDate(d.getDate()-period.value);
@@ -27,7 +36,7 @@ function loadExistedData(){
 	listRef = firebase.database().ref("diagnosis/" + userData.currentFarm);
 	listRef.orderByChild("serviceDate").startAt("").endAt(thresholdDate).once("value").then( (snapshot)=>{
 		snapshot.forEach( (childSnapshot)=>{
-			if(true||!childSnapshot.child("result").exists()){
+			if(!childSnapshot.child("result").exists()){
 				row = table.insertRow(-1);
 				row.setAttribute("data-id", childSnapshot.key);
 				for(i=0;i<diagnoKeys.length;i++){
@@ -63,7 +72,7 @@ function makeBtn(text, eventListener){
 }
 
 function result(btn, row, text){
-	row.setAttribute("class", "");
+	row.setAttribute("class", "doneRow");
 	row.setAttribute("data-result", (text=="O"?"p":"n"));
 	row.setAttribute("data-location", row.children[6].children[0].value);
 	btn.closest("td").innerHTML = text;
@@ -89,11 +98,13 @@ function makeDiagInput(row){
 	var negBtn = makeBtn("X", result);
 	row.children[5].appendChild(negBtn);
 
-	row.children[6].setAttribute("style", "vertical-align:middle!important; padding:0!important;");
+	row.children[6].setAttribute("style", "vertical-align:middle!important; padding:1px!important;");
 	var locInput = document.createElement("input");
 	locInput.setAttribute("type", "text");
 	locInput.setAttribute("size", "1");
 	row.children[6].appendChild(locInput);
+	row.children[7].setAttribute("style", "vertical-align:middle!important; padding:1px!important;");
+	row.children[7].innerHTML = "<input type='text' size='1'>"
 }
 
 function diagPromise(diagId, result, newLocation, note){
@@ -104,7 +115,7 @@ function diagPromise(diagId, result, newLocation, note){
 
 submitBtn.addEventListener("click", function(){
 	for(i=0;i<table.children.length;i++){
-		if(table.children[i].getAttribute('class')!="newRow"){
+		if(table.children[i].getAttribute('class')=="doneRow"){
 			console.log(table.children[i]);
 			var newLocation = table.children[i].getAttribute("data-location");
 			var result = table.children[i].getAttribute("data-result");

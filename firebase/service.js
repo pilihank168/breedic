@@ -26,8 +26,8 @@ function nextMonth(){
 }
 
 function mData(year, month){
-	monthData = calendarData[year];
-	return monthData ? monthData[("0"+(month+1).toString).slice(-2)] : monthData
+	monthData = calendarData ? calendarData[year] : calendarData;
+	return monthData ? monthData[("0"+(month+1).toString()).slice(-2)] : monthData
 }
 
 function makeMonthString(){
@@ -39,7 +39,7 @@ function makeMonthString(){
 function initPage(){
 	var calendarRef = firebase.database().ref('calendar/' + userData.currentFarm);
 	calendarRef.once('value').then((snapshot)=>{
-		calendarData = snapshot.toJSON();
+		calendarData = snapshot.val();
 		text.innerHTML = makeMonthString();
 		renderCalendar();
 	}).catch((error)=>{console.log(error)});
@@ -75,7 +75,6 @@ function renderCalendar(){
 	year = d.getFullYear();
 	month = d.getMonth();
 	monthData = mData(year, month);
-	console.log(monthData);
 	for(i = 0; i < d.getDay()+getDayNumber(); i++){
 		if(i < d.getDay()){week.push('');}
 		else{
@@ -84,7 +83,6 @@ function renderCalendar(){
 			if(monthData){
 				data = monthData[date];
 			}
-			console.log(month+1, data)
 			if(data){week.push(makeURL(year, month+1, date, data));}
 			else{week.push(makeURL(year, month+1, date, 0));}
 		}

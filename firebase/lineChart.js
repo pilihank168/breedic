@@ -3,7 +3,7 @@
 //		   ctx=document.getElementById(canvasID).getContext('2d')
 function renderChart(ctx, labels, data, titleText){
 	var chart = new Chart(ctx, {
-		type: 'line',
+		type: 'scatter',
 		// The data for our dataset
 		data: {
 			labels: labels,
@@ -11,14 +11,30 @@ function renderChart(ctx, labels, data, titleText){
 			fill: false,
 			backgroundColor: '#e89980',
 			borderColor: '#e89980',
-			data: data,
+			data: data
 			}]
 		},
 		// Configuration options go here
 		options: {
+            scales:{
+                xAxes:[{
+                    ticks:{
+                        stepSize:1
+                    }
+                }]
+            },
+			tooltips: {
+				displayColors:false,
+				callbacks:{
+					label: function(tooltipItem, data){
+						return "第" + tooltipItem.xLabel + "週：" +  tooltipItem.yLabel;
+					}
+				}
+			},
 			animation:{duration: 0},
 			legend: {display: false},
 			title: {
+                fontSize: 16,
 				display: true,
 				text: titleText
 			},
@@ -32,6 +48,7 @@ function renderChart(ctx, labels, data, titleText){
 			}
 		}
 	});
+    return chart
 }
 
 Chart.plugins.register({

@@ -16,16 +16,18 @@ function localDateStr(d){
 }
 function initPage(){
 	date.value = localDateStr(d);
-//	loadExistedData();
+	loadExistedData();
 }
 
-//date.addEventListener('change', function(){
-//	loadExistedData();
-//});
+date.addEventListener('change', function(){
+	loadExistedData();
+});
 
 function loadExistedData(){
+	while(table.rows.length>1)
+		table.removeChild(table.rows[0])
 	keyArray = ["earmark", "sex", "weight", "fat", "depth", "surface", "note"];
-	var listRef = firebase.database().ref("physical/" + userData.currentFarm + "/").orderByChild("earmark");
+	var listRef = firebase.database().ref("physical/" + userData.currentFarm + "/").orderByChild("date").equalTo(date.value);
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
 			console.log(0);
@@ -89,4 +91,5 @@ form.addEventListener("submit", (event)=>{
 		this.closest("tbody").removeChild(this.closest("tr"));
 	});
 	cell.appendChild(deleteBtn);
+	row.children[0].children[0].focus();
 });

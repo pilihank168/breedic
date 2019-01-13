@@ -5,12 +5,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <style>
-	table th{
-		text-align: center !important;
-		word-break: keep-all !important;
-	}
-	#inputRow td{padding:1px!important; vertical-align:middle!important;}
-	.newRow > td {padding:0.5em 0!important;}
+	label{margin:0!important;}
 </style>
 <html>
 	<head>
@@ -18,6 +13,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -36,92 +32,93 @@
 					</nav>
 				</header>
 
+		<!-- Modal -->
+			<div class="modal fade" id="myModal1" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">資料下載</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="content">
+
+									<!-- Content -->
+									<div class="row">
+										<div class="4u" align="right">
+											<span class="label">資料範圍：</span>
+										</div>
+										<div class="4u" style="padding-left:0.5em!important">
+											<input type="date">
+										</div>
+										<div class="4u" style="padding-left:0.5em!important">
+											<input type="date">
+										</div>
+										<div class="4u" align="right">
+											<span class="label">豬隻性別：</span>
+										</div>
+										<div class="8u" style="padding-left:0.5em!important">
+											<span class="label">
+												<input type="radio" id='sow' name="sex" checked>
+												<label for="sow">母豬</label>
+											</span>
+											<span class="label">
+												<input type="radio" id='boar' name="sex">
+												<label for="boar">公豬</label>
+											</span>
+										</div>
+									</div>
+								</div>
+						</div>
+						<div class="modal-footer">
+								<span class="button alt" id="nextt">生成報表</span>
+								<span class="button disabled" id="nextt">下載</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- Main -->
 				<section id="main" class="container 125%">
 					<header>
 						<div style="margin: 0px auto;">
 							<a href="upload.html" style="color:gray;">豬隻資料</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="record.html">工作記錄</a>
+							<a href="record.html" style="color:gray;">工作記錄</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="report.html" style="color:gray;">查看分析報告</a>
+							<a href="report.html">分析報告</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="recommend.html" style="color:gray;">選拔建議</a>
 						</div>
 						</br>
-						<h2>配種記錄</h2>
+						<h2>分析報告</h2>
 					</header>
 					<div class="box">
 						<div class="row uniform 200%">
-							<div class="2u 12u(narrower)">
-								<div id="sidebar">
-									<!-- Sidebar -->
-										<section>
-											<ul class="alt">
-												<li><a href="record.html" class="button alt fit small">一次上傳</a></li>
-											</ul>
-											<ul class="alt">
-												<li><a href="service.html" class="button special fit">配種</a></li>
-												<li><a href="semen.html" class="button alt fit">採精</a></li>
-												<li><a href="diagnosis.html" class="button alt fit">測孕</a></li>
-												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
-												<li><a href="wean.html" class="button alt fit">離乳</a></li>
-												<li><a href="export.html" class="button alt fit">出豬</a></li>
-												<li><a href="physical.html" class="button alt fit">體測</a></li>	
-											</ul>
-											<ul class="alt">
-												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
-											</ul>
-										</section>
-								</div>
-							</div>
-							<div class="10u  12u(narrower) important(narrower)">
+							<div class="12u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<center>
-										<span class="label">
-											配種日：
-										</span>
-											<input type='date' id='date' style="display:inline-block!important;width:auto;" >
-										<span class="label" id="relatedInfo">
-										
-										</span>
-									</center>
-									</br>
-									<table align="center" id="table" class="hover stripe">
+									<table>
 										<thead>
 											<tr>
-												<th>母豬耳號</th> 
-												<th>母豬序號</th>
-												<th>母豬位置</th>
-												<th>公豬耳號</th> 
-												<th>公豬序號</th>
-												<th>劑數</th>
-												<th></th>
+												<th>報告日期</th>
+												<th>檢視檔案</th>
+												<th>意見回饋</th>
 											</tr>
 										</thead>
-										<tbody id="tableBody">
-										<form id="form">
-											<tr id="inputRow">
-												<td><input id="sowEarmark" type="text" required></td>
-												<td><input id="sowRegisterNo" type="text" required></td>
-												<td><input id="sowLocation" type="text" required></td>
-												<td><input id="boarEarmark" type="text" required></td>
-												<td><input id="boarRegisterNo" type="text" required></td>
-												<td><input id="number" type="text" required></td>
-												<td style="padding:0 0.5em!important">
-													<input type="submit" class="button small" value="新增">
-												</td>
+										<tbody>
+											<tr>
+												<td>2018-12-12</td>
+												<td>選拔建議</td>
+												<td><a data-toggle="modal" data-target="#myModal3" href>待回覆</a></td>
 											</tr>
-										</form>
+											<tr></tr>
 										</tbody>
 									</table>
-									<center>
-										<span class="button" id="upload">儲存</span>
-									</center>
 								</div>
 							</div>
-							<div class="2u 12u(narrower)"></div>
 						</div>
 					</div>
 					</div>
@@ -151,19 +148,22 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 			<!--script src="firebase/test.js"></script-->
 			<script src="firebase/nav.js"></script>
 			<!--script src="firebase/dropzone.js"></script-->
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/serviceList.js"></script>
+			<script src="firebase/lineChart.js"></script>
+         	<script src="firebase/upload.js"></script>
 
 	</body>
 </html>

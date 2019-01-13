@@ -18,6 +18,9 @@
 		word-break: keep-all !important;
 		text-align: center !important;
 	}
+	#table tr.addible:hover{
+		cursor:pointer;
+	}
 </style>
 <html>
 	<head>
@@ -25,6 +28,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -42,6 +46,63 @@
 						</ul>
 					</nav>
 				</header>
+
+		<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-dialog-centered">
+                        <form id="transfer">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">仔豬轉種豬</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="content">
+
+									<!-- Content -->
+									<div class="row">
+										<div class="2u" align="center">
+											<span class="label">耳號</span>
+										</div>
+										<div class="4u" style="padding:0 0 0.5em 0.5em!important">
+                                            <input type="text" readonly id="transfer-earmark">
+										</div>
+										<div class="2u" align="center">
+											<span class="label">日期</span>
+										</div>
+										<div class="4u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="date" id="transfer-date" required>
+										</div>
+										<div class="2u" align="center">
+											<span class="label">序號</span>
+										</div>
+										<div class="4u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="transfer-no" required>
+										</div>
+										<div class="2u" align="center">
+											<span class="label">位置</span>
+										</div>
+										<div class="4u" style="padding-left:0.5em!important">
+											<input type="text" id="transfer-location">
+										</div>
+										<div class="2u" align="center">
+											<span class="label">備註</span>
+										</div>
+										<div class="10u" style="padding-left:0.5em!important">
+											<input type="text" id="transfer-note">
+										</div>
+									</div>
+								</div>
+						</div>
+						<div class="modal-footer" align="right">
+                            <input class="button" type="submit" value="儲存">
+						</div>
+					</div>
+                        </form>
+				</div>
+			</div>
 
 			<!-- Main -->
 				<section id="main" class="container 125%">
@@ -81,28 +142,44 @@
 							</div>
 							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
-
 									<!-- Content -->
-									<div class="row uniform">
-										<div class="2u"><p></p></div>
-										<div class="4u 8u(narrower)">
-											<input type="text" placeholder="搜尋" id='search'/>
-										</div>
-										<div class="2u 4u(narrower)">
-											<div class="select-wrapper">
-												<select id="filters">
-												<option value="earmark">耳號</option>
-												<option value="strain">品種</option>
-												<option value="registerNo">序號</option>
-												<option value="location">位置</option>
-												</select>
-											</div>
-										</div>
-										<div class="2u 12u(narrower)">
-											<span class="button fit icon fa-search" id='searchBtn'>查詢</span>
-										</div>
-										<div class="2u"><p></p></div>
-									</div>
+                                    <form id="search">
+                                        <div class="row uniform 50%">
+                                            <div class="1u">
+                                            </div>
+                                            <div class="2u 3u(narrower)">
+                                                <div class="select-wrapper">
+                                                    <select id="filter">
+                                                        <option value='strain'>品種</option>
+                                                        <option value='earmark' selected>耳號</option>
+                                                        <option value='registerNo'>序號</option>
+                                                        <option value='identity'>用途</option>
+                                                        <option value='fatherNo'>父畜</option>
+                                                        <option value='motherNo'>母畜</option>
+                                                        <option value='birthday'>日齡</option>
+                                                        <option value='location'>位置</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="4u 3u(narrower)">
+                                                <input type='text' id="query">
+                                            </div>
+                                            <div class="2u 3u(narrower)">
+                                                <input type="submit" class="button fit" value="搜尋">
+                                            </div>
+                                            <div class='2u'>
+                                                <div class="select-wrapper">
+                                                    <select id="sortingKey">
+                                                    <option value="1">依品種排列</option>
+                                                    <option value="2" selected>依耳號排列</option>
+                                                    <option value="3">依序號排列</option>
+                                                    <option value="4">依生日排列</option>
+                                                    <option value="5">依位置排列</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
 									</br>
 									<table align="center" id="table" class="hover stripe" style='visibility:hidden'>
 										<thead>
@@ -113,6 +190,7 @@
 												<th>性別</th>
 												<th>日齡</th>
 												<th>位置</th>
+												<th>狀態</th>
 											</tr>
 										</thead>
 										<tbody id="tableBody">
@@ -149,6 +227,7 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>

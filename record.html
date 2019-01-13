@@ -94,14 +94,8 @@
 									<!-- Content -->
 									<center>
 										<h3>下載記錄表</h3>
+									<br>
 									<div class="row">
-									<div class="6u 12u(narrower) important(narrower)">
-										  <ul class="alt">
-											 <li><a href="#">採精記錄表</a></li>
-											 <li><a href="#">出豬記錄表</a></li>
-											 <li><a href="#">體測記錄表</a></li>
-										  </ul>
-								  	</div>
 									<div class="6u 12u(narrower) important(narrower)">
 										  <ul class="alt">
 											 <li><a href="#">配種記錄表</a></li>
@@ -110,29 +104,45 @@
 											 <li><a href="#">離乳記錄表</a></li>
 										  </ul>
 								  	</div>
+									<div class="6u 12u(narrower) important(narrower)">
+										  <ul class="alt">
+											 <li><a href="#">採精記錄表</a></li>
+											 <li><a href="#">體測記錄表</a></li>
+											 <li><a href="#">出豬記錄表</a></li>
+											 <li><a href="#">離場記錄表</a></li>
+										  </ul>
+								  	</div>
 							  		</div>
 									<!--input class="button small" value="上傳" /-->
 
                            <form action="" class="dropbox" method="post">
-								<div class="select-wrapper">
-									<select id="filters">
-									<option hidden disabled selected value>--選擇上傳記錄表種類--</option>
-									<option value='service'>配種記錄表</option>
-									<option value='semem'>採精記錄表</option>
-									<option value='diagnosis'>測孕記錄表</option>
-									<option value='paturition'>分娩記錄表</option>
-									<option value='wean'>離乳記錄表</option>
-									<option value='export'>出豬記錄表</option>
-									<option value='physical'>體測記錄表</option>
-									</select>
-								</div>
 								<br>
                               <div class="box_input">
                                  <input id="file" class="box_file" name="file" type="file"/>
                                  <label for="file"><strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span></label>
                                  <center id="upload-files-display"></center>
                               </div>
-                              <button class="box_button button" type="submit">上傳</button>
+                              <br>
+                              <div class="row">
+                                <div class="9u">
+                                    <div class="select-wrapper">
+                                        <select id="filters">
+                                        <option hidden disabled selected value>--選擇上傳記錄表種類--</option>
+                                        <option value='service'>配種記錄表</option>
+                                        <option value='semem'>採精記錄表</option>
+                                        <option value='diagnosis'>測孕記錄表</option>
+                                        <option value='paturition'>分娩記錄表</option>
+                                        <option value='wean'>離乳記錄表</option>
+                                        <option value='physical'>體測記錄表</option>
+                                        <option value='export'>出豬記錄表</option>
+                                        <option value='leave'>離場記錄表</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="3u" align="right" style="padding:0 !important">
+		                              <span class="box_button button" type="submit" style="padding:0 1.5em!important;">上傳</span>
+                                </div>
+                              </div>
                               <div class="box_uploading">上傳中&hellip;</div>
                               <div class="box_success">完成！</div>
                               <div class="box_error">噢不！發生錯誤！</div>

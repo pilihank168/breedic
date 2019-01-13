@@ -13,7 +13,7 @@
 		word-break: keep-all !important;
 		text-align: center !important;
 	}
-	#inputRow > td {margin: 0 !important; padding: 0!important;}
+	#inputRow > td {margin: 0 !important; padding: 1px!important; vertical-align: middle!important;}
 	.newRow > td {padding:0.5em 0!important;}
 	input[type='date'] {width: auto !important;}
 </style>
@@ -83,62 +83,54 @@
 							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<form id="form">
-										<div class="row uniform 50%">
-											<div class="6u">
-												<div class="row unifrom 50%">
-												<span class="label">日期：</span>
-												<div class="6u">
-												<input type="date" id="date" width='auto'>
-												</div>
-												</div>
-											</div>
-										</div>
-										<br>
-										<table align="center" id="table" class="hover stripe">
-											<thead>
-												<tr>
-													<th>公豬耳號</th>
-													<th>精液量</th> 
-													<th>精液濃度</th>
-													<th>活力</th>
-													<th>畸形</th> 
-													<th>頭頸</th> 
-													<th>中片</th> 
-													<th>稀釋數</th> 
-													<th>可用</th> 
-													<th>備註</th>
-												</tr>
-											</thead>
-											<tbody id="tableBody">
-											<tr id="inputRow">
-												<td><input id="earmark" type="text" required></td>
-												<td><input id="volume" type="text"></td>
-												<td><input id="concentration" type="text"></td>
-												<td><input id="activity" type="text"></td>
-												<td><input id="a" type="text"></td>
-												<td><input id="b" type="text"></td>
-												<td><input id="c" type="text"></td>
-												<td><input id="dilute" type="text"></td>
-												<td><input id="available" type="text"></td>
-												<td><input id="note" type="text"></td>
+									<center>
+										<span class="label">日期：</span>
+										<input type="date" id="date" width='auto' style="display:inline-block!important;">
+									</center>
+									<br>
+									<div id="inputandsave" style="visibility:hidden">
+									<table align="center" id="table" class="hover stripe">
+										<thead>
+											<tr>
+												<th>公豬耳號</th>
+												<th>精液量</th> 
+												<th>精液濃度</th>
+												<th>活力</th>
+												<th>畸形</th> 
+												<th>頭頸</th> 
+												<th>中片</th> 
+												<th>稀釋數</th> 
+												<th>可用</th> 
+												<th>備註</th>
 											</tr>
-											</tbody>
-										</table>
-										<div class="row">
-											<div class="6u">
-												<input type="submit" class="button" value="+">
-											</div>
-											<div class="6u" align="right">
-												<span class="button" id="upload">儲存</span>
-											</div>
-										</div>
-									</form>
+										</thead>
+										<tbody id="tableBody">
+											<form id="form">
+												<tr id="inputRow">
+													<td><input id="earmark" type="text" required></td>
+													<td><input id="volume" type="text"></td>
+													<td><input id="concentration" type="text"></td>
+													<td><input id="activity" type="text"></td>
+													<td><input id="a" type="text"></td>
+													<td><input id="b" type="text"></td>
+													<td><input id="c" type="text"></td>
+													<td><input id="dilute" type="text"></td>
+													<td><input id="available" type="text"></td>
+													<td><input id="note" type="text"></td>
+													<td style="padding:0 0.5em!important">
+														<input type="submit" class="button small" value="新增">
+													</td>
+												</tr>
+											</form>
+										</tbody>
+									</table>
+									<center>
+										<span class="button" id="upload">儲存</span>
+									</center>
+									</div>
 								</div>
 							</div>
-							<div class="2u 12u(narrower)"></div>
 						</div>
-					</div>
 					</div>
 				</section>
 

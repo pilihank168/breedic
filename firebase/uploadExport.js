@@ -15,13 +15,13 @@ form.addEventListener("submit", (event)=>{
 
 earmarks.addEventListener("submit", (event)=>{
 	event.preventDefault();
-	earmark = [];
+	earmark = {};
 	for(i=0;i<number.value;i++)
-		earmark.push(document.getElementById("earmark"+i.toString()).value)
+		earmark[document.getElementById("earmark"+i.toString()).value] = true;
 	console.log(['export', userData.currentFarm, date.value].join('/'));
 	var exportRef = firebase.database().ref('export/' + userData.currentFarm).push();
-	console.log(exportRef, exportName.value, date.value, note.value, number.value, earmark.join())
-	exportRef.set({name:exportName.value, note:note.value, number:number.value, earmarks:earmark.join(), date:date.value}).then( 
+	console.log(exportRef, exportName.value, date.value, note.value, number.value, earmark)
+	exportRef.set({name:exportName.value, note:note.value, number:number.value, earmarks:earmark, date:date.value}).then( 
 		()=>{window.location.replace("export.html")});
 });
 

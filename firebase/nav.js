@@ -20,6 +20,7 @@ function changeCurrentFarm(farmNo){
 function makeFarmList(){
 	var currentFarm = userData.currentFarm
 	var farms = userData.farmNo
+	farms = Array.isArray(farms)?farms:[farms];
 	var farmList = '';
 	var promiseArray = [];
 	for(var i=0; i<farms.length; i++){

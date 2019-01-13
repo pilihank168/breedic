@@ -5,20 +5,23 @@ var date = document.getElementById("date");
 var form = document.getElementById("form");
 var upload = document.getElementById("upload");
 var d = new Date();
+var keyArray = ["earmark", "volume", "concentration", "activity", "abnormalities", "acrosome", "midpiece", "dilute", "available", "note"];
 var promise_array=[];
 
 function initPage(){
 	date.valueAsDate=d;
-//	loadExistedData();
+	loadExistedData();
 }
 
-//date.addEventListener('change', function(){
-//	loadExistedData();
-//});
+date.addEventListener('change', function(){
+	$("#inputandsave").css("visibility", "hidden");
+	loadExistedData();
+});
 
 function loadExistedData(){
-	keyArray = ["earmark", "volume", "concentration", "activity", "var5", "var6", "var7", "dilute", "available", "note"];
-	var listRef = firebase.database().ref("semen/" + userData.currentFarm + "/").orderByChild("earmark");
+	while(table.rows.length>1)
+		table.removeChild(table.rows[0]);
+	var listRef = firebase.database().ref("semen/" + userData.currentFarm + "/").orderByChild("date").equalTo(date.value);
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
 			console.log(0);
@@ -27,7 +30,9 @@ function loadExistedData(){
 				var cell = row.insertCell(i);
 				cell.innerHTML = childSnapshot.child(keyArray[i]).val()
 			}
+			row.insertCell(-1);
 		});
+		$("#inputandsave").css("visibility", "visible");
 	});
 }
 
@@ -43,20 +48,11 @@ upload.addEventListener("click", ()=>{
 });
 
 function semenPromise(row){
-	semenRef = firebase.database().ref("semen/" + userData.currentFarm + "/").push();
-	//keys = ["earmark", "volume", "concentration", "activity", var5, var6, var7, "dilute", "available", "note"]
-	const p = semenRef.set({
-		earmark:row.children[0].innerHTML,
-		volume:row.children[1].innerHTML,
-		concentration:row.children[2].innerHTML,
-		activity:row.children[3].innerHTML,
-		var5:row.children[4].innerHTML,
-		var6:row.children[5].innerHTML,
-		var7:row.children[6].innerHTML,
-		dilute:row.children[7].innerHTML,
-		available:row.children[8].innerHTML,
-		note:row.children[9].innerHTML
-	});
+	semenObj = {date:date.value};
+	for(i=0;i<keyArray.length;i++)
+		semenObj[keyArray[i]] = row.children[i].innerHTML;
+	semenRef = firebase.database().ref("semen/" + userData.currentFarm + "/" + date.value + "-" + semObj["earmark"]);
+	const p = semenRef.set(semenObj);
 	promise_array.push(p);
 }
 
@@ -66,17 +62,18 @@ form.addEventListener("submit", (event)=>{
 	var newRow = table.insertRow(table.rows.length-1);
 	newRow.setAttribute('class', 'newRow');
 	var cells = [];
-	for(i=0;i<row.children.length;i++){
+	for(i=0;i<row.children.length-1;i++){
 		var cell = newRow.insertCell(i);
 		cell.innerHTML = row.children[i].children[0].value;
 		row.children[i].children[0].value='';
 	}
-	var cell = newRow.insertCell(row.children.length);
+	var cell = newRow.insertCell(row.children.length-1);
 	var deleteBtn = document.createElement('span');
-	deleteBtn.setAttribute("class", "button small");
+	deleteBtn.setAttribute("class", "button small alt");
 	deleteBtn.innerHTML = "×";
 	deleteBtn.addEventListener("click", function(){
 		this.closest("tbody").removeChild(this.closest("tr"));
 	});
 	cell.appendChild(deleteBtn);
+	row.children[0].children[0].focus();
 });

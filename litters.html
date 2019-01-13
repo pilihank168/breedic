@@ -21,6 +21,7 @@
 		text-align: center !important;
 	}
 	.inputRow td{padding:0!important; vertical-align:middle!important; margin:0!important;}
+	.deadRow{text-decoration:line-through!important;}
 	input[type='number'], input[type="date"]{width: 5em!important; height:3em!important;}
 </style>
 <html>
@@ -83,8 +84,6 @@
 												<th>性別</th> 
 												<th>出生重</th>
 												<th>奶頭數</th>
-												<th>離乳重</th>
-												<th>用途</th>
 												<th>備註</th>
 											</tr>
 										</thead>
@@ -95,11 +94,11 @@
 								</div>
 						</div>
 						<div class="modal-footer">
-							<div class="6u" align="left">
-								<a href="#" class="button alt" id="previous">前一窩</a>
+							<div class="6u" align="left" id="previous">
+								<span class="button alt" id="previous"></span>
 							</div>
-							<div class="6u" align="right">
-								<a href="#" class="button alt" id="next">後一窩</a>
+							<div class="6u" align="right" id="next">
+								<span class="button alt" id="next"></span>
 							</div>
 						</div>
 					</div>
@@ -112,7 +111,7 @@
 						<div style="margin: 0px auto;">
 							<a href="upload.html">豬隻資料</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="report.html" style="color:gray;">上傳紀錄</a>
+							<a href="record.html" style="color:gray;">工作記錄</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="report.html" style="color:gray;">查看分析報告</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -144,7 +143,9 @@
 							</div>
 							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
-
+                                    <div align="right">
+                                        <a class="button small special" href="littersHistory.html">檢視歷史資料</a>
+                                    </div>
 									<!-- Content -->
 									<table align="center" id="table" class="hover stripe" style='visibility:hidden'>
 									<thead>
@@ -155,7 +156,7 @@
 											<th>母畜序號</th>
 											<th>出生日期</th>
 											<th>位置</th>
-											<th>離乳日期</th>
+											<th>預計離乳</th>
 											<th>備註</th>
 										</tr>
 									</thead>

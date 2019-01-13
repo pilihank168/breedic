@@ -19,7 +19,7 @@ function initPage(){
 function counterDisplay(k){
 	var d = new Date(date.value);
 	d.setDate(d.getDate()+114);
-	info.innerHTML = ("預產期：" + d.getFullYear().toString() + "年" + (d.getMonth()+1).toString() + 
+	info.innerHTML = ("，預產期：" + d.getFullYear().toString() + "年" + (d.getMonth()+1).toString() + 
 						"月" + d.getDate().toString() + "日，已配種母豬：" + count.toString() );
 	countNew += k;
 	if(countNew > 0)
@@ -27,9 +27,12 @@ function counterDisplay(k){
 }
 
 function loadExistedData(){
+	while(table.rows.length>1)
+		table.removeChild(table.rows[0]);
+	console.log(table);
 	count = 0;
-	keyArray = ["sowEarmark", "sowRegisterNo", "sowLocation", "boarEarmark", "boarRegisterNo", "number"];
-	var listRef = firebase.database().ref("service/" + userData.currentFarm + "/" + date.value + "/").orderByChild("sowEarmark");
+	keyArray = ["sowEar", "sowNo", "sowLocation", "boarEar", "boarNo", "number"];
+	var listRef = firebase.database().ref("service/" + userData.currentFarm + "/" + date.value + "/").orderByChild("sowEar");
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
 			console.log(0);
@@ -47,13 +50,17 @@ function loadExistedData(){
 }
 
 function servicePromise(row){
-	serviceRef = firebase.database().ref("service/" + userData.currentFarm + "/" + date.value + "/").push();
+    var serviceDate = date.value;
+    var motherEar = row.children[0].innerHTML;
+    var fatherEar = row.children[3].innerHTML;
+    var productionId = [serviceDate, motherEar, fatherEar].join("-");
+	serviceRef = firebase.database().ref("service/" + userData.currentFarm + "/" + serviceDate + "/" + productionId);
 	const p = serviceRef.set({
-		sowEarmark:row.children[0].innerHTML,
-		sowRegisterNo:row.children[1].innerHTML,
+		sowEar:row.children[0].innerHTML,
+		sowNo:row.children[1].innerHTML,
 		sowLocation:row.children[2].innerHTML,
-		boarEarmark:row.children[3].innerHTML,
-		boarRegisterNo:row.children[4].innerHTML,
+		boarEar:row.children[3].innerHTML,
+		boarNo:row.children[4].innerHTML,
 		number:row.children[5].innerHTML,
 		parity:''
 	});

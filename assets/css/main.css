@@ -1828,6 +1828,7 @@
 
 		a:hover {
 			border-bottom-color: transparent;
+            color: #e89980;
 		}
 
 	strong, b {
@@ -1868,7 +1869,7 @@
 	}
 
 	h4 {
-		font-size: 1.1em;
+		font-size: 1.25em;
 		line-height: 1.5em;
 		letter-spacing: 0;
 	}
@@ -2654,6 +2655,7 @@
 		input[type="reset"]:hover,
 		input[type="button"]:hover,
 		.button:hover {
+            color: #ffffff;
 			background-color: #737373;
 		}
 
@@ -2762,6 +2764,8 @@
 		input[type="reset"]:disabled,
 		input[type="button"].disabled,
 		input[type="button"]:disabled,
+		input[type="date"].disabled,
+		input[type="date"]:disabled,
 		.button.disabled,
 		.button:disabled {
 			background-color: #777 !important;

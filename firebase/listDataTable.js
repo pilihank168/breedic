@@ -2,7 +2,6 @@ function defined(content){return content ? content : '';}
 
 function centerCell(row,i){
 	cell=row.insertCell(i);
-	//cell.setAttribute('style','text-align:center;');
 	return cell;
 }
 
@@ -30,6 +29,29 @@ function loadTable(refPath, order_key, search_key, query, correspondSearch, tabl
 	});
 }
 
+function singleDateEvent(date1, date2, checkbox){
+	date1.addEventListener("change", function(){
+		date2.min = date1.value;
+		if(two_date.checked||!date2.value)
+			date2.value = date1.value
+		d1 = new Date(date1.value)
+		d2 = new Date(date2.value)
+		if(d2<d1)
+			date2.value = date1.value
+	});
+	checkbox.addEventListener("change", function(){
+		if(this.checked){
+			$(date2).addClass("disabled");
+			date2.readOnly = true;
+			date2.value = date1.value
+		}
+		else{
+			$(date2).removeClass("disabled");
+			date2.readOnly = false;
+		}
+	})
+}
+
 function makeDataTable(tableID){
 	$(tableID).css('visibility', 'initial');
 	dataTable = $(tableID).DataTable({
@@ -40,7 +62,8 @@ function makeDataTable(tableID){
 		language: {
 			'info':'',
 			search:'搜尋:',
-			"zeroRecords": "找不到相關資料",
+			"emptyTable": "找不到相關資料",
+            "infoEmpty":"",
 			paginate: {
 				first:    '«',
 				previous: '上一頁',//'‹',

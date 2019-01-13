@@ -1,10 +1,11 @@
-
+//TODO: currentRow should be exclusive
 var table = document.getElementById("tableBody");
 var suckingTable = document.getElementById("suckingTable");
 var litterRow = document.getElementById("litterRow");
 var partRow = document.getElementById("partRow");
 var totalWeight = document.getElementById("totalWeight");
 var upload = document.getElementById("upload");
+var currentRow;
 
 function localDateStr(d){
 	str = d.toLocaleDateString().split("/");
@@ -32,7 +33,10 @@ function initPage(){
 				row.innerHTML = "<td>" + entry.sowEarmark + "</td><td>" + dueDate + "</td><td>" + entry.sowLocation + "</td>" + 
 				"<td><input type='date' value='" + today + "'></td>" + 
 				"<td><input type='text'></td>" + 
-				"<td><input type='text'></td>" + 
+				"<td><div class='select-wrapper'><select><option value='L'>L</option><option value='Y'>Y</option>" +
+                "<option value='D'>D</option><option value='LY'>LY</option><option value='YL'>YL</option>" +
+                "<option value='LYD'>LYD</option><option value='YLD'>YLD</option><option value='B'>B</option></select></div></td>" +
+//				"<td><input type='text'></td>" + 
 				"<td><input type='number'></td>" + 
 				"<td><input type='number'></td>" + 
 				"<td><input type='number'></td>" + 
@@ -60,11 +64,11 @@ function makeInputModal(btn){
 		if(partRow.children[i].getAttribute("class")==="input")
 			partRow.children[i].children[0].value="";
 	var thisRow = btn.closest("tr");
-	thisRow.setAttribute("class", "newRow currentRow");
+    currentRow = thisRow;
 	var earmark = thisRow.children[0].innerHTML;
 	var partDate = thisRow.children[3].children[0].value;
 	var litterNo = thisRow.children[4].children[0].value;
-	var strain = thisRow.children[5].children[0].value;
+	var strain = thisRow.children[5].children[0].children[0].value;
 	var totalPiglet = thisRow.children[6].children[0].value;
 	var mummy = thisRow.children[7].children[0].value;
 	var stillborn = thisRow.children[8].children[0].value;
@@ -156,7 +160,6 @@ upload.addEventListener("click", function(){
 	const p2 = suckingRef.set(suckingObj);
 	promises = [p1, p2]
 	Promise.all(promises).then( ()=>{
-		var currentRow = document.getElementsByClassName("currentRow")[0]
 		console.log(currentRow);
 		currentRow.closest("tbody").removeChild(currentRow.closest("tr"));
 		$("#myModal").modal("toggle");

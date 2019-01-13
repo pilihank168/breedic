@@ -1,0 +1,477 @@
+<!DOCTYPE HTML>
+<!--
+	Arcana by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<style>
+	table th{
+		text-align: center !important;
+	}
+	.detail tr td{text-align:left!important; word-break:keep-all!important; padding:0.75em 0.5em;}
+	.exptable tr:nth-child(2n){
+		background-color:#FFF0EB;
+		display:none;
+	}
+	.exptable tr:nth-child(4n+3){
+		background-color:white;
+	}
+	.exphead{
+		border-width:1px 1px 0 1px;
+		border-style:solid;
+		border-color:darksalmon;
+		background:darksalmon!important;
+		color:white!important;
+	}
+	.exptable tbody tr:nth-child(odd):hover{
+		cursor:pointer;
+		background-color:#eee;
+	}
+	.expbody{
+		border-width:0 1px 1px 1px;
+		border-style:solid;
+		border-color:darksalmon;
+		display:table-row!important;
+	}
+</style>
+<html>
+	<head>
+		<title>台鼎生物科技</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/upload.css" />
+		<link href="assets/css/stepProgressBar.css" rel="stylesheet" type="text/css">
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body>
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+					<!-- Nav -->
+					<nav id="nav">
+						<ul id="ul">
+							<li><a href="index.html">首頁</a></li>
+							<li class="current">
+								<a href="#data" class="icon fa-angle-down">數據分析</a>
+								<ul id='dataList'>
+									<li><a href="upload.html" name='list'>豬隻資料</a></li>
+									<li><a href="record.html" name='list'>上傳紀錄</a></li>
+									<li><a href="report.html" name='list'>查看分析報告</a></li>
+									<li><a href="recommend.html" name='list'>選拔建議</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#gene" class="icon fa-angle-down">基因檢測</a>
+								<ul id='geneList'>
+									<li><a href="service.html" name='list'>服務說明</a></li>
+									<li><a href="application.html" name='list'>提出申請</a></li>
+									<li><a href="progress.html" name='list'>進度查詢</a></li>
+									<li><a href="diagnose.html" name='list'>查看檢測報告</a></li>
+								</ul>
+							</li>
+							<li><a href="#contact">聯絡我們</a></li>
+							<li id='logInOut'><a href="#" class="button"  onclick="logout()">登出</em></a></li>
+						</ul>
+					</nav>
+				</header>
+
+		<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-dialog-centered modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">族譜</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+                            <div id="content">
+<center style="overflow-x:auto">
+<svg width="800" height="400">
+    <g><a>
+        <svg x="40" y="20" width="150" height="100">
+            <rect x="1%" y="1%" rx="10" ry="10" width="98%" height="98%" style="fill:white;stroke:black;stroke-width:2;" />
+            <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" id="fgfather">
+            </text>
+        </svg>
+    </a></g>
+    <g><a>
+        <svg x="230" y="20" width="150" height="100">
+            <rect x="1%" y="1%" rx="10" ry="10" width="98%" height="98%" style="fill:white;stroke:black;stroke-width:2;" />
+            <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" id="fgmother"></text>
+        </svg>
+    </a></g>
+    <g><a>
+        <svg x="420" y="20" width="150" height="100">
+            <rect x="1%" y="1%" rx="10" ry="10" width="98%" height="98%" style="fill:white;stroke:black;stroke-width:2;" />
+            <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" id="mgfather"></text>
+        </svg>
+    </a></g>
+    <g><a>
+        <svg x="610" y="20" width="150" height="100">
+            <rect x="1%" y="1%" rx="10" ry="10" width="98%" height="98%" style="fill:white;stroke:black;stroke-width:2;" />
+            <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" id="mgmother"></text>
+        </svg>
+    </a></g>
+    <g><a>
+        <svg x="135" y="150" width="150" height="100">
+            <rect x="1%" y="1%" rx="10" ry="10" width="98%" height="98%" style="fill:white;stroke:black;stroke-width:2;" />
+            <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" id="father"></text>
+        </svg>
+    </a></g>
+    <g><a>
+        <svg x="515" y="150" width="150" height="100">
+            <rect x="1%" y="1%" rx="10" ry="10" width="98%" height="98%" style="fill:white;stroke:black;stroke-width:2;" />
+            <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" id="mother"></text>
+        </svg>
+    </a></g>
+    <g><a>
+        <svg x="325" y="280" width="150" height="100">
+            <rect x="1%" y="1%" rx="10" ry="10" width="98%" height="98%" style="fill:white;stroke:black;stroke-width:2;" />
+            <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" id="self"></text>
+        </svg>
+    </a></g>
+    <polyline points="115,120 115,135 305,135 305,120" style="fill:none;stroke:black;stroke-width:2;" />
+    <polyline points="495,120 495,135 685,135 685,120" style="fill:none;stroke:black;stroke-width:2;" />
+    <polyline points="210,250 210,265 590,265 590,250" style="fill:none;stroke:black;stroke-width:2;" />
+    <line x1="210" x2="210" y1="135" y2="150"style="fill:none;stroke:black;stroke-width:2;" />
+    <line x1="590" x2="590" y1="135" y2="150"style="fill:none;stroke:black;stroke-width:2;" />
+    <line x1="400" x2="400" y1="265" y2="280"style="fill:none;stroke:black;stroke-width:2;" />
+</svg>
+</center>
+
+                                <!-- Content -->
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="editModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-dialog-centered">
+                        <form id="edit">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">修改資料</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="content">
+
+									<!-- Content -->
+                                    <!-- earmark, registerNo, birthday, fatherNo, motherNo, location, note, source, fatherEar, motherEar, photo -->
+									<div class="row">
+										<div class="4u" align="right">
+											<span class="label">位置：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="location">
+										</div>
+										<div class="4u" align="right">
+											<span class="label">備註：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="note">
+										</div>
+                                        <div class="4u" align="right">
+                                            <span class="label">更新照片：</span>
+                                        </div>
+                                        <div class="8u" style="padding:0 0 0.5em 0.5em!important">
+                                            <div class="dropbox">
+                                                <div class="box_input">
+                                                    <input id="file" class="box_file" name="file" type="file"/>
+                                                    <label for="file" style="text-align:center" id="fileLabel">
+                                                        <strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span>
+                                                    </label>
+                                                    <center id="upload-files-display"></center>
+                                                </div>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+						</div>
+						<div class="modal-footer" align="right">
+                            <input class="button" type="submit" id="submitBtn" value="儲存">
+						</div>
+					</div>
+                        </form>
+				</div>
+			</div>
+
+			<!-- Main -->
+				<section id="main" class="container 125%">
+					<header>
+						<div style="margin: 0px auto;">
+							<a href="upload.html">豬隻資料</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="record.html" style="color:gray;">工作記錄</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="report.html" style="color:gray;">查看分析報告</a>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<a href="recommend.html" style="color:gray;">選拔建議</a>
+						</div>
+						</br>
+						<h2>公豬資料</h2>
+					</header>
+					<div class="box">
+						<div class="row uniform 200%">
+							<div class="2u 12u(narrower)">
+								<!-- Sidebar -->
+								<div id="sidebar">
+									<section>
+										<ul class="alt">
+											<li><a href="upload.html" class="button alt fit small">一次上傳</a></li>
+										</ul>
+										<ul class="alt">
+											<li><a href="boarlist.html" class="button alt fit">公豬</a></li>
+											<li><a href="sowlist.html" class="button special fit">母豬</a></li>
+											<li><a href="litters.html" class="button alt fit">仔豬</a></li>
+											<li><a href="weanerlist.html" class="button alt fit">保育豬</a></li>
+										</ul>
+										<ul class="alt">
+											<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
+										</ul>
+									</section>
+								</div>
+							</div>
+							<div class="10u  12u(narrower) important(narrower)">
+								<div id="content">
+
+									<!-- Content -->
+									<div class="row">
+                                        <div class="6u">
+                                                <a href="boarList.html" class="button small">回列表</a>
+                                                <a class="button small alt" data-toggle="modal" data-target="#editModal">編輯</a>
+                                        </div>
+                                        <div class="6u" align="right" style="line-height:2em" id="score">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+										<div class="6u 12u(narrower)">
+                                            <img id="photo" width="100%" src="./images/pic08.jpg" style="font-size:x-large" alt="(無照片)">
+                                        </div>
+										<div class="3u 6u(narrower)" id="weight">
+											<table>
+											<tbody class="detail" id="detail1" style="overflow-x:auto">
+												<tr><td>品種：</td></tr>
+												<tr><td>耳號：</td></tr>
+												<tr><td>序號：</td></tr>
+												<tr><td>生日：</td></tr>
+												<tr><td>位置：</td></tr>
+											</tbody>
+											</table>
+										</div>
+										<div class="3u 6u(narrower)" id="weight" style="overflow-x:scroll">
+											<table>
+											<tbody class="detail" id="detail2">
+												<tr><td>父畜序號：</td></tr>
+												<tr><td>母畜序號：</td></tr>
+												<tr><td>前次採精：</td></tr>
+												<tr><td>豬隻來源：</td></tr>
+												<tr><td>備註：</td></tr>
+											</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="row">
+										<div class="12u">
+											<center><h2>生產資料</h2></center>
+                                            <div style="overflow-x:auto">
+											<table class="exptable">
+												<thead>
+												<tr>
+                                                    <th>公豬耳號</th>
+                                                    <th>精液量</th> 
+                                                    <th>精液濃度</th>
+                                                    <th>活力</th>
+                                                    <th>畸形</th> 
+                                                    <th>頭頸</th> 
+                                                    <th>中片</th> 
+                                                    <th>稀釋數</th> 
+                                                    <th>可用</th> 
+                                                    <th>備註</th>
+												</tr>
+												</thead>
+												<tbody id="semenTable">
+												</tbody>
+											</table>
+                                            </div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="12u">
+											<center><h2>體測資料</h2></center>
+										<div class="row">
+										<div class="7u 12u(narrower)">
+											<table>
+												<thead>
+												<tr>
+													<th>日期</th>
+													<th>體重</th>
+													<th>背脂厚度</th>
+													<th>腰眼深度</th>
+													<th>腰眼面積</th>
+													<th>備註</th>
+												</tr>
+												</thead>
+												<tbody id="physicalTable">
+												</tbody>
+											</table>
+										</div>
+										<div class="5u 12u(narrower)">
+											<canvas id="ctx" width="100%"></canvas>
+											<br>
+											<div class="row">
+												<div class="3u">
+													<span class="button small special lineChart" data-line="weight" data-name="體重">體重</span>
+												</div>
+												<div class="3u">
+													<span class="button small alt lineChart" data-line="fat" data-name="背脂">背脂</span>
+												</div>
+												<div class="3u">
+													<span class="button small alt lineChart" data-line="depth" data-name="腰眼深度">深度</span>
+												</div>
+												<div class="3u">
+													<span class="button small alt lineChart" data-line="surface" data-name="腰眼面積">面積</span>
+												</div>
+											</div>
+										</div>
+										</div>
+										</div>
+									</div>
+									<center>
+											<br>
+									<div class="row">
+									<div class="9u 12u(narrower)">
+									<h2 id="geneTest">基因檢測</h2>
+									<table id="testTable" align="center">
+									<thead>
+									<tr>
+										<th>基因</th>
+										<th>A</th>
+										<th>B</th> 
+										<th>C</th>
+										<th>D</th>
+										<th>E</th>
+										<th>F</th>
+										<th>G</th>
+										<th>H</th>
+									</tr>
+									</thead>
+									<tbody>
+									<tr>
+										<td width="12%"><center>結果</center></td>
+										<td width="11%"><center>-</center></td>
+										<td width="11%"><center>-</center></td>
+										<td width="11%"><center>-</center></td>
+										<td width="11%"><center>-</center></td>
+										<td width="11%"><center>-</center></td>
+										<td width="11%"><center>-</center></td>
+										<td width="11%"><center>-</center></td>
+										<td width="11%"><center>-</center></td>
+									</tr>
+									</tbody>
+									</table>
+									<!--input type="button" value="基因檢測申請" /-->
+									<h2 id="evaluation"><br>綜合評估</h2>
+									<table id="evaluationTable" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th>項目</th>
+                                                <th>生長</th>
+                                                <th>繁殖</th> 
+                                                <th>C</th>
+                                                <th>D</th>
+                                                <th>E</th>
+                                                <th>F</th>
+                                                <th>G</th>
+                                                <th>H</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td width="12%"><center>指數</center></td>
+                                                <td width="11%"><center></center></td>
+                                                <td width="11%"><center></center></td>
+                                                <td width="11%"><center></center></td>
+                                                <td width="11%"><center></center></td>
+                                                <td width="11%"><center></center></td>
+                                                <td width="11%"><center></center></td>
+                                                <td width="11%"><center></center></td>
+                                                <td width="11%"><center></center></td>
+                                            </tr>
+                                        </tbody>
+									</table>
+									</div>
+										<div class="3u 12u(narrower)">
+											<center><h2>工作記錄</h2></center>
+											<table>
+												<thead>
+													<tr><th>工作記錄</th></tr>
+												</thead>
+												<tbody id="log">
+												</tbody>
+											</table>
+										</div>
+									</div>
+									</center>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+				<div id="footer">
+					<!-- Icons -->
+						<ul class="icons">
+							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+							<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+							<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+						</ul>
+
+					<!-- Copyright -->
+						<div class="copyright">
+							<ul class="menu">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/jquery.scrollgress.min.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+			<script src="assets/js/stepProgressBar.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+			<script src="firebase/init.js"></script>
+			<script src="firebase/main.js"></script>
+			<script src="firebase/nav.js"></script>
+			<script src="firebase/lineChart.js"></script>
+            <script src="firebase/score.js"></script>
+			<script src="firebase/boar.js"></script>
+
+	</body>
+</html>

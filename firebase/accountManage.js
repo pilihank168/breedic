@@ -17,7 +17,7 @@ function initPage(){
       snapshot.forEach(function(farm){
          var entry = farm.val();
          
-         var farmNo = defined(entry.farmNo);
+         var farmNo = defined(farm.key);
          var farmName = defined(entry.name);
          var farmSize = defined(entry.size);
          var farmType = defined(entry.type);

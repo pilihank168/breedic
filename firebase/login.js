@@ -22,7 +22,6 @@ loginForm.addEventListener("submit",function(event){
 		console.log(url.searchParams.get("go"));
 		var path = url.searchParams.get("go") ? url.searchParams.get("go") : 'index.html';
 		console.log(path);
-		console.log('yoyoyoyoyo');
 		window.location.replace(path);
 	})
 	.catch(function(error) {

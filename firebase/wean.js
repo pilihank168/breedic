@@ -5,6 +5,7 @@ var partRow = document.getElementById("partRow");
 var totalLitterWeight = document.getElementById("totalLitterWeight");
 var totalWeight = document.getElementById("totalWeight");
 var upload = document.getElementById("upload");
+var currentRow;
 
 date.addEventListener("change", function(){
 	loadData()
@@ -20,6 +21,7 @@ function localDateStr(d){
 
 function initPage(){
 	var d = new Date();
+    console.log(localDateStr(d))
 	date.value = localDateStr(d);
 	console.log(d.toLocaleDateString().split('/'));
 	loadData()
@@ -111,7 +113,7 @@ function sum_weight(){
 
 $('#tableBody').on('click', 'tr', function () {
 	var thisRow = this;
-	thisRow.setAttribute("class", "currentRow");
+    currentRow = this;
 	upload.setAttribute("data-id", thisRow.getAttribute("data-id"));
 	// load sucking data
 	suckingRef = firebase.database().ref('sucking/' + userData.currentFarm + '/' + thisRow.getAttribute("data-litterno")).orderByChild('pigNo');
@@ -181,7 +183,6 @@ upload.addEventListener("click", function(){
 	const p2 = suckingRef.update(suckingObj);
 	promises = [p1, p2]
 	Promise.all(promises).then( ()=>{
-		var currentRow = document.getElementsByClassName("currentRow")[0]
 		console.log(currentRow);
 		currentRow.closest("tbody").removeChild(currentRow.closest("tr"));
 		$("#myModal").modal("toggle");

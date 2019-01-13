@@ -7,13 +7,17 @@
 <style>
 	table{
 		width:100%;
-	}
-	table td:hover{
-		cursor:pointer;
+		text-align: center!important;
 	}
 	table th{
+		word-break: keep-all !important;
 		text-align: center !important;
 	}
+	#inputRow{background-color:#f0f0f0!important;}
+	#inputRow > td {margin: 0 !important; padding: 1px!important; vertical-align: middle!important;}
+	#inputRow label{margin: 0 !important;}
+	.newRow > td {padding:0.5em 0!important;}
+	input[type="number"] {height: 3em!important;}
 </style>
 <html>
 	<head>
@@ -21,9 +25,8 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -44,16 +47,16 @@
 				<section id="main" class="container 125%">
 					<header>
 						<div style="margin: 0px auto;">
-							<a href="upload.html">豬隻資料</a>
+							<a href="upload.html" style="color:gray;">豬隻資料</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="record.html" style="color:gray;">工作記錄</a>
+							<a href="record.html">工作記錄</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="report.html" style="color:gray;">查看分析報告</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<a href="recommend.html" style="color:gray;">選拔建議</a>
 						</div>
 						</br>
-						<h2>公豬列表</h2>
+						<h2>輸入離場記錄</h2>
 					</header>
 					<div class="box">
 						<div class="row uniform 200%">
@@ -62,13 +65,17 @@
 									<!-- Sidebar -->
 										<section>
 											<ul class="alt">
-												<li><a href="upload.html" class="button alt fit small">一次上傳</a></li>
+												<li><a href="record.html" class="button alt fit small">一次上傳</a></li>
 											</ul>
 											<ul class="alt">
-												<li><a href="boarlist.html" class="button special fit">公豬</a></li>
-												<li><a href="sowlist.html" class="button alt fit">母豬</a></li>
-												<li><a href="litters.html" class="button alt fit">仔豬</a></li>
-												<li><a href="weanerlist.html" class="button alt fit">保育豬</a></li>
+												<li><a href="service.html" class="button alt fit">配種</a></li>
+												<li><a href="semen.html" class="button alt fit">採精</a></li>
+												<li><a href="diagnosis.html" class="button alt fit">測孕</a></li>
+												<li><a href="parturition.html" class="button alt fit">分娩</a></li>
+												<li><a href="wean.html" class="button alt fit">離乳</a></li>
+												<li><a href="physical.html" class="button alt fit">體測</a></li>	
+												<li><a href="export.html" class="button alt fit">出豬</a></li>
+												<li><a href="leave.html" class="button special fit">離場</a></li>	
 											</ul>
 											<ul class="alt">
 												<li><a href="download.html" class="button alt fit small">匯出資料</a></li>
@@ -79,59 +86,44 @@
 							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<div class="row uniform">
-										<div class="2u">
-										<input type="submit" value="新增公豬" class="special small"
-										    onclick="window.location='uploadBoar.html';" />  
-										</div>
-										<div class="4u 8u(narrower)">
-											<input type="text" placeholder="搜尋" id='search'/>
-										</div>
-										<div class="2u 4u(narrower)">
-										<div class="select-wrapper">
-											<select id="filters">
-											<option value='earmark'>耳號</option>
-											<option value='strain'>品種</option>
-											<option value='registerNo'>序號</option>
-											<option value='birthday'>生日</option>
-											</select>
-										</div>
-										</div>
-										<div class="2u 12u(narrower)">
-											<input class="button fit" id='searchBtn' value="查詢"/>
-										</div>
-										<div class="2u 12u(narrower)">
-										<div class="select-wrapper">
-											<select id="tableFilter">
-											<option value="earmark">依耳號排列</option>
-											<option value="strain">依品種排列</option>
-											<option value="location">依位置排列</option>
-											<option value="birthday">依生日排列</option>
-											</select>
-										</div>
-										</div>
-									</div>
-									</br>
-									<table align="center" id="table" class="hover stripe" style='visibility:hidden'>
-										<thead>
-											<tr>
-												<th>品種</th>
-												<th>公豬耳號</th> 
-												<th>公豬序號</th>
-												<th>出生日期</th>
-												<th>位置</th>
-												<th>前次採精</th>
-												<th>可用</th>
-												<th>備註</th>
+										<table align="center" id="table" class="hover stripe">
+											<thead>
+												<tr>
+													<th width="15%">日期</th>
+													<th width="15%">耳號</th>
+													<th width="25%">原因</th> 
+													<th width="45%">備註</th> 
+												</tr>
+											</thead>
+											<tbody id="tableBody">
+											<form id="form">
+											<tr id="inputRow">
+												<td><input id="date" type="date" required></td>
+												<td><input id="earmark" type="text" required></td>
+												<td>
+													<span class="label">
+														<input id="died" value="died" type="radio" name="leaveType" checked>
+														<label for="died">死亡</label>
+														<input id="eliminate" value="eliminate" type="radio" name="leaveType">
+														<label for="eliminate">淘汰</label>
+													</span>
+												</td>
+												<td><input id="note" type="text"></td>
+												<td style="padding:0 0.5em!important">
+													<input type="submit" class="button small" value="新增">
+												</td>
 											</tr>
-										</thead>
-										<tbody id="tableBody">
-										</tbody>
-									</table>
-
+											</form>
+											</tbody>
+										</table>
+										<center>
+											<span class="button" id="upload">儲存</span>
+										</center>
 								</div>
 							</div>
+							<div class="2u 12u(narrower)"></div>
 						</div>
+					</div>
 					</div>
 				</section>
 
@@ -152,7 +144,9 @@
 								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 							</ul>
 						</div>
+
 				</div>
+
 		</div>
 
 		<!-- Scripts -->
@@ -163,13 +157,11 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-			<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script-->
-			<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+			<!--script src="firebase/test.js"></script-->
+			<script src="firebase/nav.js"></script>
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
-			<script src="firebase/listDataTable.js"></script>
-			<script src="firebase/boarlist.js"></script>
-			<script src="firebase/nav.js"></script>
+         	<script src="firebase/uploadleave.js"></script>
 
 	</body>
 </html>

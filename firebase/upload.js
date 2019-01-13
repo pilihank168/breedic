@@ -12,7 +12,7 @@ Dropzone.on('drag dragstart dragend dragover dragenter dragleave drop', function
 }).on('drop', function(e){
    droppedFiles = e.originalEvent.dataTransfer.files;
    $("#upload-files-display").empty();
-   $("#upload-files-display").append(droppedFiles[0].name);
+   $("#upload-files-display").append(droppedFiles[0].name+"<br>(<a>取消檔案</a>)");
 });
 
 /*Dropzone.on('submit', function(e){
@@ -22,12 +22,12 @@ Dropzone.on('drag dragstart dragend dragover dragenter dragleave drop', function
 });*/
 
 $("#file").change(function(){
-   var filename = $("#file")[0].files[0].name;
-   $("#upload-files-display").empty();
-   $("#upload-files-display").append(filename);
-console.log($("#file")[0].files)
+    var filename = $("#file")[0].files[0].name;
+    filePreviewer($("#file")[0].files[0]);
+    console.log($("#file")[0].files)
 });
 
-var ctx = document.getElementById('myChart').getContext('2d');
-
-renderChart(ctx, ["January", "February", "March", "April", "May", "June", "July"], [0, 10, 5, 2, 20, 30, 45], 'weight');
+function filePreviewer(file){
+    $("#upload-files-display").empty();
+    $("#upload-files-display").append(file.name);
+}
