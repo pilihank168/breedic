@@ -31,7 +31,7 @@ function loadExistedData(){
 		table.removeChild(table.rows[0]);
 	console.log(table);
 	count = 0;
-	keyArray = ["sowEar", "sowNo", "sowLocation", "boarEar", "boarNo", "number"];
+	keyArray = ["sowEar", "sowNo", "serviceLocation", "boarEar", "boarNo", "serviceNumber"];
 	var listRef = firebase.database().ref("service/" + userData.currentFarm + "/" + date.value + "/").orderByChild("sowEar");
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
@@ -58,13 +58,20 @@ function servicePromise(row){
 	const p = serviceRef.set({
 		sowEar:row.children[0].innerHTML,
 		sowNo:row.children[1].innerHTML,
-		sowLocation:row.children[2].innerHTML,
+		serviceLocation:row.children[2].innerHTML,
 		boarEar:row.children[3].innerHTML,
 		boarNo:row.children[4].innerHTML,
-		number:row.children[5].innerHTML,
+		serviceNumber:row.children[5].innerHTML,
 		parity:''
 	});
 	promise_array.push(p);
+    // logP and sowP
+    logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + motherEar).push();
+    logP = logRef.set({date:serviceDate, eventName:"service"});
+    promise_array.push(logP);
+    sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + motherEar);
+    sowP = sowRef.update({status:"s"+serviceDate, location:children[2].innerHTML, lastService:serviceDate});
+    promise_array.push(sowP);
 }
 
 date.addEventListener('change', function(){

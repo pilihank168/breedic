@@ -2,7 +2,7 @@
 var table = document.getElementById("tableBody");
 var dataTable = '';
 var litterRefPath;
-var litterKeys = ['strain', 'litterNo', 'fatherNo', 'motherNo', 'birthday', 'location', 'weanDate', 'note'];
+var litterKeys = ['strain', 'litterNo', 'fatherNo', 'motherNo', 'birthday', 'weanDate', 'note'];
 var suckingKey = ['pigNo', 'gender', 'litterWeight', 'nippleNo', 'weanWeight', 'identity', 'note']; 
 var litterTable = document.getElementById("litterTable");
 var suckingTable = document.getElementById("suckingTable");

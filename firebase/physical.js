@@ -11,9 +11,13 @@ function initPage(){
 			for(i=0;i<keyArray.length;i++){
 				var cell = row.insertCell(i);
 				data = childSnapshot.child(keyArray[i]).val()
-				cell.innerHTML = i!=2 ? data : (data=="sow"?"母豬":"公豬")
+				cell.innerHTML = i!=2 ? data : (data=="F"?"母豬":"公豬")
 			}
 			row.insertCell(-1)
 		});
 	});
+}
+
+function unique(a){
+    return a.filter(function(value, index, self) {return self.indexOf(value) === index;})
 }

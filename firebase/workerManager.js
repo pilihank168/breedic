@@ -42,6 +42,21 @@ var item, i;
 var emails = [];
 
 function initPage(){
+    var functions = firebase.functions();
+    newUser = {
+        email:"b02902005@ntu.edu.tw",
+        password:"b02902005",
+        name:"haha",
+        active:true,
+        farm:0,
+        role:"employee"
+    }
+    var createUser = firebase.functions().httpsCallable('createUser');
+    createUser(newUser).then(function(result){
+        console.log(result);
+    }).catch(function(error){
+        console.log(error.code, error.message);
+    });
 	$('#active-yes2').attr('disabled', true);
 	$('#active-no2').attr('disabled', true);
    uid = userData.uid;

@@ -129,7 +129,7 @@ function basicData(snapshot){
 	detail1.children[4].children[0].innerHTML = "位置：" + (entry.location||"");
 	detail2.children[0].children[0].innerHTML = "父畜序號：" + (entry.fatherNo||"");
 	detail2.children[1].children[0].innerHTML = "母畜序號：" + (entry.motherNo||"");
-	detail2.children[2].children[0].innerHTML = "目前狀態：" + sowStatus(entry.status, entry.lastService, entry.lastDue, entry.lastParturition, entry.lastWean);
+	detail2.children[2].children[0].innerHTML = "目前狀態：" + sowStatus(entry.status, entry.lastService, entry.lastDue, entry.lastParturition, entry.lastWean, entry.unavailability);
 	detail2.children[3].children[0].innerHTML = "豬隻來源：" + (entry.source||"");
 	detail2.children[4].children[0].innerHTML = "備註：" + (entry.note||"無");
     if(entry.score){
@@ -159,8 +159,14 @@ function dateDistance(date1, date2){
     return Math.floor((b-a)/(1000*60*60*24))
 }
 
-function sowStatus(stat, lastService, lastDue, lastParturition, lastWean){
-    if(stat){
+function sowStatus(stat, lastService, lastDue, lastParturition, lastWean, unavailability){
+    if(unavailability==="exported")
+        return "已出豬"
+    else if(unavailability==="dead")
+        return "已死亡"
+    else if(unavailability==="eliminated")
+        return "已淘汰"
+    else if(stat){
         d0 = new Date();
         var todayDate = localDateStr(d0);
         var current = dateDistance(lastService, todayDate);
@@ -200,10 +206,10 @@ function physicalData(snapshot){
         lineData["week"].push(week);
         for(j=0;j<physicalKeys.length;j++){
             var cell = row.insertCell(j);
-            var val = physicalObj[i][physicalKeys[j]];
+            var val = parseFloat(physicalObj[i][physicalKeys[j]]);
             cell.innerHTML = val||"";
-            if(j>0 && j<5)
-                lineData[physicalKeys[j]].push({x:week, y:parseFloat(val)});
+            if(j>0 && j<5 && val)
+                lineData[physicalKeys[j]].push({x:week, y:val});
         }
 	}
     renderLineChart("weight", "體重");
@@ -261,8 +267,8 @@ function logData(snapshot){
         var entry = childSnapshot.val()
         var row = logTable.insertRow(0)
         var cell = row.insertCell(0)
-        var eventMap = {birth:"出生", weaned:"離乳為保育豬", transfer:"轉種豬", service:"配種", diagnosis:"測孕",
-                        parturition:"分娩", wean:"離乳", export:"出豬", eliminate:"淘汰", died:"死亡"};
+        var eventMap = {birth:"出生", weaned:"離乳為保育豬", transfer:"轉種豬", physical:"體測", service:"配種", diagnosis:"測孕",
+                        parturition:"分娩", wean:"離乳", export:"出豬", eliminate:"淘汰", dead:"死亡"};
         cell.innerHTML = [entry.date, eventMap[entry.eventName]].join(" ");
     });
 }

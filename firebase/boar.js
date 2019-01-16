@@ -168,10 +168,11 @@ function physicalData(snapshot){
         lineData["week"].push(week);
         for(j=0;j<physicalKeys.length;j++){
             var cell = row.insertCell(j);
-            var val = physicalObj[i][physicalKeys[j]];
+            var val = parseFloat(physicalObj[i][physicalKeys[j]]);
             cell.innerHTML = val||"";
-            if(j>0 && j<5)
+            if(j>0 && j<5 && val)
                 lineData[physicalKeys[j]].push({x:week, y:parseFloat(val)});
+                lineData[physicalKeys[j]].push({x:week, y:val});
         }
 	}
     renderLineChart("weight", "體重");
@@ -218,8 +219,8 @@ function logData(snapshot){
         var entry = childSnapshot.val()
         var row = logTable.insertRow(0)
         var cell = row.insertCell(0)
-        var eventMap = {birth:"出生", weaned:"離乳為保育豬", transfer:"轉種豬", service:"配種", diagnosis:"測孕",
-                        parturition:"分娩", wean:"離乳", export:"出豬", eliminate:"淘汰", died:"死亡"};
+        var eventMap = {birth:"出生", weaned:"離乳為保育豬", transfer:"轉種豬", physical:"體測", semen:"採精",
+                        export:"出豬", eliminate:"淘汰", dead:"死亡"};
         cell.innerHTML = [entry.date, eventMap[entry.eventName]].join(" ");
     });
 }

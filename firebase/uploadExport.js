@@ -15,14 +15,39 @@ form.addEventListener("submit", (event)=>{
 
 earmarks.addEventListener("submit", (event)=>{
 	event.preventDefault();
-	earmark = {};
-	for(i=0;i<number.value;i++)
-		earmark[document.getElementById("earmark"+i.toString()).value] = true;
-	console.log(['export', userData.currentFarm, date.value].join('/'));
-	var exportRef = firebase.database().ref('export/' + userData.currentFarm).push();
-	console.log(exportRef, exportName.value, date.value, note.value, number.value, earmark)
-	exportRef.set({name:exportName.value, note:note.value, number:number.value, earmarks:earmark, date:date.value}).then( 
-		()=>{window.location.replace("export.html")});
+    var sexRef = firebase.database().ref("sex/" + userData.currentFarm);
+    sexRef.once("value").then( (snapshot)=>{
+        sexData = snapshot.val();
+        unavailableUpdate = {};
+        logUpdate = {};
+        earmark = {};
+        var exportRef = firebase.database().ref('export/' + userData.currentFarm).push();
+        for(i=0;i<number.value;i++){
+            var ear = document.getElementById("earmark"+i.toString()).value;
+            earmark[ear] = true;
+            if(sexData[ear]==="boar"){
+                unavailableUpdate["/boars/" + userData.currentFarm + "/" + ear + "/unavailability"] = "exported";
+                unavailableUpdate["/boars/" + userData.currentFarm + "/" + ear + "/export"] = exportRef.key;
+            }
+            else if(sexData[ear]==="sow"){
+                unavailableUpdate["/sows/" + userData.currentFarm + "/" + ear + "/unavailability"] = "exported";
+                unavailableUpdate["/sows/" + userData.currentFarm + "/" + ear + "/export"] = exportRef.key;
+            }
+            else{
+                unavailableUpdate["/weaners/" + userData.currentFarm + "/" + ear + "/status"] = "exported";
+                unavailableUpdate["/weaners/" + userData.currentFarm + "/" + ear + "/export"] = exportRef.key;
+            }
+            logUpdate[ear + "/exportLog"] = {date:date.value, eventName:"export"};
+        }
+        var logRef = firebase.database().ref("log/" + userData.currentFarm);
+        const logP = logRef.update(logUpdate);
+        var unavailableRef = firebase.database().ref();
+        const unavailableP = unavailableRef.update(unavailableUpdate);
+        console.log(['export', userData.currentFarm, date.value].join('/'));
+        console.log(exportRef, exportName.value, date.value, note.value, number.value, earmark)
+        const exportP = exportRef.set({name:exportName.value, note:note.value, number:number.value, earmarks:earmark, date:date.value});
+        return Promise.all([unavailableP, logP, exportP])
+    }).then( ()=>{window.location.replace("export.html")});
 });
 
 function earmarksInput(n, m){

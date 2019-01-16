@@ -90,7 +90,9 @@ upload.addEventListener("submit", function(e){
 		const p2 = photoRef.put(photo);
 		promise_array.push(p2)
 	}
-    
+    var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + sowId);
+    const sexP = sexRef.set("boar");
+    promise_array.push(sexP);
 	Promise.all(promise_array).then(function(){
 		console.log("新增公豬資料成功");
 		window.location.replace("boardata.html?id="+boarId);

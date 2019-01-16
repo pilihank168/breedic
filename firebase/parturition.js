@@ -1,4 +1,3 @@
-//TODO: currentRow should be exclusive
 var table = document.getElementById("tableBody");
 var suckingTable = document.getElementById("suckingTable");
 var litterRow = document.getElementById("litterRow");
@@ -6,6 +5,8 @@ var partRow = document.getElementById("partRow");
 var totalWeight = document.getElementById("totalWeight");
 var upload = document.getElementById("upload");
 var currentRow;
+var serviceKeys = ["parity", "serviceDate", "sowEar", "boarEar", "sowNo", "boarNo"]
+var serviceObj;
 
 function localDateStr(d){
 	str = d.toLocaleDateString().split("/");
@@ -14,9 +15,10 @@ function localDateStr(d){
 	dStr = ("0" + str[2]).slice(-2);
 	return [yStr, mStr, dStr].join("-");
 }
+
 function initPage(){
 	var d = new Date();
-	today = localDateStr(d)//d.toLocaleDateString().replace(/\//g, '-');
+	today = localDateStr(d)
 	d.setDate(d.getDate()-107);
 	thresholdDate = localDateStr(d);
 	console.log(thresholdDate);
@@ -27,16 +29,12 @@ function initPage(){
 			if(true||!childSnapshot.child("partDate").exists()){
 				var entry = childSnapshot.val();
 				var row = table.insertRow(-1);
-				var tempDate = new Date(entry.serviceDate);
-				tempDate.setDate(tempDate.getDate()+114);
-				dueDate = tempDate.toISOString().slice(0,10)
-				row.innerHTML = "<td>" + entry.sowEarmark + "</td><td>" + dueDate + "</td><td>" + entry.sowLocation + "</td>" + 
+				row.innerHTML = "<td>" + entry.sowEarmark + "</td><td>" + entry.dueDate + "</td><td>" + entry.sowLocation + "</td>" + 
 				"<td><input type='date' value='" + today + "'></td>" + 
 				"<td><input type='text'></td>" + 
 				"<td><div class='select-wrapper'><select><option value='L'>L</option><option value='Y'>Y</option>" +
                 "<option value='D'>D</option><option value='LY'>LY</option><option value='YL'>YL</option>" +
                 "<option value='LYD'>LYD</option><option value='YLD'>YLD</option><option value='B'>B</option></select></div></td>" +
-//				"<td><input type='text'></td>" + 
 				"<td><input type='number'></td>" + 
 				"<td><input type='number'></td>" + 
 				"<td><input type='number'></td>" + 
@@ -51,8 +49,8 @@ function initPage(){
 				cell.appendChild(btn);
 				row.setAttribute("class", "newRow");
 				row.setAttribute("data-id", childSnapshot.key);
-				row.setAttribute("data-father", entry.boarRegisterNo);
-				row.setAttribute("data-mother", entry.sowRegisterNo);
+                for(i=0;i<serviceKeys.length;i++)
+                    row.setAttribute("data-"+serviceKeys[i].toLowerCase(), entry[serviceKeys[i])
 			}
 		});
 	});
@@ -65,6 +63,9 @@ function makeInputModal(btn){
 			partRow.children[i].children[0].value="";
 	var thisRow = btn.closest("tr");
     currentRow = thisRow;
+    serviceObj = {};
+    for(i=0;i<serviceKeys.length;i++)
+        serviceObj[serviceKeys[i]] = thisRow.getAttribute("data-" + serviceKeys[i].toLowerCase());
 	var earmark = thisRow.children[0].innerHTML;
 	var partDate = thisRow.children[3].children[0].value;
 	var litterNo = thisRow.children[4].children[0].value;
@@ -73,9 +74,8 @@ function makeInputModal(btn){
 	var mummy = thisRow.children[7].children[0].value;
 	var stillborn = thisRow.children[8].children[0].value;
 	var live = thisRow.children[9].children[0].value;
-	console.log(earmark);
-	var father = thisRow.getAttribute("data-father");
-	var mother = thisRow.getAttribute("data-mother");
+	var father = serviceObj.boarNo;
+	var mother = serviceObj.sowNo;
 	d = new Date(partDate);
 	d.setDate(d.getDate()+21);
 	var weanDate = d.toISOString().slice(0, 10);
@@ -137,8 +137,9 @@ upload.addEventListener("click", function(){
 	strain = litterRow.children[1].innerHTML;
 	partDate = litterRow.children[4].innerHTML;
 	partLoca = litterRow.children[6].children[0].value;
+    // production : partObj
 	partObj = {litterNo:litterNo, strain:strain, partDate:partDate, partLocation:partLoca, totalLitterWeight:sum_weight()};
-	partKeys = ["totalPiglet", "totalDeath", "death", "mummy", "stillborn", "lied", "weakDeath", "smallDeath", "live", "normal", "weak", "small"];
+	partKeys = ["totalPiglet", "totalDead", "dead", "mummy", "stillborn", "lied", "weakDead", "smallDead", "live", "normal", "weak", "small"];
 	for(i=0;i<partRow.children.length;i++){
 		if(partRow.children[i].getAttribute("class")==="input")
 			partObj[partKeys[i]] = partRow.children[i].children[0].value;
@@ -146,23 +147,50 @@ upload.addEventListener("click", function(){
 			partObj[partKeys[i]] = partRow.children[i].innerHTML;
 	}
 	var partRef = firebase.database().ref("parturition/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
-	const p1 = partRef.update(partObj);
+    var productionRef = firebase.database().ref("production/" + userData.currentFarm + "/" + sowEar + "/" + parity);
+    const productionP = productionRef.update(partObj);
+    var promise_array = [productionP]
+    // litters : partObj + service(father, mother)
+    var litterRef = firebase.database().ref("litters/" + userData.currentFarm + "/" + id);
+    var litterObj = {fatherNo:serviceObj.boarNo, motherNo:serviceObj.sowNo, fatehrEar:serviceObj.boarEar, motherEar:serviceObj.sowEar};
+    for (key in partObj)
+        litterObj[key] = partObj[key];
+    const litterP = litterRef.set(litterObj);
+    promise_array.push(litterP);
+    // suckings
 	suckingObj = {};
 	for(i=0;i<suckingTable.rows.length;i++){
 		suckingObj[suckingTable.rows[i].children[0].children[0].value] = {
-			sex:(suckingTable.rows[i].children[1].children[0].children[0].checked)?"sow":"boar",
+			sex:(suckingTable.rows[i].children[1].children[0].children[0].checked)?"F":"M",
 			litterWeight:suckingTable.rows[i].children[2].children[0].value,
 			nipple:suckingTable.rows[i].children[3].children[0].value,
 			note:suckingTable.rows[i].children[4].children[0].value};		
 	}
 	console.log(partObj, suckingObj);
-	var suckingRef = firebase.database().ref("sucking/" + userData.currentFarm + "/" + litterNo);
-	const p2 = suckingRef.set(suckingObj);
-	promises = [p1, p2]
-	Promise.all(promises).then( ()=>{
+	var suckingRef = firebase.database().ref("suckings/" + userData.currentFarm + "/" + litterNo);
+	const suckingP = suckingRef.set(suckingObj);
+    promise_array.push(suckingP);
+    // parturitionHistory : partObj + service
+    var historyRef = firebase.database().ref("parturitionHistory/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
+    for (key in serviceObj)
+        partObj[key] = serviceObj[key]
+    const historyP = historyRef.set(partObj);
+    promise_array.push(historyP);
+    // remove
+	var partRef = firebase.database().ref("parturition/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
+    const partP = partRef.remove();
+    promise_array.push(partP);
+    // log : partDate
+    var logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + serviceObj.sowEar).push();
+    const logP = logRef.set({data:, eventName:"parturition"});
+    promise_array.push(logP);
+    // sows :
+    var sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + serviceObj.sowEar);
+    const sowP = sowRef.update({status:"p"+partObj.partDate , location:partObj.partLocation, lastParturition:partObj.partDate});
+	Promise.all(promise_array).then( ()=>{
+        promise_array = [];
 		console.log(currentRow);
 		currentRow.closest("tbody").removeChild(currentRow.closest("tr"));
 		$("#myModal").modal("toggle");
-		// delete current row
 	});
 });

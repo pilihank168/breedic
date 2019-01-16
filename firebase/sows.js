@@ -82,7 +82,7 @@ upload.addEventListener("submit", function(e){
 		fatherNo:document.getElementById("fatherNo").value,
 		motherEar:document.getElementById("motherEar").value,
 		motherNo:document.getElementById("motherNo").value,
-		position:document.getElementById("location").value,
+		location:document.getElementById("location").value,
 		source:document.getElementById("source.value"),
 		note:document.getElementById("note").value
 	});
@@ -123,6 +123,9 @@ upload.addEventListener("submit", function(e){
         const lastDateP = firebase.database().ref("sows/" + userData.currentFarm + "/" + sowId).update(lastDate);
         promise_array.push(lastDateP);
     }
+    var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + sowId);
+    const sexP = sexRef.set("sow");
+    promise_array.push(sexP);
 	Promise.all(promise_array).then(function(){
 		console.log("新增母豬資料成功");
 		window.location.replace("sow.html?id="+sowId);

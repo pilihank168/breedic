@@ -35,7 +35,7 @@ function loadExistedData(){
 			for(i=0;i<keyArray.length;i++){
 				var cell = row.insertCell(i);
 				data = childSnapshot.child(keyArray[i]).val()
-				cell.innerHTML = i!=1 ? data : (data=="sow"?"母豬":"公豬")
+				cell.innerHTML = i!=1 ? data : (data=="F"?"母豬":"公豬")
 			}
 			row.insertCell(-1)
 		});
@@ -58,7 +58,7 @@ function physicalPromise(row){
 	//keys = ["earmark", "volume", "concentration", "activity", var5, var6, var7, "dilute", "available", "note"]
 	const p = physicalRef.set({
 		earmark:row.children[0].innerHTML,
-		sex:(row.children[1].innerHTML=='母豬'?'sow':'boar'),
+		sex:(row.children[1].innerHTML=='母豬'?'F':'M'),
 		weight:row.children[2].innerHTML,
 		fat:row.children[3].innerHTML,
 		depth:row.children[4].innerHTML,
@@ -67,6 +67,9 @@ function physicalPromise(row){
 		date:date.value
 	});
 	promise_array.push(p);
+    logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + semObj["earmark"]).push();
+    logP = logRef.set({date:date.value, eventName:"semen"});
+    promise_array.push(logP);
 }
 
 form.addEventListener("submit", (event)=>{

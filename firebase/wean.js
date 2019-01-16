@@ -33,7 +33,7 @@ function loadData(){
 	thresholdDate = d.toISOString().slice(0,10)
 	console.log(thresholdDate);
 
-	listRef = firebase.database().ref("litter/" + userData.currentFarm);
+	listRef = firebase.database().ref("litters/" + userData.currentFarm);
 	listRef.orderByChild("partDate").startAt("").endAt(thresholdDate).once("value").then( (snapshot)=>{
 		snapshot.forEach( (childSnapshot)=>{
 			if(true||!childSnapshot.child("weanDate").exists()){
@@ -45,8 +45,8 @@ function loadData(){
 					cell = row.insertCell(i)
 					cell.innerHTML = entry.child(litterKeys[i]).val();
 				}
-				var hiddenKeys = ["boarRegisterNo", "sowRegisterNo", "totalPiglet", "death", "totalDeath", "mummy", "stillborn",
-									"lied","weakDeath", "smallDeath", "live", "normal", "weak", "small", "totalLitterWeight"];
+				var hiddenKeys = ["fatherNo", "motherNo", "fatherEar", "motherEar", "parity", "totalPiglet", "death", "totalDeath", "mummy",
+									"stillborn", "lied","weakDeath", "smallDeath", "live", "normal", "weak", "small", "totalLitterWeight"];
 				litterKeys = litterKeys.concat(hiddenKeys);
 				for(i=0;i<litterKeys.length;i++){
 					row.setAttribute("data-"+litterKeys[i].toLowerCase(), entry.child(litterKeys[i]).val());
@@ -58,7 +58,7 @@ function loadData(){
 }
 
 function litterTable(row){
-	var litterKeys = ["strain", "litterno", "boarregisterno", "sowregisterno", "partdate"]
+	var litterKeys = ["strain", "litterno", "fatherno", "motherno", "partdate"]
 	for(i=0;i<litterKeys.length;i++){
 		value = row.getAttribute("data-" + litterKeys[i]);
 		litterRow.children[i].innerHTML = value==="null"?"": value;
@@ -116,7 +116,7 @@ $('#tableBody').on('click', 'tr', function () {
     currentRow = this;
 	upload.setAttribute("data-id", thisRow.getAttribute("data-id"));
 	// load sucking data
-	suckingRef = firebase.database().ref('sucking/' + userData.currentFarm + '/' + thisRow.getAttribute("data-litterno")).orderByChild('pigNo');
+	suckingRef = firebase.database().ref('suckings/' + userData.currentFarm + '/' + thisRow.getAttribute("data-litterno")).orderByChild('pigNo');
 	suckingRef.once("value").then(function(snapshot){
 		litterTable(thisRow);
 		partTable(thisRow);	
@@ -129,26 +129,34 @@ $('#tableBody').on('click', 'tr', function () {
 			cell = row.insertCell(0)
 			cell.innerHTML = childSnapshot.key;
 			cell = row.insertCell(1)
-			cell.innerHTML = childSnapshot.child("sex").val()==="sow"?"母":"公"
+			cell.innerHTML = childSnapshot.child("sex").val()==="F"?"母":"公"
 			for(i=2;i<suckingKeys.length;i++){
 				cell = row.insertCell(i);
 				cell.innerHTML = childSnapshot.child(suckingKeys[i]).val();
 			}
-			cell = row.insertCell(4)
-			var weight = document.createElement("input");
-			weight.setAttribute("type", "number");
-			weight.addEventListener("change", function(){
-				sum_weight();
-			});
-			cell.appendChild(weight);
-			cell = row.insertCell(5)
-			cell.innerHTML = "<input type='text'>"
-			cell = row.insertCell(6)
-			cell.innerHTML = "<input type='text'>"
-			cell = row.insertCell(7)
-			cell.innerHTML = "<input type='text'>"
-			cell = row.insertCell(8)
-			cell.appendChild(deadBtn());
+            if(childSnapshot.child("status")==="dead"){
+                row.setAttribute("class", "deadRow");
+                row.innerHTML += "<td></td><td></td><td></td><td></td><td>死亡</td>"
+            }
+            else{
+                cell = row.insertCell(4)
+                var weight = document.createElement("input");
+                weight.setAttribute("type", "number");
+                weight.addEventListener("change", function(){
+                    sum_weight();
+                });
+                cell.appendChild(weight);
+                cell = row.insertCell(5)
+                cell.innerHTML = "<div class='select-wrapper'><select><option value='meat'>肉</option><option value='GGP'>GGP</option>" +
+                                    "<option value='GP'>GP</option><option value='PS'>PS</option><option value='eliminated'>淘汰</option>" +
+                                    "<option value='other'>其他</option></select></div>";
+                cell = row.insertCell(6)
+                cell.innerHTML = "<input type='text'>"
+                cell = row.insertCell(7)
+                cell.innerHTML = "<input type='text'>"
+                cell = row.insertCell(8)
+                cell.appendChild(deadBtn());
+            }
 		});
 	}).then(()=>{
 		$("#myModal").modal("toggle"); // open modal
@@ -156,32 +164,79 @@ $('#tableBody').on('click', 'tr', function () {
 });
 
 upload.addEventListener("click", function(){
+    constKeys = ["partDate", "strain", "fatherNo", "motherNo", "fatherEar", "motherEar", "parity", "totalLitterWeight"];
+    for(i=0;i<constKeys.length;i++)
+        litterObj[constKeys[i]] = currentRow.getAttribute("data-"+constKeys[i].toLowerCase());
 	litterNo = litterRow.children[1].innerHTML;
 	weanDate = litterRow.children[4].innerHTML;
 	weanLoca = litterRow.children[5].children[0].value;
 	partObj = {weanDate:weanDate, weanLocation:weanLoca, totalWeanWeight:sum_weight()};
-	partKeys = ["totalPiglet", "totalDeath", "death", "mummy", "stillborn", "lied", "weakDeath", "smallDeath", "live", "normal", "weak", "small"];
+	partKeys = ["totalPiglet", "totalDead", "dead", "mummy", "stillborn", "lied", "weakDead", "smallDead", "live", "normal", "weak", "small"];
 	for(i=0;i<partRow.children.length;i++){
 		partObj[partKeys[i]] = partRow.children[i].children[0].value;
 	}
-	var partRef = firebase.database().ref("litter/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
-	const p1 = partRef.update(partObj);
+    var eliminated=0;
+    // sucking & weaners : strain, earmark, identity, father/mother, birthday, location
 	suckingObj = {};
+    weanerObj = {}
 	for(i=0;i<suckingTable.rows.length;i++){
-		if(suckingTable.children[i].getAttribute("class")!="newRow deadRow"){
-			suckingObj[suckingTable.rows[i].children[0].innerHTML] = {
+        suckingRow = suckingTable.children[i];
+        pigNo = suckingRow.children[0].innerHTML;
+		if(suckingRow.getAttribute("class")==="newRow"){
+			suckingObj[pigNo] = {
 				weanWeight:suckingTable.rows[i].children[4].children[0].value,
-				identity:suckingTable.rows[i].children[5].children[0].value,
+				identity:suckingTable.rows[i].children[5].children[0].children[0].value,
 				weanLoaction:suckingTable.rows[i].children[6].children[0].value,
-				weanNote:suckingTable.rows[i].children[7].children[0].value};	
+				weanNote:suckingTable.rows[i].children[7].children[0].value
+            };
+            if(suckingRow.children[5].children[0].children[0].value!=="eliminated"){
+                weanerObj[litterObj.strain+litterNo+"-"+pigNo] = {
+                    strain:litterObj.strain,
+                    earmark:litterNo+'-'+pigNo,
+                    sex:suckingRow.children[1].innerHTML==="公"?"M":"F",
+                    fatherNo:litterObj.fatherNo,
+                    motherNo:litterObj.motherNo,
+                    fatherEar:litterObj.fatherEar,
+                    motherEar:litterObj.motherEar,
+                    birthday:litterObj.partDate,
+                    weanDate:weanDate,
+                    identity:suckingObj[pigNo].identity,
+                    litterWeight:suckingRow.children[2].innerHTML,
+                    weanWeight:suckingObj[pigNo].weanWeight,
+                    location:suckingObj[pigNo].weanLocation
+                };
+            }
+            else
+                eliminated += 1;
 		}
-		else
+		else if(suckingROw.getAttribute("class")==="newRow deadRow)
 			suckingObj[suckingTable.rows[i].children[0].innerHTML] = {weanNote:suckingTable.rows[i].children[7].children[0].value, stat:"dead"};
 	}
 	console.log(partObj, suckingObj);
-	var suckingRef = firebase.database().ref("sucking/" + userData.currentFarm + "/" + litterNo);
-	const p2 = suckingRef.update(suckingObj);
-	promises = [p1, p2]
+	var suckingRef = firebase.database().ref("suckings/" + userData.currentFarm + "/" + litterNo);
+	const suckingP = suckingRef.update(suckingObj);
+    var weanerRef = firebase.database().ref("weaners/" + userData.currentFarm);
+    const weanerP = weanerRef.set(weanerObj);
+    // production : partObj
+    partObj["eliminated"]=eliminated;
+    eliminated=0;
+    var productionRef = firebase.database().ref("production/" + userData.currentFarm + "/" + litterObj.motherEar + "/" + litterObj.parity);
+    const productionP = productionRef.update(partObj);
+    // litterHistory : litterObj + partObj
+    var historyRef = firebase.database().ref("littersHistory/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
+    for (key in litterObj)
+        partObj[key] = litterObj[key];
+    const historyP = historyRef.set(partObj);
+    // remove
+	var partRef = firebase.database().ref("litters/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
+    const partP = partRef.remove();
+    // log
+    var logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + litterObj.motherEar).push();
+    const logP = logRef.set({data:, eventName:"parturition"});
+    // update sows
+    var sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + litterObj.motherEar);
+    const sowP = sowRef.update({status:"w"+partObj.weanDate , location:partObj.weanLocation, lastParturition:partObj.weanDate});
+	var promises = [productionP, suckingP, weanerP, historyP, partP, logP, sowP]
 	Promise.all(promises).then( ()=>{
 		console.log(currentRow);
 		currentRow.closest("tbody").removeChild(currentRow.closest("tr"));

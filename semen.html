@@ -107,8 +107,8 @@
 													</div>
 													<div class="2u 3u(narrower)">
 														<span class="label" style="display:inline-block!important">
-															<input type="checkbox" id="secondDate" style="display:inline-block!important">
-															<label for="secondDate" style="display:inline-block!important">檢視單日</label>
+															<input type="checkbox" id="singleDate" style="display:inline-block!important">
+															<label for="singleDate" style="display:inline-block!important">檢視單日</label>
 														</span>
 													</div>
 												</div>
@@ -121,7 +121,7 @@
 													</div>
 													<div class="2u 3u(narrower)">
 														<div class="select-wrapper">
-															<select id="filters">
+															<select id="filter">
 																<option value='strain'>品種</option>
 																<option value='earmark' selected>耳號</option>
 																<option value='registerNo'>序號</option>
@@ -130,7 +130,7 @@
 														</div>
 													</div>
 													<div class="4u 3u(narrower)">
-														<input type='text'>
+														<input type='text' id="query">
 													</div>
 													<div class="2u 3u(narrower)">
 														<span class="button fit">搜尋</span>
@@ -203,6 +203,7 @@
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
          	<script src="firebase/semen.js"></script>
+            <script src="firebase/listDataTable.js"></script>
 
 	</body>
 </html>
