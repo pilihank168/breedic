@@ -27,15 +27,15 @@ earmarks.addEventListener("submit", (event)=>{
             earmark[ear] = true;
             if(sexData[ear]==="boar"){
                 unavailableUpdate["/boars/" + userData.currentFarm + "/" + ear + "/unavailability"] = "exported";
-                unavailableUpdate["/boars/" + userData.currentFarm + "/" + ear + "/export"] = exportRef.key;
+                unavailableUpdate["/boars/" + userData.currentFarm + "/" + ear + "/exportId"] = exportRef.key;
             }
             else if(sexData[ear]==="sow"){
                 unavailableUpdate["/sows/" + userData.currentFarm + "/" + ear + "/unavailability"] = "exported";
-                unavailableUpdate["/sows/" + userData.currentFarm + "/" + ear + "/export"] = exportRef.key;
+                unavailableUpdate["/sows/" + userData.currentFarm + "/" + ear + "/exportId"] = exportRef.key;
             }
             else{
                 unavailableUpdate["/weaners/" + userData.currentFarm + "/" + ear + "/status"] = "exported";
-                unavailableUpdate["/weaners/" + userData.currentFarm + "/" + ear + "/export"] = exportRef.key;
+                unavailableUpdate["/weaners/" + userData.currentFarm + "/" + ear + "/exportId"] = exportRef.key;
             }
             logUpdate[ear + "/exportLog"] = {date:date.value, eventName:"export"};
         }

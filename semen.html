@@ -16,6 +16,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -76,7 +77,7 @@
 							<div class="10u  12u(narrower) important(narrower)">
 								<div id="content">
 									<!-- Content -->
-									<form>
+									<form id="search">
 										<div class="row uniform 50%">
 											<div class="12u" align="right">
 												<span class="label">
@@ -144,6 +145,7 @@
 									<table align="center" id="table" class="hover stripe">
 										<thead>
 											<tr>
+												<th>日期</th>
 												<th>公豬耳號</th>
 												<th>精液量</th> 
 												<th>精液濃度</th>
@@ -196,14 +198,15 @@
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
 			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+			<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 			<!--script src="firebase/test.js"></script-->
 			<script src="firebase/nav.js"></script>
 			<!--script src="firebase/dropzone.js"></script-->
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/semen.js"></script>
             <script src="firebase/listDataTable.js"></script>
+         	<script src="firebase/semen.js"></script>
 
 	</body>
 </html>

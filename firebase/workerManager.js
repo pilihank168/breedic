@@ -42,6 +42,7 @@ var item, i;
 var emails = [];
 
 function initPage(){
+/*
     var functions = firebase.functions();
     newUser = {
         email:"b02902005@ntu.edu.tw",
@@ -57,6 +58,7 @@ function initPage(){
     }).catch(function(error){
         console.log(error.code, error.message);
     });
+*/
 	$('#active-yes2').attr('disabled', true);
 	$('#active-no2').attr('disabled', true);
    uid = userData.uid;

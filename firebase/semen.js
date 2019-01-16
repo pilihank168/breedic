@@ -10,6 +10,7 @@ var query = document.getElementById("query");
 var table = document.getElementById("tableBody");
 var dataTable = "";
 var dataList;
+var semenRef;
 var boarRef;
 
 var keys = ["date", "earmark", "volume", "concentration", "activity", "abnormalities", "acrosome", "midpiece", "dilute", "available", "note"];
@@ -35,9 +36,7 @@ function two_step_query(firstStepRef){
 
 function one_step_query(ref){
 	dataList = [];
-	return ref.once("value").then(main_step);//function(snapshot){
-//        main_step(snapshot);
-//	});
+	return ref.once("value").then(main_step);
 }
 
 function main_step(snapshot){
@@ -52,56 +51,38 @@ function main_step(snapshot){
 search.addEventListener("submit", function(event){
 	console.log(event);
 	event.preventDefault();
+    dataList = [];
 	if(dateRadio.checked)
-        if(dataType==="birthday")
-            two_step_query(firebase.database("boars/"+userData.currentFarm).ref().orderByChild("birthday").startAt(date1.value).endAt(date2.value)).then(renderTable);
+        if(dateType==="birthday")
+            two_step_query(boarRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value)).then(renderTable);
         else
-		    ref = boarRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value);
+            one_step_query(semenRef.orderByChild("date").startAt(data1.value).endAt(date2.value)).then(renderTable);
 	else if(boarRadio.checked)
         if(filter.value==="earmark")
+            one_step_query(semenRef.orderByChild("earmark").equalTo(query.value)).then(renderTable);
 		else if(filter.value==="location")
-			ref = boarRef.orderByChild("loaction").startAt(query.value).endAt(query.value+"\uf8ff");
+			two_step_query(boarRef.orderByChild("loaction").startAt(query.value).endAt(query.value+"\uf8ff")).then(renderTable);
 		else
-			ref = boarRef.orderByChild(filter.value).equalTo(query.value);
-	getDataList(ref).then(function(){
-	    $('#table').css('visibility', 'hidden');
-        dataTable.destroy();
-        renderTable()
-    });
+            two_step_query(boarRef.orderByChild(filter.value).equalTo(query.value)).then(renderTable);
 });
+
+function localDateStr(d){
+	str = d.toLocaleDateString().split("/");
+	yStr = str[0];
+	mStr = ("0" + str[1]).slice(-2);
+	dStr = ("0" + str[2]).slice(-2);
+	return [yStr, mStr, dStr].join("-");
+}
 
 function initPage(){
     singleDateEvent(date1, date2, singleDate);
-	var semenRef = firebase.database().ref("semen/" + userData.currentFarm).orderByChild("date").startAt(thresholdDate);
-}
-
-//function query()
-
-//var ref = firebase.database().ref("semen/" + userDate.currentFarm).orderByChild(key).startAt().endAt()
-
-function loadDB(ref, sorting){
-	dataList = []
-	ref.once("value").then((snapshot)=>{
-		snapshot.forEach( (childShot)=>{
-			var data = []
-			for(i=0;i<keys.length;i++){
-				data.push(childSnapshot.child(keys[i]).val())
-			}
-			dataList.push(data);
-		});
-	});
-}
-
-function buildDataTable(){
-	//from dataList to table
-	//apply dataTable.js
-}
-
-function initPage(){
-	singleDateEvent(date1, date2, singleDate);
 	boarRef = firebase.database().ref("boars/" + userData.currentFarm);
-	var ref = boarRef.orderByChild("unavailability").endAt("");
-	getDataList(ref).then(function(){renderTable();});
+    semenRef = firebase.database().ref("semen/" + userData.currentFarm);
+	var d = new Date();
+	today = localDateStr(d)
+	d.setDate(d.getDate()-7);
+	thresholdDate = localDateStr(d);
+	one_step_query(semenRef.orderByChild("date").startAt(thresholdDate)).then(renderTable);
 }
 
 function renderTable(){
@@ -110,8 +91,7 @@ function renderTable(){
         dataTable.destroy();
 	table.innerHTML = "";
 	dataList.sort(function(a,b){
-		key = parseInt(sortingKey.value);
-		return b["date"].localeCompare(a["date"])
+		return b[1].localeCompare(a[1])
 	});
 	for(i=0;i<dataList.length;i++){
 		var row = table.insertRow(-1);
@@ -123,8 +103,3 @@ function renderTable(){
 	}
     makeDataTable("table");
 }
-
-$('#tableBody').on('click', 'tr', function () {
-	var data = dataTable.row( this ).data();
-	window.location='boar.html?id='+$(this).data("key");
-});
