@@ -43,6 +43,14 @@
 var gResponse;
 var contactBtn = document.getElementById("contactBtn");
 
+function localDateStr(d){
+	str = d.toLocaleDateString().split("/");
+	yStr = str[0];
+	mStr = ("0" + str[1]).slice(-2);
+	dStr = ("0" + str[2]).slice(-2);
+	return [yStr, mStr, dStr].join("-");
+}
+
 // Contact Form
 function initPage(){
     functions = firebase.functions();
@@ -70,6 +78,7 @@ window.recaptchaVerifier.render().then(function(widgetId){
 */
 document.getElementById("contactForm").addEventListener("submit", function(e){
     e.preventDefault();
+    d = new Date();
     contactFormObj = {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
@@ -78,13 +87,14 @@ document.getElementById("contactForm").addEventListener("submit", function(e){
         size: document.getElementById("size").value,
         address: document.getElementById("address").value,
         message: document.getElementById("message").value,
-        response: gResponse
+        response: gResponse,
+        date: localDateStr(d)
     }
     // call oncall
     console.log(contactFormObj);
     newContactForm = firebase.functions().httpsCallable('newContactForm');
     newContactForm(contactFormObj).then((result)=>{
-        console.log(result.data.success)
+        console.log(result.data)
     });
 });
 }
