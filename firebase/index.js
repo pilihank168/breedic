@@ -41,12 +41,11 @@
 })(jQuery);
 
 var gResponse;
+var contactBtn = document.getElementById("contactBtn");
 
 // Contact Form
 function initPage(){
     functions = firebase.functions();
-}
-var contactBtn = document.getElementById("contactBtn");
 //window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 grecaptcha.render("recaptcha", {
 	'size' : 'normal',
@@ -85,3 +84,4 @@ document.getElementById("contactForm").addEventListener("submit", function(e){
     console.log(contactFormObj);
     newContactForm = firebase.functions().httpsCallable('newContactForm');
 });
+}
