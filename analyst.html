@@ -1,0 +1,233 @@
+<!DOCTYPE HTML>
+<style>
+	label{margin:0!important;}
+	table td:hover{
+		cursor:pointer;
+	}
+</style>
+<html>
+   <head>
+		<title>台鼎生物科技</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+
+   <body>
+      <div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<h1><a href="index.html" id="logo">台鼎生物科技</em></a></h1>
+					<!-- Nav -->
+					<nav id="nav">
+						<ul id="ul">
+						</ul>
+					</nav>
+				</header>
+
+		<!-- Modal -->
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-dialog-centered">
+                        <form id="newAccount">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">新增帳號</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="content">
+
+									<!-- Content -->
+                                    <!-- earmark, registerNo, birthday, fatherNo, motherNo, location, note, source, fatherEar, motherEar, photo -->
+									<div class="row">
+										<div class="3u" align="right">
+											<span class="label">信箱：</span>
+										</div>
+										<div class="6u" style="padding:0 0 0.5em 0.5em!important">
+                                            <input type="text" id="newEmail" required><p id="checkMessage" style="margin:0!important"></p>
+                                        </div>
+                                        <div class="2u" style="padding:0 0 0 0.5em!important">
+                                            <span class="button fit special" style="padding:0 1em!important;margin:0" id="checkEmail">檢查</span>
+                                        </div>
+										<div class="3u" align="right">
+											<span class="label">密碼：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+                                            <input type="password" id="newPassword" required>
+                                            *長度最少為六碼
+										</div>
+										<div class="3u" align="right">
+											<span class="label">姓名：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="newName" required>
+										</div>
+										<div class="3u" align="right">
+											<span class="label">電話：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="newPhone">
+										</div>
+										<div class="3u" align="right">
+											<span class="label">在職：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+                  <span class="label"><input id='newActiveYes' type='radio' value='yes' name='newActive' checked/><label for='newActiveYes'>是</label></span>
+                  <span class="label"><input id='newActiveNo' type='radio' value='no' name='newActive'><label for='newActiveNo'>否</label></span><br>
+										</div>
+										<div class="3u" align="right">
+											<span class="label">備註：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="newNote">
+										</div>
+									</div>
+								</div>
+						</div>
+						<div class="modal-footer" align="right">
+                            <input class="button" type="submit" id="submitBtn" value="儲存">
+						</div>
+					</div>
+                        </form>
+				</div>
+			</div>
+
+			<div class="modal fade" id="editModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-dialog-centered">
+                        <form id="update">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">修改帳號</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+								<div id="content">
+
+									<!-- Content -->
+                                    <!-- earmark, registerNo, birthday, fatherNo, motherNo, location, note, source, fatherEar, motherEar, photo -->
+									<div class="row">
+										<div class="3u" align="right">
+											<span class="label">信箱：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+                                            <span class="label" id="email"></span>
+                                        </div>
+										<div class="3u" align="right">
+											<span class="label">密碼：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+                                            <input type="password" id="password">
+                                            *長度最少為六碼，若不更新請保持空白
+										</div>
+										<div class="3u" align="right">
+											<span class="label">姓名：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="name" required>
+										</div>
+										<div class="3u" align="right">
+											<span class="label">電話：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="phone">
+										</div>
+										<div class="3u" align="right">
+											<span class="label">在職：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+                  <span class="label"><input id='activeYes' type='radio' value='yes' name='active'/><label for='activeYes'>是</label></span>
+                  <span class="label"><input id='activeNo' type='radio' value='no' name='active'><label for='activeNo'>否</label></span><br>
+										</div>
+										<div class="3u" align="right">
+											<span class="label">備註：</span>
+										</div>
+										<div class="8u" style="padding:0 0 0.5em 0.5em!important">
+											<input type="text" id="note">
+										</div>
+									</div>
+								</div>
+						</div>
+						<div class="modal-footer" align="right">
+                            <input class="button" type="submit" value="儲存">
+						</div>
+					</div>
+                        </form>
+				</div>
+			</div>
+
+            <!-- Main Content -->
+            <section id="main" class="container 125%">
+               <header>
+                  <h2>分析師帳號</h2>
+               </header>
+               <div class="box">
+                  <section>
+                     <table>
+                        <thead>
+                        <tr>
+                           <th>信箱</th>
+                           <th>姓名</th>
+                           <th>電話</th>
+                           <th>在職</th>
+                           <th>備註</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                     </table>
+                     <div align="center">
+                        <button id="createUser" class="button big alt" type="button" disabled>新增</button>
+                     </div>
+                  </section>
+               </div>
+            </section>
+
+            <!-- footer -->
+            <div id="footer">
+			    <!-- Icons -->
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+					</ul>
+
+				<!-- Copyright -->
+					<div class="copyright">
+						<ul class="menu">
+							<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</div>
+			</div>
+      </div>
+
+		<!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script src="assets/js/jquery.dropotron.min.js"></script>
+        <script src="assets/js/skel.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/jquery.scrollgress.min.js"></script>
+        <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+        <script src="assets/js/main.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
+        <script src="firebase/init.js"></script>
+        <script src="firebase/main.js"></script>
+        <script src="firebase/nav.js"></script>
+        <script src="firebase/analyst.js"></script>
+    </body>
+</html>
+
