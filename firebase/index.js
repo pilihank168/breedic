@@ -41,10 +41,12 @@
 })(jQuery);
 
 // Contact Form
+function initPage(){}
 var contactBtn = document.getElementById("contactBtn");
 window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 	'size' : 'normal',
 	'callback' : function(response){
+        console.log(response);
 		contactBtn.classList.remove('disabled');
 		contactBtn.setAttribute('type','submit');
 		console.log('verified');
