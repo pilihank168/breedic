@@ -18,6 +18,7 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+        <script src='https://www.google.com/recaptcha/api.js'></script>
 	</head>
 	<body class="landing">
 		<div id="page-wrapper">
@@ -126,7 +127,7 @@
 				<section  id="cta">
 					<h2>聯絡我們</h2>
 					<p>輸入您的資料，我們將由專人為您服務。</p>
-					<form id="contactForm" method="POST" action="https://us-central1-breedic-ba254.cloudfunctions.net/helloWorld">
+					<form id="contactForm">
 						<div class="row uniform 50%">
 							<div class="4u 12u(mobilep)">
 								<input type="text" name="name" id="name" required placeholder="飼養場負責人*" />
@@ -146,7 +147,7 @@
 								<input type="text" name="size" id="size" placeholder="豬場規模(核心母豬群)" />
 							</div>
 							<div class="4u 12u(mobilep)">
-								<input type="text" name="location" id="location" placeholder="飼養場地址" />
+								<input type="text" name="location" id="address" placeholder="飼養場地址" />
 							</div>
 						</div>
 						<div class="row uniform 50%">
@@ -196,11 +197,14 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/jquery.scrollgress.min.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
 			<script src="firebase/init.js"></script>
+			<script src="firebase/nav.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/index.js"></script>
-			<script src="firebase/nav.js"></script>
 
 	</body>
 </html>

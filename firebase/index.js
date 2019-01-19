@@ -40,13 +40,20 @@
 
 })(jQuery);
 
+var gResponse;
+
 // Contact Form
-function initPage(){}
+function initPage(){
+    functions = firebase.functions();
+}
 var contactBtn = document.getElementById("contactBtn");
-window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+//window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+grecaptcha.render("recaptcha", {
 	'size' : 'normal',
+    'sitekey' : '6LfJEosUAAAAADtfLx09HJv3b2ryRK2WpBrggGNl',
 	'callback' : function(response){
         console.log(response);
+        gResponse = response;
 		contactBtn.classList.remove('disabled');
 		contactBtn.setAttribute('type','submit');
 		console.log('verified');
@@ -56,7 +63,25 @@ window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
 		contactBtn.classList.add('disabled');
 	}
 });
+/*
 window.recaptchaVerifier.render().then(function(widgetId){
 	window.recaptchaWidgetId = widgetId;
 	console.log(widgetId);
+});
+*/
+document.getElementById("contactForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    contactFormObj = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        farm: document.getElementById("farm").value,
+        size: document.getElementById("size").value,
+        address: document.getElementById("address").value,
+        message: document.getElementById("message").value,
+        response: gResponse
+    }
+    // call oncall
+    console.log(contactFormObj);
+    newContactForm = firebase.functions().httpsCallable('newContactForm');
 });
