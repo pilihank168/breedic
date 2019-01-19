@@ -83,5 +83,8 @@ document.getElementById("contactForm").addEventListener("submit", function(e){
     // call oncall
     console.log(contactFormObj);
     newContactForm = firebase.functions().httpsCallable('newContactForm');
+    newContactForm(contactFormObj).then((result)=>{
+        console.log(result.data.success)
+    });
 });
 }
