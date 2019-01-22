@@ -90,7 +90,7 @@ upload.addEventListener("submit", function(e){
 		const p2 = photoRef.put(photo);
 		promise_array.push(p2)
 	}
-    var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + sowId);
+    var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + boarId);
     const sexP = sexRef.set("boar");
     promise_array.push(sexP);
 	Promise.all(promise_array).then(function(){
