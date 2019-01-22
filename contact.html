@@ -5,7 +5,7 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <style>
-	label{margin:0!important;}
+	table td:hover{cursor:pointer;}
 </style>
 <html>
 	<head>
@@ -15,7 +15,6 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<link rel="stylesheet" href="assets/css/upload.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
@@ -32,68 +31,25 @@
 					</nav>
 				</header>
 
-		<!-- Modal -->
-			<div class="modal fade" id="myModal1" role="dialog" style="z-index:10002!important;">
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h3 class="modal-title">資料下載</h3>
+							<h3 class="modal-title">訊息</h3>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-								<div id="content">
-
-									<!-- Content -->
-									<div class="row">
-										<div class="4u" align="right">
-											<span class="label">資料範圍：</span>
-										</div>
-										<div class="4u" style="padding-left:0.5em!important">
-											<input type="date">
-										</div>
-										<div class="4u" style="padding-left:0.5em!important">
-											<input type="date">
-										</div>
-										<div class="4u" align="right">
-											<span class="label">豬隻性別：</span>
-										</div>
-										<div class="8u" style="padding-left:0.5em!important">
-											<span class="label">
-												<input type="radio" id='sow' name="sex" checked>
-												<label for="sow">母豬</label>
-											</span>
-											<span class="label">
-												<input type="radio" id='boar' name="sex">
-												<label for="boar">公豬</label>
-											</span>
-										</div>
-									</div>
-								</div>
-						</div>
-						<div class="modal-footer">
-								<span class="button alt" id="nextt">生成報表</span>
-								<span class="button disabled" id="nextt">下載</span>
+								<div id="message"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 			<!-- Main -->
 				<section id="main" class="container 125%">
 					<header>
-						<div style="margin: 0px auto;">
-							<a href="upload.html" style="color:gray;">豬隻資料</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="record.html" style="color:gray;">工作記錄</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="report.html" style="color:gray;">分析報告</a>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<a href="recommend.html">選拔建議</a>
-						</div>
-						</br>
-						<h2>選拔建議</h2>
+						<h2>聯絡表單記錄</h2>
 					</header>
 					<div class="box">
 						<div class="row uniform 200%">
@@ -103,29 +59,26 @@
 									<table>
 										<thead>
 											<tr>
-												<th>報告日期</th>
-												<th>檢視檔案</th>
-												<th>意見回饋</th>
+                                                <th>日期</th>
+												<th>填表人</th>
+												<th>聯絡信箱</th>
+                                                <th>聯絡電話</th>
+												<th>豬場名稱</th>
+												<th>豬場規模</th>
+												<th>豬場位置</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td>2018-12-12</td>
-												<td>選拔建議</td>
-												<td><a data-toggle="modal" data-target="#myModal3" href>待回覆</a></td>
-											</tr>
-											<tr></tr>
+										<tbody id="tableBody">
 										</tbody>
 									</table>
 								</div>
 							</div>
 						</div>
 					</div>
-					</div>
 				</section>
 
 			<!-- Footer -->
-				<footer id="footer">
+				<div id="footer">
 					<!-- Icons -->
 					<ul class="icons">
 						<li>電話：02-23691499</li>
@@ -138,8 +91,7 @@
 						<li><a href="index.html">台鼎生物科技</a></li>
 						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 					</ul>
-				</footer>
-
+				</div>
 		</div>
 
 		<!-- Scripts -->
@@ -153,14 +105,15 @@
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
-            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-storage.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+			<!--script src="firebase/test.js"></script-->
+			<script src="firebase/nav.js"></script>
+			<!--script src="firebase/dropzone.js"></script-->
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-			<script src="firebase/lineChart.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/contact.js"></script>
 
 	</body>
 </html>

@@ -209,7 +209,7 @@ upload.addEventListener("click", function(){
             else
                 eliminated += 1;
 		}
-		else if(suckingROw.getAttribute("class")==="newRow deadRow)
+		else if(suckingROw.getAttribute("class")==="newRow deadRow")
 			suckingObj[suckingTable.rows[i].children[0].innerHTML] = {weanNote:suckingTable.rows[i].children[7].children[0].value, stat:"dead"};
 	}
 	console.log(partObj, suckingObj);
@@ -232,7 +232,7 @@ upload.addEventListener("click", function(){
     const partP = partRef.remove();
     // log
     var logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + litterObj.motherEar).push();
-    const logP = logRef.set({data:, eventName:"parturition"});
+    const logP = logRef.set({date:partObj.weanDate, eventName:"parturition"});
     // update sows
     var sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + litterObj.motherEar);
     const sowP = sowRef.update({status:"w"+partObj.weanDate , location:partObj.weanLocation, lastParturition:partObj.weanDate});

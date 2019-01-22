@@ -33,7 +33,7 @@ edit.addEventListener("submit", function(e){
         promise_array.push(p1);
     }
     if(newPhoto){
-		var photoRef = firebase.storage().ref(userData.currentFarm + "/boars/"+id+".png");
+		var photoRef = firebase.storage().ref("boars/" + userData.currentFarm + "/"+id+".png");
 		const p2 = photoRef.put(newPhoto);
 		promise_array.push(p2)
     }
@@ -131,7 +131,7 @@ function basicData(snapshot){
     else
         document.getElementById("score").innerHTML = '分數：未評'
     var photo = document.getElementById("photo");
-	var photoRef = firebase.storage().ref(userData.currentFarm + "/boars/" + id + ".png");
+	var photoRef = firebase.storage().ref("boars/" + userData.currentFarm + "/" + id + ".png");
 	photoRef.getDownloadURL().then( (url)=>{photo.src = url}).catch( (error)=>{photo.src="";console.log(error)});
 }
 

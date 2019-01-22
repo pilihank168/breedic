@@ -71,7 +71,7 @@ search.addEventListener("submit", function(event){
                             sowRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value),
                             weanerRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value)]).then(renderTable);
         else
-            one_step_query(exportRef.orderByChild("date").startAt(data1.value).endAt(date2.value)).then(renderTable);
+            one_step_query(exportRef.orderByChild("date").startAt(date1.value).endAt(date2.value)).then(renderTable);
 	else if(pigRadio.checked)
 		if(filter.value==="location")
 			two_step_query([boarRef.orderByChild("loaction").startAt(query.value).endAt(query.value+"\uf8ff"),

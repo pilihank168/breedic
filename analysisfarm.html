@@ -129,12 +129,12 @@
 										</div>
 										<div class="8u" style="padding-left:0.5em!important">
 											<span class="label">
-												<input type="radio" id='yes' name="access" checked>
-												<label for="yes">是</label>
+												<input type="radio" id='uploadYes' name="access" checked>
+												<label for="uploadYes">是</label>
 											</span>
 											<span class="label">
-												<input type="radio" id='no' name="access" checked>
-												<label for="no">否</label>
+												<input type="radio" id='uploadNo' name="access" checked>
+												<label for="uploadNo">否</label>
 											</span>
 										</div>
 									</div>
@@ -172,6 +172,19 @@
 										<div class="8u" style="padding-left:0.5em!important">
 											<textarea type="text" rows="3" id="content"></textarea>
 										</div>
+										<div class="4u" align="right">
+											<span class="label">用戶檢視權限：</span>
+										</div>
+										<div class="8u" style="padding-left:0.5em!important">
+											<span class="label">
+												<input type="radio" id='yes' name="access1" checked>
+												<label for="yes">是</label>
+											</span>
+											<span class="label">
+												<input type="radio" id='no' name="access1" checked>
+												<label for="no">否</label>
+											</span>
+										</div>
 									</div>
 
 								</div>
@@ -185,7 +198,7 @@
 			<!-- Main -->
 				<section id="main" class="container 125%">
 					<header>
-						<h2>001養豬場(負責人-朱場主)</h2>
+						<h2 id="farmInfo"></h2>
 					</header>
 					<div class="box">
 
@@ -270,16 +283,15 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-			<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-			<!--script src="firebase/test.js"></script-->
-			<script src="firebase/nav.js"></script>
-			<!--script src="firebase/dropzone.js"></script-->
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-			<script src="firebase/lineChart.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/analysisfarm.js"></script>
 
 	</body>
 </html>

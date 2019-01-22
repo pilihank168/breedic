@@ -1,10 +1,3 @@
-firebase.auth().onAuthStateChanged(function(user) {
-	if (user) {
-		console.log("User is logined", user)
-		window.location.replace('index.html');
-	}
-});
-
 //login
 var errMessage = document.getElementById("errMessage");
 var loginForm = document.getElementById("loginForm");

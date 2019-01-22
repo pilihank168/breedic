@@ -114,7 +114,6 @@ function initPage(){
     }).then(function(){
         console.log(createBtn.disabled);
         createBtn.disabled=false;
-        functions = firebase.functions();
         createUser = firebase.functions().httpsCallable('createUser');
     });
 }

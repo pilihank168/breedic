@@ -134,9 +134,8 @@ function initPage(){
     }).then(function(){
         console.log(createBtn.disabled);
         createBtn.disabled=false;
-        functions = firebase.functions();
         createUser = firebase.functions().httpsCallable('createUser');
-    });
+    }).catch((error)=>console.log(error));
 }
 
 // clickable row

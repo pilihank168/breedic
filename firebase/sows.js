@@ -88,7 +88,7 @@ upload.addEventListener("submit", function(e){
 	});
 	var promise_array = [p1];
 	if(photo){
-		var photoRef = firebase.storage().ref(userData.currentFarm + "/sows/"+sowId+".png");
+		var photoRef = firebase.storage().ref("sows/" + userData.currentFarm + "/" + sowId + ".png");
 		const p2 = photoRef.put(photo);
 		promise_array.push(p2)
 	}

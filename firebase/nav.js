@@ -11,29 +11,39 @@ function logout(){
 	return false;
 }
 
-function changeCurrentFarm(farmNo){
-	userRef.update({currentFarm:farmNo}).then(()=>{
+function changeFarm(farmNo){
+    console.log(farmNo);
+    changeCurrentFarm = firebase.functions().httpsCallable('changeCurrentFarm');
+    changeCurrentFarm({farm:farmNo}).then((result)=>{
+        console.log(result.data.currentFarm)
+        return firebase.auth().currentUser.getIdTokenResult(true);
+    }).then((result)=>{
+        console.log(result.claims.farm);
 		window.location.replace(window.location.href);
-	});
+	}).catch((error)=>{console.log(error)});
 }
 
 function makeFarmList(){
 	var currentFarm = userData.currentFarm
 	var farms = userData.farmNo
-	farms = Array.isArray(farms)?farms:[farms];
+    console.log(userData);
+    console.log(farms);
+    farms = Object.keys(farms);
 	var farmList = '';
 	var promiseArray = [];
 	for(var i=0; i<farms.length; i++){
+        console.log(farms[i]);
 		const p = firebase.database().ref('farms/' + farms[i]).once('value');
 		promiseArray.push(p);
 	}
 	return Promise.all(promiseArray).then((snapshot)=>{
 		for(var i=0; i<promiseArray.length; i++){
-			if(farms[i]===currentFarm){
+            console.log(snapshot[i].val());
+			if(parseInt(farms[i])===currentFarm){
 				farmList += '<li><a href="#" name="list"><b>' + snapshot[i].val().name + '</b></a></li>';
 			}
 			else{
-				farmList += '<li><a href="#" name="list" onclick = "changeCurrentFarm('+snapshot[i].val().farmNo+ ')">' + snapshot[i].val().name + '</a></li>';
+				farmList += '<li><a href="#" name="list" onclick = "changeFarm('+snapshot[i].key+ ')">' + snapshot[i].val().name + '</a></li>';
 			}
 		}
 		return '<li><a href="#" name="list">選擇豬場</a><ul>' + farmList + '</ul></li>';
@@ -43,22 +53,30 @@ function makeFarmList(){
 }
 
 function makeNav(role){
+    console.log(role);
 	if (role=='admin'){
 		nav.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
 		'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 			'<ul id="dataList">' +
 				'<li><a href="upload.html" name="list">資料查看</a></li>' +
-				'<li><a href="record.html" name="list">資料分析</a></li>' +
+				'<li><a href="analysis.html" name="list">資料分析</a></li>' +
 			'</ul>' +
 		'</li>' +
 		'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
 			'<ul id="geneList">' +
-				'<li><a href="#" name="list">訂單管理</a></li>' +
-				'<li><a href="#" name="list">檢測結果上傳</a></li>' +
-				'<li><a href="#" name="list">歷史訂單</a></li>' +
+				'<li><a href="order.html" name="list">訂單管理</a></li>' +
+				'<li><a href="uploadgene.html" name="list">檢測結果上傳</a></li>' +
+				'<li><a href="orderhistory.html" name="list">歷史訂單</a></li>' +
 			'</ul>' +
 		'</li>' +
-		'<li> <a href="accountManage.html" name="list">帳號管理 </li>' +
+		'<li> <a href="accountManage.html" class="icon fa-angle-down">帳號管理</a>' +
+			'<ul id="accountList">' +
+				'<li><a href="farm.html" name="list">豬場管理</a></li>' +
+				'<li><a href="owner.html" name="list">場主帳號</a></li>' +
+				'<li><a href="analyst.html" name="list">分析師帳號</a></li>' +
+			'</ul>' +
+        '</li>' +
+        '<li><a href="contact.html">檢視訊息</a></li>' + 
 		'<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
 	}
 	else if (role=='analyst'){
@@ -71,9 +89,9 @@ function makeNav(role){
 		'</li>' +
 		'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
 			'<ul id="geneList">' +
-				'<li><a href="#" name="list">訂單管理</a></li>' +
-				'<li><a href="#" name="list">檢測結果上傳</a></li>' +
-				'<li><a href="#" name="list">歷史訂單</a></li>' +
+				'<li><a href="order.html" name="list">訂單管理</a></li>' +
+				'<li><a href="uploadgene.html" name="list">檢測結果上傳</a></li>' +
+				'<li><a href="orderhistory.html" name="list">歷史訂單</a></li>' +
 			'</ul>' +
 		'</li>' +
 		'<li><a href="#" class="button"  onclick="logout()">登出</em></a></li>';
@@ -91,15 +109,15 @@ function makeNav(role){
 			'</li>' +
 			'<li> <a href="#gene" class="icon fa-angle-down">基因檢測</a>' +
 				'<ul id="geneList">' +
-					'<li><a href="#" name="list">訂單管理</a></li>' +
-					'<li><a href="#" name="list">檢測結果上傳</a></li>' +
-					'<li><a href="#" name="list">歷史訂單</a></li>' +
+					'<li><a href="order.html" name="list">訂單管理</a></li>' +
+					'<li><a href="uploadgene.html" name="list">檢測結果上傳</a></li>' +
+					'<li><a href="orderhistory.html" name="list">歷史訂單</a></li>' +
 				'</ul>' +
 			'</li>' +
 			'<li> <a href="workerManager.html" class="icon fa-angle-down">設定</a>' + 
 				'<ul id="settingList">' +
-					'<li><a href="workerManager.html" name="list">員工管理</a></li>' +
-					'<li><a href="#plan" name="list">飼養計畫</a></li>' +
+					'<li><a href="employee.html" name="list">員工管理</a></li>' +
+					'<li><a href="breed.html" name="list">飼養計畫</a></li>' +
 					 farmList +
 				'</ul>' +
 			'</li>' +

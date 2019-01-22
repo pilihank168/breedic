@@ -8,6 +8,7 @@ var info = document.getElementById("relatedInfo");
 var count = 0;
 var countNew = 0;
 var promise_array = [];
+var sync_array = [];
 
 function initPage(){
 	var url_string = window.location.href;
@@ -70,8 +71,9 @@ function servicePromise(row){
     logP = logRef.set({date:serviceDate, eventName:"service"});
     promise_array.push(logP);
     sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + motherEar);
-    sowP = sowRef.update({status:"s"+serviceDate, location:children[2].innerHTML, lastService:serviceDate});
+    sowP = sowRef.update({status:"s"+serviceDate, location:row.children[2].innerHTML, lastService:serviceDate});
     promise_array.push(sowP);
+    sync_array.push({id:productionId, date:serviceDate});
 }
 
 date.addEventListener('change', function(){
@@ -89,8 +91,15 @@ upload.addEventListener("click", ()=>{
 		}
 	}
 	Promise.all(promise_array).then( ()=>{
+        var sync_promise = [];
+        newService = firebase.functions().httpsCallable('newService');
+        sync_array.forEach((syncObj)=>{
+            sync_promise.push(newService(syncObj));
+        });
+        return Promise.all(sync_promise)
+    }).then(()=>{
 		window.location.replace(location.href)
-	});
+	}).catch((error)=>console.log(error));
 });
 
 form.addEventListener("submit", (event)=>{

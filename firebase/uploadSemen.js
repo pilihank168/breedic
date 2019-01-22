@@ -51,13 +51,13 @@ function semenPromise(row){
 	semenObj = {date:date.value};
 	for(i=0;i<keyArray.length;i++)
 		semenObj[keyArray[i]] = row.children[i].innerHTML;
-	semenRef = firebase.database().ref("semen/" + userData.currentFarm + "/" + date.value + "-" + semObj["earmark"]);
+	semenRef = firebase.database().ref("semen/" + userData.currentFarm + "/" + date.value + "-" + semenObj["earmark"]);
 	const p = semenRef.set(semenObj);
 	promise_array.push(p);
-    boarRef = firebase.database().ref("boars/" + userData.currentFarm + "/" + semObj["earmark"]);
+    boarRef = firebase.database().ref("boars/" + userData.currentFarm + "/" + semenObj["earmark"]);
     boarP = boarRef.update({lastSemen:date.value, semenAvailability:semObj["available"]});
     promise_array.push(boarP);
-    logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + semObj["earmark"]).push();
+    logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + semenObj["earmark"]).push();
     logP = logRef.set({date:date.value, eventName:"semen"});
     promise_array.push(logP);
 }

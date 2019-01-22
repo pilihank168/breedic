@@ -36,7 +36,7 @@ function two_step_query(firstStepRef){
 
 function one_step_query(ref){
 	dataList = [];
-	return ref.once("value").then(main_step);
+	return ref.once("value").then(main_step).catch(error=>console.log(error));
 }
 
 function main_step(snapshot){
@@ -56,7 +56,7 @@ search.addEventListener("submit", function(event){
         if(dateType==="birthday")
             two_step_query(boarRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value)).then(renderTable);
         else
-            one_step_query(semenRef.orderByChild("date").startAt(data1.value).endAt(date2.value)).then(renderTable);
+            one_step_query(semenRef.orderByChild("date").startAt(date1.value).endAt(date2.value)).then(renderTable);
 	else if(boarRadio.checked)
         if(filter.value==="earmark")
             one_step_query(semenRef.orderByChild("earmark").equalTo(query.value)).then(renderTable);

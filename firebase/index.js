@@ -53,48 +53,48 @@ function localDateStr(d){
 
 // Contact Form
 function initPage(){
-    functions = firebase.functions();
-//window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
-grecaptcha.render("recaptcha", {
-	'size' : 'normal',
-    'sitekey' : '6LfJEosUAAAAADtfLx09HJv3b2ryRK2WpBrggGNl',
-	'callback' : function(response){
-        console.log(response);
-        gResponse = response;
-		contactBtn.classList.remove('disabled');
-		contactBtn.setAttribute('type','submit');
-		console.log('verified');
-	},
-	'expired-callback' : function(){
-		//contactBtn.setAttribute('type','text');
-		contactBtn.classList.add('disabled');
-	}
-});
-/*
-window.recaptchaVerifier.render().then(function(widgetId){
-	window.recaptchaWidgetId = widgetId;
-	console.log(widgetId);
-});
-*/
-document.getElementById("contactForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    d = new Date();
-    contactFormObj = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        farm: document.getElementById("farm").value,
-        size: document.getElementById("size").value,
-        address: document.getElementById("address").value,
-        message: document.getElementById("message").value,
-        response: gResponse,
-        date: localDateStr(d)
-    }
-    // call oncall
-    console.log(contactFormObj);
-    newContactForm = firebase.functions().httpsCallable('newContactForm');
-    newContactForm(contactFormObj).then((result)=>{
-        console.log(result.data)
+    firebase.auth().currentUser.getIdTokenResult(true).then((result)=>console.log(result.claims));
+    //window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+    grecaptcha.render("recaptcha", {
+        'size' : 'normal',
+        'sitekey' : '6LfJEosUAAAAADtfLx09HJv3b2ryRK2WpBrggGNl',
+        'callback' : function(response){
+            console.log(response);
+            gResponse = response;
+            contactBtn.classList.remove('disabled');
+            contactBtn.setAttribute('type','submit');
+            console.log('verified');
+        },
+        'expired-callback' : function(){
+            //contactBtn.setAttribute('type','text');
+            contactBtn.classList.add('disabled');
+        }
     });
-});
+    /*
+    window.recaptchaVerifier.render().then(function(widgetId){
+        window.recaptchaWidgetId = widgetId;
+        console.log(widgetId);
+    });
+    */
+    document.getElementById("contactForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        d = new Date();
+        contactFormObj = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            farm: document.getElementById("farm").value,
+            size: document.getElementById("size").value,
+            address: document.getElementById("address").value,
+            message: document.getElementById("message").value,
+            response: gResponse,
+            date: localDateStr(d)
+        }
+        // call oncall
+        console.log(contactFormObj);
+        newContactForm = firebase.functions().httpsCallable('newContactForm');
+        newContactForm(contactFormObj).then((result)=>{
+            window.location.replace("index.html");
+        });
+    });
 }

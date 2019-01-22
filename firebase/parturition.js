@@ -50,7 +50,7 @@ function initPage(){
 				row.setAttribute("class", "newRow");
 				row.setAttribute("data-id", childSnapshot.key);
                 for(i=0;i<serviceKeys.length;i++)
-                    row.setAttribute("data-"+serviceKeys[i].toLowerCase(), entry[serviceKeys[i])
+                    row.setAttribute("data-"+serviceKeys[i].toLowerCase(), entry[serviceKeys[i]])
 			}
 		});
 	});
@@ -182,7 +182,7 @@ upload.addEventListener("click", function(){
     promise_array.push(partP);
     // log : partDate
     var logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + serviceObj.sowEar).push();
-    const logP = logRef.set({data:, eventName:"parturition"});
+    const logP = logRef.set({date:partObj.partDate, eventName:"parturition"});
     promise_array.push(logP);
     // sows :
     var sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + serviceObj.sowEar);

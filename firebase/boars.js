@@ -86,7 +86,7 @@ upload.addEventListener("submit", function(e){
 	});
 	var promise_array = [p1];
 	if(photo){
-		var photoRef = firebase.storage().ref(userData.currentFarm + "/boars/"+boarId+".png");
+		var photoRef = firebase.storage().ref("boars/" + userData.currentFarm + "/" +boarId+".png");
 		const p2 = photoRef.put(photo);
 		promise_array.push(p2)
 	}
@@ -136,8 +136,12 @@ function getDataList(ref){
 	return ref.once("value").then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
 			var data = [childSnapshot.key];
-			for(i=0;i<keys.length;i++)
-				data.push((childSnapshot.child(keys[i]).val()||""));
+			for(i=0;i<keys.length;i++){
+                if(keys[i]==="semenAvailability")
+                    data.push(childSnapshot.child(keys[i]).val()?(childSnapshot.child(keys[i]).val()==="pos"?"可用":"不可用"):"");
+                else
+    				data.push((childSnapshot.child(keys[i]).val()||""));
+            }
 			dataList.push(data);
 		});
 	});
