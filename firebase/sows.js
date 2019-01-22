@@ -71,7 +71,7 @@ upload.addEventListener("submit", function(e){
     e.preventDefault();
     document.getElementById("submitBtn").disabled=true;
     document.getElementById("submitBtn").value="上傳中";
-    var sowId = document.getElementById("strain").value+document.getElementById("earmark");
+    var sowId = document.getElementById("strain").value+document.getElementById("earmark").value;
 	var sowRef = firebase.database().ref('/sows/'+userData.currentFarm+'/'+sowId);
 	const p1 = sowRef.set({
 		earmark:document.getElementById("earmark").value,
