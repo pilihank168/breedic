@@ -7,7 +7,6 @@ var earmarks = document.getElementById("earmarks");
 
 form.addEventListener("submit", (event)=>{
 	event.preventDefault();
-	console.log(Math.floor(number.value/5), number.value%5)
 	n = Math.floor(number.value/5)
 	m = number.value%5;
 	earmarksInput(n, m);
@@ -43,10 +42,10 @@ earmarks.addEventListener("submit", (event)=>{
         const logP = logRef.update(logUpdate);
         var unavailableRef = firebase.database().ref();
         const unavailableP = unavailableRef.update(unavailableUpdate);
-        console.log(['export', userData.currentFarm, date.value].join('/'));
-        console.log(exportRef, exportName.value, date.value, note.value, number.value, earmark)
         const exportP = exportRef.set({name:exportName.value, note:note.value, number:number.value, earmarks:earmark, date:date.value});
-        return Promise.all([unavailableP, logP, exportP])
+        var d = new Date();
+        const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+        return Promise.all([unavailableP, logP, exportP, timeP])
     }).then( ()=>{window.location.replace("export.html")});
 });
 

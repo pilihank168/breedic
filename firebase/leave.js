@@ -9,7 +9,7 @@ function initPage(){
             for(i=0;i<keys.length;i++){
                 var cell = row.insertCell(i);
                 value = childSnapshot.child(keys[i]).val();
-                cell.innerHTML = i!=2 ? value:( value==="died" ? "死亡" : "淘汰");
+                cell.innerHTML = i!=2 ? value:( value==="dead" ? "死亡" : "淘汰");
             }
         });
     });

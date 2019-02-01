@@ -24,7 +24,6 @@ function loadExistedData(){
 	var listRef = firebase.database().ref("semen/" + userData.currentFarm + "/").orderByChild("date").equalTo(date.value);
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
-			console.log(0);
 			var row = table.insertRow(table.rows.length-1);
 			for(i=0;i<keyArray.length;i++){
 				var cell = row.insertCell(i);
@@ -42,6 +41,9 @@ upload.addEventListener("click", ()=>{
 			semenPromise(table.children[i]);
 		}
 	}
+    var d = new Date();
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array.push(timeP);
 	Promise.all(promise_array).then( ()=>{
 		window.location.replace("semen.html")//location.href)
 	});
@@ -55,7 +57,7 @@ function semenPromise(row){
 	const p = semenRef.set(semenObj);
 	promise_array.push(p);
     boarRef = firebase.database().ref("boars/" + userData.currentFarm + "/" + semenObj["earmark"]);
-    boarP = boarRef.update({lastSemen:date.value, semenAvailability:semObj["available"]});
+    boarP = boarRef.update({lastSemen:date.value, semenAvailability:semenObj["available"]});
     promise_array.push(boarP);
     logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + semenObj["earmark"]).push();
     logP = logRef.set({date:date.value, eventName:"semen"});
@@ -64,7 +66,6 @@ function semenPromise(row){
 
 form.addEventListener("submit", (event)=>{
 	event.preventDefault();
-	console.log(table);
 	var newRow = table.insertRow(table.rows.length-1);
 	newRow.setAttribute('class', 'newRow');
 	var cells = [];

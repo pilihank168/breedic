@@ -2,8 +2,8 @@
 var table = document.getElementById("tableBody");
 var dataTable = '';
 var litterRefPath;
-var litterKeys = ['strain', 'litterNo', 'fatherNo', 'motherNo', 'birthday', 'weanDate', 'note'];
-var suckingKey = ['pigNo', 'gender', 'litterWeight', 'nippleNo', 'weanWeight', 'identity', 'note']; 
+var litterKeys = ['strain', 'litterNo', 'fatherNo', 'motherNo', 'partDate', 'weanDate', 'note'];
+var suckingKey = ['pigNo', 'sex', 'litterWeight', 'nipple', 'weanWeight', 'identity', 'note']; 
 var litterTable = document.getElementById("litterTable");
 var suckingTable = document.getElementById("suckingTable");
 var next = document.getElementById("next");
@@ -26,7 +26,6 @@ function initPage(){
 
 function loadLitter(dataRow){
     var data = dataRow.data();
-    console.log(data)
 	// clean modal
 	litterTable.innerHTML = '';
 	suckingTable.innerHTML = '';
@@ -62,7 +61,7 @@ function loadLitter(dataRow){
 	}
 
 	// load sucking data
-	litterNo = data[1];
+	litterNo = data[0]+data[1];
 	litterWeight = 0;
 	weanWeight = 0;
 	suckingNum = 0;
@@ -72,9 +71,20 @@ function loadLitter(dataRow){
 			var suckingRow = suckingTable.insertRow(-1);
 			for(i=0;i<suckingKey.length;i++){
 				var cell = suckingRow.insertCell(i);
-				cell.innerHTML = childSnapshot.child(suckingKey[i]).val();
+                if(i===0)
+                    cell.innerHTML = childSnapshot.key;
+                else if(i===1)
+                    cell.innerHTML = childSnapshot.child(suckingKey[i]).val()==="F"?"母豬":"公豬"
+                else if(i===5&&childSnapshot.child(suckingKey[i]).val()==="eliminated")
+                    cell.innerHTML = "淘汰";
+                else if(i===5&&childSnapshot.child(suckingKey[i]).val()==="meat")
+                    cell.innerHTML = "肉";
+                else
+				    cell.innerHTML = childSnapshot.child(suckingKey[i]).val();
                 if(suckingKey[i]==="note"&&childSnapshot.child("status").val()==="dead")
                     cell.innerHTML += "(死亡)";
+                else if(suckingKey[i]==="note"&&childSnapshot.child("identity").val()==="eliminated")
+                    cell.innerHTML += "(淘汰)";
 			}
 		});
     });

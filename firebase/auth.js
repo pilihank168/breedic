@@ -8,13 +8,13 @@ firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
 		uid = user.uid;
 		console.log("User is logined", uid, url)
-		var memberRef = firebase.database().ref('members/'+uid);
+/*		var memberRef = firebase.database().ref('members/'+uid);
 		memberRef.once('value').then(function(snapshot){
 			entry = snapshot.val();
 			farmNo = entry.currentFarm;
 			console.log(entry.farm);
 			main(farmNo);
-		});
+		});*/
 	} else {
 		console.log("User is not logined yet.");
 		var parser = document.createElement('a');

@@ -29,9 +29,7 @@ update.addEventListener("submit", function(e){
     if(document.getElementById("password").value)
         updateUserObj["password"] = document.getElementById("password").value;
     changeUser = firebase.functions().httpsCallable('changeUser');
-    console.log(updateUserObj);
     changeUser(updateUserObj).then(function(result){
-        console.log(result);
         updateOwnerRef = firebase.database().ref("owners/" + result.data.uid);
         updateUserObj["password"] = null;
         updateUserObj["phone"] = document.getElementById("phone").value;
@@ -65,7 +63,6 @@ function initPage(){
         });
         return true;
     }).then(function(){
-        console.log(createBtn.disabled);
         createBtn.disabled=false;
     });
 }

@@ -1,15 +1,4 @@
-function unique(a){
-    return a.filter(function(value, index, self) {return self.indexOf(value) === index;})
-}
-
-// Get Elements
-var search = document.getElementById("search");
-var dateRadio = document.getElementById("dateRadio");
-var pigRadio = document.getElementById("pigRadio");
-var date1 = document.getElementById("date1");
-var date2 = document.getElementById("date2");
-var singleDate = document.getElementById("singleDate");
-var dateType = document.getElementById("dateType");
+dateType = document.getElementById("dateType");
 var filter = document.getElementById("filter");
 var query = document.getElementById("query");
 var table = document.getElementById("tableBody");
@@ -62,11 +51,10 @@ function main_step(snapshot){
 }
 
 search.addEventListener("submit", function(event){
-	console.log(event);
 	event.preventDefault();
     dataList = [];
 	if(dateRadio.checked)
-        if(dateType==="birthday")
+        if(dateType.value==="birthday")
             two_step_query([boarRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value), 
                             sowRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value)]).then(renderTable);
         else

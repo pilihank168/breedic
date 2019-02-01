@@ -27,16 +27,13 @@ function initPage(){
 }
 
 function loadExistedData(){
-    console.log(date.value);
 	table.innerHTML = "";
 	var d = new Date(date.value);
 	d.setDate(d.getDate()-period.value);
 	diagDate = date.value;
 	thresholdDate = d.toISOString().slice(0,10);
-	console.log(thresholdDate);
 	listRef = firebase.database().ref("diagnosis/" + userData.currentFarm);
 	listRef.orderByChild("serviceDate").startAt("").endAt(thresholdDate).once("value").then( (snapshot)=>{
-        console.log(snapshot.val())
 		snapshot.forEach( (childSnapshot)=>{
 			if(!childSnapshot.child("result").exists()){
 				row = table.insertRow(-1);
@@ -63,7 +60,6 @@ function makeBtn(text, eventListener){
 		var thisRow = thisBtn.closest("tr");
 		var earmark = thisRow.children[1].innerHTML;
 		eventListener(thisBtn, thisRow, text);
-		console.log(earmark);
 	});
 	return btn;
 }
@@ -107,7 +103,6 @@ function makeDiagInput(row){
 }
 
 function diagPromise(diagId, serviceData, diagData){
-    console.log(diagId, serviceData, diagData);
     // production : diagno
     var productionRef = firebase.database().ref("production/" + userData.currentFarm + "/" + serviceData.sowEar + "/" + serviceData.parity);
     const productionP = productionRef.update(diagData);
@@ -120,9 +115,10 @@ function diagPromise(diagId, serviceData, diagData){
     promise_array.push(historyP);
     // parturition : service
     var parturitionRef = firebase.database().ref("parturition/" + userData.currentFarm + "/" + diagId);
-    serviceData["sowLocation"] = diagData.diagLocation||serviceData.serviceLocation
+    serviceData["sowLocation"] = diagData.diagLocation||serviceData.serviceLocation;
+    serviceData["dueDate"] = diagData.dueDate;
     const parturitionP = parturitionRef.set(serviceData);
-    promise_array.push(parturtionP);
+    promise_array.push(parturitionP);
     // remove : ""
 	var diagRef = firebase.database().ref("diagnosis/" + userData.currentFarm + "/" + diagId);
 	const p = diagRef.remove();
@@ -132,29 +128,30 @@ function diagPromise(diagId, serviceData, diagData){
     const logP = logRef.set({date:diagData.diagDate, eventName:"diagnosis"});
     // sows : diagno
     var sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + serviceData.sowEar);
-    const sowP = sowRef.update({status:"d"+diagData.diagDate, lastDue:diagData.dueDate, location:sowLocation});
+    const sowP = sowRef.update({status:"d"+diagData.diagDate, lastDue:diagData.dueDate, location:serviceData.sowLocation});
     promise_array.push(sowP);
 }
 
 submitBtn.addEventListener("click", function(){
 	for(i=0;i<table.children.length;i++){
 		if(table.children[i].getAttribute('class')==="doneRow"){
-			console.log(table.children[i]);
 			var diagId = table.children[i].getAttribute("data-id");
             var serviceObj = {};
             for(j=0;j<serviceKeys.length;j++)
                 serviceObj[serviceKeys[j]] = table.children[i].getAttribute("data-"+serviceKeys[j].toLowerCase());
             d = new Date(serviceObj.serviceDate);
             d.setDate(d.getDate()+114);
-            dueDate = d.toISOString().slice(10);
-            var diagObj = {diagDate:diagDate, dueDate:dueDate};
+            dueDate = d.toISOString().slice(0,10);
+            var diagObj = {diagnosisDate:diagDate, dueDate:dueDate};
             for(j=0;j<diagnoKeys.length;j++)
                 diagObj[diagnoKeys[j]] = table.children[i].getAttribute("data-"+diagnoKeys[j].toLowerCase());
 			diagPromise(diagId, serviceObj, diagObj)
 		}
 	}
+    var d = new Date();
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array.push(timeP);
 	Promise.all(promise_array).then( ()=>{
-		console.log('re')
 		window.location.replace(location.href)
 	});
 });

@@ -4,6 +4,9 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<style>
+    #upload-files-display{margin:2em 0!important}
+</style>
 <html>
 	<head>
 		<title>台鼎生物科技</title>
@@ -76,12 +79,7 @@
 											<th>上傳檔案</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
+									<tbody id="tableBody">
 									</tbody>
 								</table>
 								</center>
@@ -95,52 +93,51 @@
 									<div class="row">
 									<div class="6u 12u(narrower) important(narrower)">
 										  <ul class="alt">
-											 <li><a href="#">母豬記錄表</a></li>
-											 <li><a href="batchBoars.html">公豬記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fsow.csv?alt=media&token=ca86adb4-675c-4e04-b479-4e1d5adb8d12" download="母豬.csv">母豬記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fboar.csv?alt=media&token=bd92e06f-d784-4629-aaf8-c2639f975bfc" download="公豬.csv">公豬記錄表</a></li>
 										  </ul>
 							  		</div>
 									<div class="6u 12u(narrower) important(narrower)">
 										  <ul class="alt">
-											 <li><a href="#">仔豬記錄表</a></li>
-											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fweaner.xlsx?alt=media&token=4e481aef-8726-46af-b4fe-af72fff3d04c">保育豬記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fproduction.csv?alt=media&token=19a6efd5-e427-4c00-ab17-ece4fc8d456c" download="生產記錄.csv">母豬生產記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fweaner.xlsx?alt=media&token=4e481aef-8726-46af-b4fe-af72fff3d04c" download="保育豬.csv">保育豬記錄表</a></li>
 										  </ul>
 								  	</div>
 							  		</div>
 									<!--input class="button small" value="上傳" /-->
 
-                           <form action="" class="dropbox" method="post">
+                           <form action="" class="dropbox" method="post" id="fileUploader">
                               <div class="box_input">
-                                 <input id="file" class="box_file" name="file" type="file"/>
-                                 <label for="file"><strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span></label>
+                                 <input id="file" class="box_file" name="file" type="file" accept=".csv">
+                                 <label for="file" id="fileLabel"><strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span></label>
                                  <center id="upload-files-display"></center>
                               </div>
 								<br>
 							  <div class="row">
 								<div class="9u">
-								<div class="select-wrapper">
-									<select id="filters">
-									<option hidden disabled selected value>--選擇上傳記錄種類--</option>
-									<option value='production'>母豬歷史生產記錄表</option>
-									<option value='sow'>母豬記錄表</option>
-									<option value='boar'>公豬記錄表</option>
-									<option value='litter'>仔豬記錄表</option>
-									<option value='weaner'>保育豬記錄表</option>
-									</select>
-								</div>
+								    <div class="select-wrapper">
+									    <select id="filters">
+							    		<!--option hidden disabled selected value>==選擇上傳記錄種類==</option-->
+							    		<option value='production'>母豬歷史生產記錄表</option>
+							    		<option value='sow'>母豬記錄表</option>
+							    		<option value='boar'>公豬記錄表</option>
+							    		<!--option value='litter'>仔豬記錄表</option-->
+							    		<option value='weaner'>保育豬記錄表</option>
+								    	</select>
+							    	</div>
 								</div>
 							  	<div class="3u" align="right" style="padding: 0!important">
-		                              <span class="box_button button" type="submit" style="padding:0 1.5em!important;">上傳</span>
+		                              <input class="box_button button" type="submit" style="padding:0 1.5em!important;" value="上傳">
 								</div>
+                            </div>
                               <div class="box_uploading">上傳中&hellip;</div>
                               <div class="box_success">完成！</div>
                               <div class="box_error">噢不！發生錯誤！</div>
                            </form>
 
-						   <!--canvas id="myChart"></canvas-->
 									</center>
 								</div>
 							</div>
-							<div class="2u 12u(narrower)"></div>
 						</div>
 					</div>
 					</div>
@@ -176,15 +173,14 @@
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-storage.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-			<!--script src="firebase/test.js"></script-->
-			<script src="firebase/nav.js"></script>
-			<!--script src="firebase/dropzone.js"></script-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.js"></script>
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-			<script src="firebase/lineChart.js"></script>
+            <script src="firebase/uploader.js"></script>
          	<script src="firebase/upload.js"></script>
+            <script src="firebase/csvparser.js"></script>
+            <script src="firebase/date.js"></script>
 
 	</body>
 </html>

@@ -3,7 +3,7 @@ var search = document.getElementById("search");
 var filter = document.getElementById("filter");
 var query = document.getElementById("query");
 var sortingKey = document.getElementById("sortingKey");
-var keys = ['strain', 'earmark', 'identity', 'sex', 'birthday', 'location', 'status', 'fatherNo', 'motherNo', 'fatherEar', 'motherEar', 
+var keys = ['lotNo', 'strain', 'earmark', 'identity', 'sex', 'birthday', 'location', 'status', 'fatherNo', 'motherNo', 'fatherEar', 'motherEar', 
             'weanDate', 'litterWeight', 'weanWeight'];
 var table = document.getElementById("tableBody");
 var dataTable = "";
@@ -86,6 +86,7 @@ function getDataList(ref){
 	return ref.once("value").then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
 			var data = [childSnapshot.key];
+            var birthday;
 			for(i=0;i<keys.length;i++)
                 if(keys[i]==="status"){
                     var stat = childSnapshot.child(keys[i]).val();
@@ -104,12 +105,14 @@ function getDataList(ref){
                 }
                 else if(keys[i]==="birthday"){
                     data.push(dateDistance(childSnapshot.child(keys[i]).val()||""));
+                    birthday = childSnapshot.child(keys[i]).val()
                 }
 				else
 					data.push((childSnapshot.child(keys[i]).val()||""));
+            data.push(birthday);
 			dataList.push(data);
 		});
-	});
+	}).catch(error=>console.log(error));
 }
 
 function renderTable(){
@@ -122,15 +125,16 @@ function renderTable(){
 		var row = table.insertRow(-1);
 		row.setAttribute("data-key", dataList[i][0]);
 		for(j=0;j<keys.length;j++){
-            if(j<7){
+            if(j<8){
                 var cell = row.insertCell(j);
-                cell.innerHTML = dataList[i][j+1];
+                cell.innerHTML = (j===3&&dataList[i][j+1]==="meat")?"肉":dataList[i][j+1];
             }
+            if(keys[j]==="birthday")
+                row.setAttribute("data-birthday", dataList[i][15]);
             else
                 row.setAttribute("data-"+keys[j].toLowerCase(), dataList[i][j+1]);
 		}
-        if(dataList[i][7]==="場內"){
-            console.log(i)
+        if(dataList[i][8]==="場內"){
             row.setAttribute("class", "addible");
         }
 	}
@@ -139,7 +143,6 @@ function renderTable(){
 
 $('#tableBody').on('click', 'tr', function () {
     if(this.classList.contains("addible")){
-        console.log(this)
         currentRow = this;
         transfer.reset();
         document.getElementById("transfer-earmark").value = this.getAttribute("data-key");
@@ -150,38 +153,40 @@ $('#tableBody').on('click', 'tr', function () {
 //event listener :load whole entry then add boar/sow and add log
 transfer.addEventListener("submit", function(e){
     e.preventDefault();
-    weanerObj;
+    var weanerId = currentRow.getAttribute("data-key");
+    var weanerObj = {};
     for(i=0;i<keys.length;i++)
         weanerObj[keys[i]] = currentRow.getAttribute("data-"+keys[i].toLowerCase());
     // boar or sow
-    transferObj = {strain:weanerObj.strain, earmark:weanerObj.earmark, 
+    transferObj = {strain:weanerObj.strain, earmark:weanerObj.earmark, identity:weanerObj.identity, lotNo:weanerObj.lotNo,
                     registerNo:document.getElementById("transfer-no").value, birthday:weanerObj.birthday,
                     fatherEar:weanerObj.fatherEar, fatherNo:weanerObj.fatherNo, motherEar:weanerObj.motherEar, motherNo:weanerObj.motherNo,
                     location:document.getElementById("transfer-location").value, source:"自繁", note:document.getElementById("transfer-note").value};
-    if(currentRow.getAttribute("data-sex")==="F")
-        var transferRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + currentRow.getAttribute("data-key"));
+    if(currentRow.getAttribute("data-sex")==="母豬")
+        var transferRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + weanerId);
     else
-        var transferRef = firebase.database().ref("boars/" + userData.currentFarm + "/" + currentRow.getAttribute("data-key"));
+        var transferRef = firebase.database().ref("boars/" + userData.currentFarm + "/" + weanerId);
     const transferP = transferRef.set(transferObj);
     // weaner(record transfer)
-    var weanerRef = firebase.database().ref("weaners/" + userData.currentFarm + "/" + currentRow.getAttribute("data-key"));
-    const weanerP = weanerRef.update({status:"transfered", transferDate:document.getElementById("transfer-date")});
+    var weanerRef = firebase.database().ref("weaners/" + userData.currentFarm + "/" + weanerId);
+    const weanerP = weanerRef.update({status:"transfered", transferDate:document.getElementById("transfer-date").value});
     // log
-    var logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + transferEarmark);
+    var logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + weanerId);
     const logP = logRef.set({"birthLog":{date:weanerObj.birthday, eventName:"birth"},
-                                "weanLog":{date:weanerObj.weanDate, eventName:"wean"},
-                            "transferLog":{data:transferDate, eventName:"transfer"}});
+                                "weanLog":{date:weanerObj.weanDate, eventName:"weaned"},
+                            "transferLog":{date:document.getElementById("transfer-date").value, eventName:"transfer"}});
     // physical
-    var physicalRef = firebase.database().ref("physical/" + userData.currentFarm + "/" + transferEarmak);
-    const physicalP = physicalRef.set({"birthLog":{date:weanerObj.birthday, weight:weanerObj.litterWeight},
-                                        "weanLog":{date:weanerObj.weanDate, weight:weanerObj.weanWeight}});
-    var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + sowId);
-    const sexP = sexRef.set(((currentRow.getAttribute("data-sex")==="F")?"sow":"boar"));
-    promise_array = [transferP, weanerP, logP, physicalP, sexP];
+    var physicalRef = firebase.database().ref("physical/" + userData.currentFarm);
+    const physicalP = physicalRef.set({[weanerId+"-birthLog"]:{earmark:weanerId, date:weanerObj.birthday, weight:weanerObj.litterWeight, note:"出生"},
+                                        [weanerId+"-weanLog"]:{earmark:weanerId, date:weanerObj.weanDate, weight:weanerObj.weanWeight, note:"離乳"}});
+    var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + weanerId);
+    const sexP = sexRef.set(((currentRow.getAttribute("data-sex")==="母豬")?"sow":"boar"));
+    var d = new Date();
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array = [transferP, weanerP, logP, physicalP, sexP, timeP];
     Promise.all(promise_array).then( ()=>{
         currentRow.children[6].innerHTML = "已轉豬";
         currentRow.classList.remove("addible");
-        console.log(table);
         $("#myModal").modal("toggle");
     });
 });

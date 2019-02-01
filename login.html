@@ -10,6 +10,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
@@ -23,19 +24,32 @@
 					<!-- Nav -->
 					<nav id="nav">
 						<ul id="ul">
-							<li class="current"><a href="index.html">首頁</a></li>
-							<li>
-								<a href="index.html#data">數據分析</a>
-							</li>
-							<li>
-								<a href="index.html#gene">基因檢測</a>
-							</li>
-							<li><a href="index.html#contact">聯絡我們</a></li>
-							<li id='logInOut'></li>
 						</ul>
 					</nav>
 				</header>
 
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title">重設密碼</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+									<!-- Content -->
+                                    <span class="label" id="modalContent"></span>
+						</div>
+						<div class="modal-footer">
+                            <div class="6u"><span class="label" id="resetMessage"></span></div>
+                            <div class="6u" align="right">
+								<span class="button" id="resetConfirm">送出</span>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- Main -->
 				<section id="main" class="container 50%">
 					<header>
@@ -49,7 +63,7 @@
 									<input type="text" name="name" id="account"/>
 								</div>
 								<div class="12u">
-									<label for="password">密碼 (<a href="#">忘記密碼？</a>)</label>
+									<label for="password">密碼 (<a href="#" id="forget">忘記密碼？</a>)</label>
 									<input type="password" name="password" id="password"/>
 								</div>
 							</div>
@@ -88,6 +102,7 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 			<script src="assets/js/jquery.dropotron.min.js"></script>
 			<script src="assets/js/jquery.scrollgress.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>

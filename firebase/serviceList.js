@@ -30,13 +30,11 @@ function counterDisplay(k){
 function loadExistedData(){
 	while(table.rows.length>1)
 		table.removeChild(table.rows[0]);
-	console.log(table);
 	count = 0;
 	keyArray = ["sowEar", "sowNo", "serviceLocation", "boarEar", "boarNo", "serviceNumber"];
 	var listRef = firebase.database().ref("service/" + userData.currentFarm + "/" + date.value + "/").orderByChild("sowEar");
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
-			console.log(0);
 			count += 1;
 			var row = table.insertRow(table.rows.length-1);
 			for(i=0;i<keyArray.length;i++){
@@ -90,6 +88,9 @@ upload.addEventListener("click", ()=>{
 			servicePromise(table.children[i]);
 		}
 	}
+    var d = new Date();
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array.push(timeP);
 	Promise.all(promise_array).then( ()=>{
         var sync_promise = [];
         newService = firebase.functions().httpsCallable('newService');
@@ -104,7 +105,6 @@ upload.addEventListener("click", ()=>{
 
 form.addEventListener("submit", (event)=>{
 	event.preventDefault();
-	console.log(table);
 	var newRow = table.insertRow(table.rows.length-1);
 	newRow.setAttribute('class', 'newRow');
 	for(i=0;i<row.children.length-1;i++){

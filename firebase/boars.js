@@ -33,7 +33,6 @@ Dropzone.on('drag dragstart dragend dragover dragenter dragleave drop', function
 });
 
 fileInput.addEventListener('change', function(e) {
-    console.log(document.getElementById("fileLabel").style.display);
 	var file = fileInput.files[0];
     previewPhoto(fileInput.files[0]);
 });
@@ -93,16 +92,19 @@ upload.addEventListener("submit", function(e){
     var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + boarId);
     const sexP = sexRef.set("boar");
     promise_array.push(sexP);
+    d = new Date();
+    const logP = firebase.database().ref("log/" + userData.currentFarm + "/" + boarId + "/addLog").set({date:localDateStr(d), eventName:"add"});
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array.push(logP);
+    promise_array.push(timeP)
 	Promise.all(promise_array).then(function(){
-		console.log("新增公豬資料成功");
-		window.location.replace("boardata.html?id="+boarId);
+		window.location.replace("boar.html?id="+boarId);
 	}).catch(function(err){
 		console.error("新增公豬資料錯誤：",err);
 	});
 });
 
 search.addEventListener("submit", function(event){
-	console.log(event);
 	event.preventDefault();
 	if(dateRadio.checked)
 		ref = boarRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value);
@@ -136,12 +138,8 @@ function getDataList(ref){
 	return ref.once("value").then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
 			var data = [childSnapshot.key];
-			for(i=0;i<keys.length;i++){
-                if(keys[i]==="semenAvailability")
-                    data.push(childSnapshot.child(keys[i]).val()?(childSnapshot.child(keys[i]).val()==="pos"?"可用":"不可用"):"");
-                else
-    				data.push((childSnapshot.child(keys[i]).val()||""));
-            }
+			for(i=0;i<keys.length;i++)
+                data.push((childSnapshot.child(keys[i]).val()||""));
 			dataList.push(data);
 		});
 	});

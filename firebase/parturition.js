@@ -19,17 +19,16 @@ function localDateStr(d){
 function initPage(){
 	var d = new Date();
 	today = localDateStr(d)
-	d.setDate(d.getDate()-107);
+	d.setDate(d.getDate()+700);
 	thresholdDate = localDateStr(d);
-	console.log(thresholdDate);
 	
 	listRef = firebase.database().ref("parturition/" + userData.currentFarm);
-	listRef.orderByChild("serviceDate").startAt("").endAt(thresholdDate, "serviceDate").once("value").then( (snapshot)=>{
+	listRef.orderByChild("dueDate").startAt("").endAt(thresholdDate).once("value").then( (snapshot)=>{
 		snapshot.forEach( (childSnapshot)=>{
 			if(true||!childSnapshot.child("partDate").exists()){
 				var entry = childSnapshot.val();
 				var row = table.insertRow(-1);
-				row.innerHTML = "<td>" + entry.sowEarmark + "</td><td>" + entry.dueDate + "</td><td>" + entry.sowLocation + "</td>" + 
+				row.innerHTML = "<td>" + entry.sowEar + "</td><td>" + entry.dueDate + "</td><td>" + entry.sowLocation + "</td>" + 
 				"<td><input type='date' value='" + today + "'></td>" + 
 				"<td><input type='text'></td>" + 
 				"<td><div class='select-wrapper'><select><option value='L'>L</option><option value='Y'>Y</option>" +
@@ -127,7 +126,6 @@ function sum_weight(){
 	for(i=0;i<suckingTable.children.length;i++){
 		total_weight += parseFloat(suckingTable.children[i].children[2].children[0].value)||0;
 	}
-	console.log(total_weight);
 	totalWeight.innerHTML = "出生窩重合計：" + total_weight;
 	return total_weight
 }
@@ -147,12 +145,12 @@ upload.addEventListener("click", function(){
 			partObj[partKeys[i]] = partRow.children[i].innerHTML;
 	}
 	var partRef = firebase.database().ref("parturition/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
-    var productionRef = firebase.database().ref("production/" + userData.currentFarm + "/" + sowEar + "/" + parity);
+    var productionRef = firebase.database().ref("production/" + userData.currentFarm + "/" + serviceObj.sowEar + "/" + serviceObj.parity);
     const productionP = productionRef.update(partObj);
     var promise_array = [productionP]
     // litters : partObj + service(father, mother)
-    var litterRef = firebase.database().ref("litters/" + userData.currentFarm + "/" + id);
-    var litterObj = {fatherNo:serviceObj.boarNo, motherNo:serviceObj.sowNo, fatehrEar:serviceObj.boarEar, motherEar:serviceObj.sowEar};
+    var litterRef = firebase.database().ref("litters/" + userData.currentFarm + "/" + upload.getAttribute("data-id"));
+    var litterObj = {fatherNo:serviceObj.boarNo, motherNo:serviceObj.sowNo, fatherEar:serviceObj.boarEar, motherEar:serviceObj.sowEar, birthday:partDate, location:partLoca, parity:serviceObj.parity};
     for (key in partObj)
         litterObj[key] = partObj[key];
     const litterP = litterRef.set(litterObj);
@@ -166,8 +164,7 @@ upload.addEventListener("click", function(){
 			nipple:suckingTable.rows[i].children[3].children[0].value,
 			note:suckingTable.rows[i].children[4].children[0].value};		
 	}
-	console.log(partObj, suckingObj);
-	var suckingRef = firebase.database().ref("suckings/" + userData.currentFarm + "/" + litterNo);
+	var suckingRef = firebase.database().ref("suckings/" + userData.currentFarm + "/" + strain + litterNo);
 	const suckingP = suckingRef.set(suckingObj);
     promise_array.push(suckingP);
     // parturitionHistory : partObj + service
@@ -187,9 +184,12 @@ upload.addEventListener("click", function(){
     // sows :
     var sowRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + serviceObj.sowEar);
     const sowP = sowRef.update({status:"p"+partObj.partDate , location:partObj.partLocation, lastParturition:partObj.partDate});
+    promise_array.push(sowP);
+    var d = new Date();
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array.push(timeP);
 	Promise.all(promise_array).then( ()=>{
         promise_array = [];
-		console.log(currentRow);
 		currentRow.closest("tbody").removeChild(currentRow.closest("tr"));
 		$("#myModal").modal("toggle");
 	});

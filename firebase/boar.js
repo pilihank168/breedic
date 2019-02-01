@@ -14,6 +14,7 @@ var newPhoto;
 var Dropzone = $(".dropbox");
 var DropInput = $(".box_input");
 var droppedFiles = false;
+var birthday='';
 
 edit.addEventListener("submit", function(e){
     e.preventDefault();
@@ -37,13 +38,14 @@ edit.addEventListener("submit", function(e){
 		const p2 = photoRef.put(newPhoto);
 		promise_array.push(p2)
     }
-    console.log(promise_array.length);
     if(promise_array){
+        var d = new Date();
+        const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+        promise_array.push(timeP);
         Promise.all(promise_array).then(function(){
-            console.log("修改母豬資料成功");
             window.location.replace("boar.html?id="+id);
         }).catch(function(err){
-            console.error("修改母豬資料錯誤：",err);
+            console.error("修改公豬資料錯誤：",err);
         });
     }
     else{
@@ -64,7 +66,6 @@ Dropzone.on('drag dragstart dragend dragover dragenter dragleave drop', function
 });
 
 fileInput.addEventListener('change', function(e) {
-    console.log(document.getElementById("fileLabel").style.display);
 	var file = fileInput.files[0];
     previewPhoto(fileInput.files[0]);
 });
@@ -105,14 +106,14 @@ $('.lineChart').on('click', '', function(){
 function semenStatus(date, availability){
     if(date){
         if(availability)
-            return date+"("+(availability==="pos"?"可用":"不可")+")";
+            return date+"("+availability+")";
         return date
     }
     return ""
 }
 
 function basicData(snapshot){
-	entry = snapshot.val()
+	entry = snapshot.val();
 	detail1.children[0].children[0].innerHTML = "品種：" + (entry.strain||"");
 	detail1.children[1].children[0].innerHTML = "耳號：" + (entry.earmark||"");
 	detail1.children[2].children[0].innerHTML = "序號：" + (entry.registerNo||"");
@@ -123,7 +124,7 @@ function basicData(snapshot){
 	detail2.children[2].children[0].innerHTML = "前次採精：" + semenStatus(entry.lastSemen, entry.semenAvailability);
 	detail2.children[3].children[0].innerHTML = "豬隻來源：" + (entry.source||"");
 	detail2.children[4].children[0].innerHTML = "備註：" + (entry.note||"無");
-    console.log(entry.lastSemen, entry.semenAvailability,([(entry.lastSemen||""), (entry.semenAvailability||"")].join("，")));
+    birthday = entry.birthday;
     if(entry.score){
         document.getElementById("score").innerHTML = '分數：'+entry.score+'<a href="#" data-toggle="modal" data-target="#myModal">(檢視詳情)</a>'
         renderGenogramNode(entry.registerNo, entry.source, entry.score, entry.fatherNo, entry.motherNo);
@@ -152,7 +153,6 @@ function dateDistance(date1, date2){
 }
 
 function physicalData(snapshot){
-        console.log(snapshot.val());
 	snapshot.forEach( (childSnapshot)=>{
 		physicalObj.push(childSnapshot.val())
 	});
@@ -164,23 +164,21 @@ function physicalData(snapshot){
     var physicalKeys = ["date", "weight", "fat", "depth", "surface", "note"];
 	for(i=0;i<physicalObj.length;i++){
         var row = physicalTable.insertRow(0);
-        var week = weeksFromBirth("2018-10-01", physicalObj[i]["date"]);
+        var week = weeksFromBirth(birthday, physicalObj[i]["date"]);
         lineData["week"].push(week);
         for(j=0;j<physicalKeys.length;j++){
             var cell = row.insertCell(j);
-            var val = parseFloat(physicalObj[i][physicalKeys[j]]);
+            var val = physicalObj[i][physicalKeys[j]];
             cell.innerHTML = val||"";
             if(j>0 && j<5 && val)
                 lineData[physicalKeys[j]].push({x:week, y:parseFloat(val)});
-                lineData[physicalKeys[j]].push({x:week, y:val});
         }
 	}
     renderLineChart("weight", "體重");
-    console.log(lineChart);
 }
 
 function semenData(snapshot){
-    var expheadKeys = ["earmark", "volume", "concentration", "activity", "abnormalities", "acrosome", "midpiece", "dilute", "available", "note"];
+    var expheadKeys = ["volume", "concentration", "activity", "abnormalities", "acrosome", "midpiece", "dilute", "available", "note"];
     var semenObj = [];
     snapshot.forEach( (childSnapshot)=>{
         semenObj.push(childSnapshot.val());
@@ -194,13 +192,12 @@ function semenData(snapshot){
         //exphead
         row = semenTable.insertRow(0);
         for(j=0;j<expheadKeys.length;j++){
-            var cell = row.insertCell(i);
+            var cell = row.insertCell(j);
             cell.innerHTML = semenObj[i][expheadKeys[j]]||"";
         }
         //expbody
         row = semenTable.insertRow(1);
-        console.log(semenObj[i].sows);
-        var sows = Object.keys(semenObj[i].sows);
+        var sows = semenObj[i].sows?Object.keys(semenObj[i].sows):[];
         row.innerHTML = "<td colspan='13' style='padding:1em 3em!important; text-align:left!important;'>配種母豬："+sows.join("、")+"</td>";
     };
     $('.exptable tbody tr:nth-child(odd)').on('click', '', function () {
@@ -213,20 +210,18 @@ function semenData(snapshot){
 }
 
 function logData(snapshot){
-    console.log(snapshot.val());
     logTable = document.getElementById("log");
     snapshot.forEach( (childSnapshot)=>{
         var entry = childSnapshot.val()
         var row = logTable.insertRow(0)
         var cell = row.insertCell(0)
         var eventMap = {birth:"出生", weaned:"離乳為保育豬", transfer:"轉種豬", physical:"體測", semen:"採精",
-                        export:"出豬", eliminate:"淘汰", dead:"死亡"};
+                        export:"出豬", eliminate:"淘汰", dead:"死亡", add:"進場"};
         cell.innerHTML = [entry.date, eventMap[entry.eventName]].join(" ");
     });
 }
 
 function renderLineChart(dataKey, name){
-    console.log(lineData[dataKey], dataKey);
     if(lineChart)
         lineChart.destroy();
     lineChart = renderChart(ctx, lineData["week"], lineData[dataKey], name);
@@ -308,7 +303,6 @@ function initPage(){
             window.location.replace("boarlist.html");
             alert("序號不存在！")
         }
-		console.log(snapshot[2].val());
 		basicData(snapshot[0]);
 		semenData(snapshot[1]);
 		physicalData(snapshot[2]);

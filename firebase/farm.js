@@ -33,12 +33,10 @@ newFarm.addEventListener("submit", function(e){
         p_array.push(createUser(newUserObj));
     }
     Promise.all(p_array).then(function(result){
-        console.log(result)
         if(result.length)
             uid = result[0].data.uid;
         else
             uid = ownerSelect.value;
-        console.log(uid);
         addFarm = firebase.functions().httpsCallable('addFarm');
         return addFarm({uid:uid});
     }).then(function(result){
@@ -100,7 +98,6 @@ function initPage(){
     userRef = firebase.database().ref("users/");
     const initP = [farmRef.once("value"), userRef.once("value"), ownerRef.once("value")];
     Promise.all(initP).then(function(snapshot){
-        console.log(createBtn.disabled);
         owners = snapshot[2].val();
         for(key in owners){
             ownerSelect.innerHTML += '<option value="' + key + '">' + owners[key].name + '</option>';
@@ -132,7 +129,6 @@ function initPage(){
         });
         return true;
     }).then(function(){
-        console.log(createBtn.disabled);
         createBtn.disabled=false;
         createUser = firebase.functions().httpsCallable('createUser');
     }).catch((error)=>console.log(error));

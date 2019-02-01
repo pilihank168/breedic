@@ -4,6 +4,9 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<style>
+    #upload-files-display{margin:2em 0!important}
+</style>
 <html>
 	<head>
 		<title>台鼎生物科技</title>
@@ -80,12 +83,7 @@
 											<th>上傳檔案</th>
 										</tr>
 									</thead>
-									<tbody>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
+									<tbody id="tableBody">
 									</tbody>
 								</table>
 								</center>
@@ -99,40 +97,39 @@
 									<div class="row">
 									<div class="6u 12u(narrower) important(narrower)">
 										  <ul class="alt">
-											 <li><a href="#">配種記錄表</a></li>
-											 <li><a href="#">測孕記錄表</a></li>
-											 <li><a href="#">分娩記錄表</a></li>
-											 <li><a href="#">離乳記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fservice.csv?alt=media&token=a83da931-cf3d-455c-8381-d0a13f184518" download="配種記錄.csv">配種記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fdiagnosis.csv?alt=media&token=fbe5d26d-0a33-4bb6-92ee-a26217f31a49" download="測孕記錄.csv">測孕記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fparturition.csv?alt=media&token=31471576-a278-4c24-b5d5-5ca993da6ea8" download="分娩記錄.csv">分娩記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fwean.csv?alt=media&token=d22c1399-bc18-4e1e-97e8-33b73874f304" download="離乳記錄(含仔豬卡).csv">離乳記錄表</a></li>
 										  </ul>
 								  	</div>
 									<div class="6u 12u(narrower) important(narrower)">
 										  <ul class="alt">
-											 <li><a href="#">採精記錄表</a></li>
-											 <li><a href="#">體測記錄表</a></li>
-											 <li><a href="#">出豬記錄表</a></li>
-											 <li><a href="#">離場記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fsemen.csv?alt=media&token=0f7620cc-ba89-4d42-9059-3089877bf364" download="採精記錄.csv">採精記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fphysical.csv?alt=media&token=6aab1a3b-3c4e-46d4-a84f-abb52074eddc" download="體測記錄.csv">體測記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fexport.csv?alt=media&token=5d7c3724-9700-47a9-be64-0d9b95132c60" download="出豬記錄.csv">出豬記錄表</a></li>
+											 <li><a href="https://firebasestorage.googleapis.com/v0/b/breedic-ba254.appspot.com/o/sample_files%2Fleave.csv?alt=media&token=3dd3eb76-8d36-4e39-b43c-26e6959cd566" download="離場記錄.csv">離場記錄表</a></li>
 										  </ul>
 								  	</div>
 							  		</div>
 									<!--input class="button small" value="上傳" /-->
 
-                           <form action="" class="dropbox" method="post">
-								<br>
+                           <form action="" class="dropbox" method="post" id="fileUploader">
                               <div class="box_input">
-                                 <input id="file" class="box_file" name="file" type="file"/>
-                                 <label for="file"><strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span></label>
+                                 <input id="file" class="box_file" name="file" type="file" accept=".csv">
+                                 <label for="file" id="fileLabel"><strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span></label>
                                  <center id="upload-files-display"></center>
                               </div>
-                              <br>
+                                <br>
                               <div class="row">
                                 <div class="9u">
                                     <div class="select-wrapper">
                                         <select id="filters">
-                                        <option hidden disabled selected value>--選擇上傳記錄表種類--</option>
+                                        <!--option hidden disabled selected value>--選擇上傳記錄表種類--</option-->
                                         <option value='service'>配種記錄表</option>
-                                        <option value='semem'>採精記錄表</option>
+                                        <option value='semen'>採精記錄表</option>
                                         <option value='diagnosis'>測孕記錄表</option>
-                                        <option value='paturition'>分娩記錄表</option>
+                                        <option value='parturition'>分娩記錄表</option>
                                         <option value='wean'>離乳記錄表</option>
                                         <option value='physical'>體測記錄表</option>
                                         <option value='export'>出豬記錄表</option>
@@ -141,9 +138,9 @@
                                     </div>
                                 </div>
                                 <div class="3u" align="right" style="padding:0 !important">
-		                              <span class="box_button button" type="submit" style="padding:0 1.5em!important;">上傳</span>
+		                              <input class="box_button button" type="submit" style="padding:0 1.5em!important;" value="上傳">
                                 </div>
-                              </div>
+                            </div>
                               <div class="box_uploading">上傳中&hellip;</div>
                               <div class="box_success">完成！</div>
                               <div class="box_error">噢不！發生錯誤！</div>
@@ -152,7 +149,6 @@
 									</center>
 								</div>
 							</div>
-							<div class="2u 12u(narrower)"></div>
 						</div>
 					</div>
 					</div>
@@ -188,10 +184,14 @@
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-storage.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.js"></script>
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/record.js"></script>
+            <script src="firebase/csvparser.js"></script>
+            <script src="firebase/date.js"></script>
+            <script src="firebase/uploader.js"></script>
 
 	</body>
 </html>

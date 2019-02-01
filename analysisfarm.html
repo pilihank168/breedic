@@ -51,10 +51,10 @@
 											<span class="label">資料範圍：</span>
 										</div>
 										<div class="4u" style="padding-left:0.5em!important">
-											<input type="date">
+											<input type="date" id="date1">
 										</div>
 										<div class="4u" style="padding-left:0.5em!important">
-											<input type="date">
+											<input type="date" id="date2">
 										</div>
 										<div class="4u" align="right">
 											<span class="label">豬隻性別：</span>
@@ -73,14 +73,15 @@
 								</div>
 						</div>
 						<div class="modal-footer">
-								<span class="button alt" id="nextt">生成報表</span>
-								<span class="button disabled" id="nextt">下載</span>
+								<span class="button alt" id="generate">生成報表</span>
+								<a class="button disabled" id="download">下載</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal fade" id="myModal2" role="dialog" style="z-index:10002!important;">
 				<div class="modal-dialog modal-dialog-centered">
+                <form id="upload">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h3 class="modal-title">分析上傳</h3>
@@ -94,35 +95,41 @@
 									<div class="row">
 										<div class="2u"><br></div>
 										<div class="8u">
-                           <form action="" class="dropbox" method="post" style="margin-bottom:1em!important">
-                              <div class="box_input">
-                                 <input id="file" class="box_file" name="file" type="file"/>
-                                 <label for="file"><strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span></label>
-                                 <center id="upload-files-display"></center>
-                              </div>
-                              <div class="box_uploading">上傳中&hellip;</div>
-                              <div class="box_success">完成！</div>
-                              <div class="box_error">噢不！發生錯誤！</div>
-                           </form>
+                                            <div class="dropbox" style="margin-bottom:1em!important">
+                                                <div class="box_input">
+                                                    <input id="file" class="box_file" name="file" type="file"/>
+                                                    <label for="file" id="fileLabel" style="text-align:center">
+                                                        <strong>選擇檔案</strong><span class="box_dragndrop">或拖曳至此</span>
+                                                    </label>
+                                                    <center id="upload-files-display"></center>
+                                                </div>
+                                                <div class="box_uploading">上傳中&hellip;</div>
+                                                <div class="box_success">完成！</div>
+                                                <div class="box_error">噢不！發生錯誤！</div>
+                                            </div>
 										</div>
 										<div class="4u" align="right">
 											<span class="label">檔案種類：</span>
 										</div>
 										<div class="8u" style="padding-left:0.5em!important">
 											<span class="label">
-												<input type="radio" id='typereport' name="filetype" checked>
-												<label for="typereport">分析報告</label>
+												<input type="radio" id='typeReport' name="filetype" checked>
+												<label for="typeReport">分析報告</label>
 											</span>
 											<span class="label">
-												<input type="radio" id='typerecommand' name="filetype" checked>
-												<label for="typerecommand">選拔建議</label>
+												<input type="radio" id='typeRecommend' name="filetype" checked>
+												<label for="typeRecommend">選拔建議</label>
+											</span>
+											<span class="label">
+												<input type="radio" id='typeScore' name="filetype" checked>
+												<label for="typeScore">豬隻評分</label>
 											</span>
 										</div>
 										<div class="4u" align="right">
 											<span class="label">用戶檢視檔名：</span>
 										</div>
 										<div class="8u" style="padding-left:0.5em!important">
-											<input type="text">
+											<input type="text" id="newFileName">
 										</div>
 										<div class="4u" align="right">
 											<span class="label">用戶檢視權限：</span>
@@ -141,9 +148,10 @@
 								</div>
 						</div>
 						<div class="modal-footer" align="right">
-								<span class="button" id="upload">上傳</span>
+                            <input class="button" type="submit" id="submitBtn" value="上傳">
 						</div>
 					</div>
+                    </form>
 				</div>
 			</div>
 			<div class="modal fade" id="myModal3" role="dialog" style="z-index:10002!important;">
@@ -164,26 +172,12 @@
 											<span class="label">客戶訊息：</span>
 										</div>
 										<div class="8u" style="padding-left:0.5em!important">
-											<span class="label">請問...</span>
+											<span class="label" id="message">請問...</span>
 										</div>
 										<div class="4u" align="right">
 											<span class="label">回覆：</span>
 										</div>
-										<div class="8u" style="padding-left:0.5em!important">
-											<textarea type="text" rows="3" id="content"></textarea>
-										</div>
-										<div class="4u" align="right">
-											<span class="label">用戶檢視權限：</span>
-										</div>
-										<div class="8u" style="padding-left:0.5em!important">
-											<span class="label">
-												<input type="radio" id='yes' name="access1" checked>
-												<label for="yes">是</label>
-											</span>
-											<span class="label">
-												<input type="radio" id='no' name="access1" checked>
-												<label for="no">否</label>
-											</span>
+										<div class="8u" style="padding-left:0.5em!important" id="response">
 										</div>
 									</div>
 
@@ -209,18 +203,22 @@
 									<div class="row">
 										<div class="6u" align="right">
 										<span class="label">
-											<a class="button small special" data-toggle="modal" data-target="#myModal1">場內資料下載</a>
+											<a class="button small special" id="downloadModal">場內資料下載</a>
 											<a class="button small special" data-toggle="modal" data-target="#myModal2">分析結果上傳</a>
 										</span>
 										</div>
 										<div class="6u">
 											<span class="label">
-												<input type="checkbox" id='report' name="filter">
+												<input type="checkbox" id='report' name="filter" checked>
 												<label for="report">分析報告</label>
 											</span>
 											<span class="label">
-												<input type="checkbox" id='recommand' name="filter">
-												<label for="recommand">選拔建議</label>
+												<input type="checkbox" id='recommend' name="filter" checked>
+												<label for="recommend">選拔建議</label>
+											</span>
+											<span class="label">
+												<input type="checkbox" id="score" name="filter" checked>
+												<label for="score">評分</label>
 											</span>
 										</div>
 									</div>
@@ -235,15 +233,7 @@
 												<th>用戶回覆</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td>2018-12-12</td>
-												<td>選拔建議</td>
-												<td>2018-12-12-06-00</td>
-												<td>yes</td>
-												<td><a data-toggle="modal" data-target="#myModal3" href>待回覆</a></td>
-											</tr>
-											<tr></tr>
+										<tbody id="tableBody">
 										</tbody>
 									</table>
 								</div>
@@ -256,21 +246,17 @@
 			<!-- Footer -->
 				<div id="footer">
 					<!-- Icons -->
-						<ul class="icons">
-							<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon fa-github"><span class="label">GitHub</span></a></li>
-							<li><a href="#" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
-						</ul>
+					<ul class="icons">
+						<li>電話：02-23691499</li>
+						<li>電子信箱：service@breedic.com</li>
+					</ul>
 
 					<!-- Copyright -->
-						<div class="copyright">
-							<ul class="menu">
-								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-							</ul>
-						</div>
-
+					<ul class="copyright">
+						<li>&copy; Untitled. All rights reserved</li>
+						<li><a href="index.html">台鼎生物科技</a></li>
+						<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
 				</div>
 
 		</div>
@@ -283,15 +269,20 @@
 			<script src="assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
+            <script src="assets/js/encoding.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-storage.js"></script>
             <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.6.3/papaparse.js"></script>
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
          	<script src="firebase/analysisfarm.js"></script>
+            <script src="firebase/uploader.js"></script>
+            <script src="firebase/date.js"></script>
+            <script src="firebase/csvparser.js"></script>
 
 	</body>
 </html>

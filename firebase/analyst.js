@@ -16,7 +16,6 @@ createBtn.addEventListener("click", function(){
 });
 
 checkEmail.addEventListener("click", function(){
-    console.log(document.getElementById("newEmail").value);
     if(!document.getElementById("newEmail").value)
         checkMessage.innerHTML = "請輸入信箱";
     else if(emails.includes(document.getElementById("newEmail").value))
@@ -33,11 +32,10 @@ newAccount.addEventListener("submit", function(e){
         name:document.getElementById("newName").value,
         active:document.getElementById("newActiveYes").checked,
         role:"analyst",
-        farm:-1,
+        farm:0,
         permission:{add:true, modify:true, report:true}
     }
     createUser(newUserObj).then(function(result){
-        console.log(result);
         newAnalystRef = firebase.database().ref("analysts/" + result.data.uid);
         newUserObj["password"] = null;
         newUserObj["phone"] = document.getElementById("newPhone").value;
@@ -75,9 +73,7 @@ update.addEventListener("submit", function(e){
     if(document.getElementById("password").value)
         updateUserObj["password"] = document.getElementById("password").value;
     changeUser = firebase.functions().httpsCallable('changeUser');
-    console.log(updateUserObj);
     changeUser(updateUserObj).then(function(result){
-        console.log(result);
         updateAnalystRef = firebase.database().ref("analysts/" + result.data.uid);
         updateUserObj["password"] = null;
         updateUserObj["phone"] = document.getElementById("phone").value;
@@ -96,7 +92,6 @@ function initPage(){
     userRef = firebase.database().ref("users/");
     const initP = [analystRef.once("value"), userRef.once("value")];
     Promise.all(initP).then(function(snapshot){
-        console.log(createBtn.disabled);
         snapshot[0].forEach(function(childSnapshot){
             entry = childSnapshot.val();
             var row = table.insertRow(-1);
@@ -112,7 +107,6 @@ function initPage(){
         });
         return true;
     }).then(function(){
-        console.log(createBtn.disabled);
         createBtn.disabled=false;
         createUser = firebase.functions().httpsCallable('createUser');
     });

@@ -28,6 +28,9 @@ upload.addEventListener("click", ()=>{
                 leavePromise(table.children[i], sexData);
             }
         }
+        var d = new Date();
+        const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+        promise_array.push(timeP);
         return Promise.all(promise_array);
     }).then( ()=>{
 		window.location.replace(location.href)
@@ -60,8 +63,8 @@ function leavePromise(row, sexData){
         promise_array.push(weanerP);
     }
     if(sexData[leaveObj.earmark]){
-        logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + semObj["earmark"]).push();
-        logP = logRef.set({date:date.value, eventName:"semen"});
+        logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + leaveObj["earmark"]).push();
+        logP = logRef.set({date:date.value, eventName:"leave"});
         promise_array.push(logP);
     }
 }

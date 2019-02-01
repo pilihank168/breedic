@@ -19,7 +19,6 @@ function insertRow(keyArray, snapshot){
 
 function loadTable(refPath, order_key, search_key, query, correspondSearch, tableKey){
 	table.innerHTML='';
-	console.log('order:',order_key);
 	var listRef = firebase.database().ref(refPath).orderByChild(order_key);
 	return listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){

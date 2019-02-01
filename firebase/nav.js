@@ -12,13 +12,8 @@ function logout(){
 }
 
 function changeFarm(farmNo){
-    console.log(farmNo);
     changeCurrentFarm = firebase.functions().httpsCallable('changeCurrentFarm');
     changeCurrentFarm({farm:farmNo}).then((result)=>{
-        console.log(result.data.currentFarm)
-        return firebase.auth().currentUser.getIdTokenResult(true);
-    }).then((result)=>{
-        console.log(result.claims.farm);
 		window.location.replace(window.location.href);
 	}).catch((error)=>{console.log(error)});
 }
@@ -26,19 +21,15 @@ function changeFarm(farmNo){
 function makeFarmList(){
 	var currentFarm = userData.currentFarm
 	var farms = userData.farmNo
-    console.log(userData);
-    console.log(farms);
     farms = Object.keys(farms);
 	var farmList = '';
 	var promiseArray = [];
 	for(var i=0; i<farms.length; i++){
-        console.log(farms[i]);
 		const p = firebase.database().ref('farms/' + farms[i]).once('value');
 		promiseArray.push(p);
 	}
 	return Promise.all(promiseArray).then((snapshot)=>{
 		for(var i=0; i<promiseArray.length; i++){
-            console.log(snapshot[i].val());
 			if(parseInt(farms[i])===currentFarm){
 				farmList += '<li><a href="#" name="list"><b>' + snapshot[i].val().name + '</b></a></li>';
 			}
@@ -53,12 +44,11 @@ function makeFarmList(){
 }
 
 function makeNav(role){
-    console.log(role);
 	if (role=='admin'){
 		nav.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
 		'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 			'<ul id="dataList">' +
-				'<li><a href="upload.html" name="list">資料查看</a></li>' +
+				'<li><a href="choosefarm.html" name="list">資料查看</a></li>' +
 				'<li><a href="analysis.html" name="list">資料分析</a></li>' +
 			'</ul>' +
 		'</li>' +
@@ -71,7 +61,7 @@ function makeNav(role){
 		'</li>' +
 		'<li> <a href="accountManage.html" class="icon fa-angle-down">帳號管理</a>' +
 			'<ul id="accountList">' +
-				'<li><a href="farm.html" name="list">豬場管理</a></li>' +
+				'<li><a href="choosefarm.html" name="list">豬場管理</a></li>' +
 				'<li><a href="owner.html" name="list">場主帳號</a></li>' +
 				'<li><a href="analyst.html" name="list">分析師帳號</a></li>' +
 			'</ul>' +

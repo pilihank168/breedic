@@ -1,4 +1,6 @@
 var table = document.getElementById("tableBody");
+var keys = ["name", "owner", "size", "type", "phone", "address", "note"];
+var owners;
 
 function initPage(){
     farmRef = firebase.database().ref("farms/");
@@ -17,26 +19,26 @@ function initPage(){
             cell = row.insertCell(2);
             cell.innerHTML = owners[entry.owner].name;
             cell = row.insertCell(3);
-            if(entry.lastData){
-                var d = new Date(entry.lastData)
-                cell.innerHTML = d.toLocaleString();
-            }
-            else
-                cell.innerHTML = "無資料";
+            cell.innerHTML = owners[entry.owner].email;
             cell = row.insertCell(4);
-            if(entry.lastAnalysis){
-                d = new Date(entry.lastAnalysis);
-                cell.innerHTML = d.toLocaleString();
-            }
-            else
-                cell.innerHTML = "無資料";
-            row.setAttribute("data-key", childSnapshot.key);
+            cell.innerHTML = entry.note;
+            keys.forEach(function(key, index){
+                if(key==="owner")
+                    row.setAttribute("data-owner", owners[entry[key]].name);
+                else
+                    row.setAttribute("data-"+key.toLowerCase(), entry[key]);
+            });
         })
-    }).catch((error)=>{console.log(error)});
+    }).catch((error)=>console.log(error));
 }
-
 
 // clickable row
 $('#tableBody').on('click', 'tr', function () {
-	window.location='analysisfarm.html?farm='+this.getAttribute("data-key");
+    var farmNo = parseInt(this.getAttribute("data-key"));
+    changeCurrentFarm = firebase.functions().httpsCallable('changeCurrentFarm');
+    changeCurrentFarm({farm:farmNo}).then((result)=>{
+        return firebase.auth().currentUser.getIdTokenResult(true);
+    }).then((result)=>{
+		window.location = "upload.html";
+	}).catch((error)=>{console.log(error)});
 });

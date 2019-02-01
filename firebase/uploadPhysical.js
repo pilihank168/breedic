@@ -30,7 +30,6 @@ function loadExistedData(){
 	var listRef = firebase.database().ref("physical/" + userData.currentFarm + "/").orderByChild("date").equalTo(date.value);
 	listRef.once('value').then(function(snapshot){
 		snapshot.forEach(function(childSnapshot){
-			console.log(0);
 			var row = table.insertRow(table.rows.length-1);
 			for(i=0;i<keyArray.length;i++){
 				var cell = row.insertCell(i);
@@ -48,6 +47,9 @@ upload.addEventListener("click", ()=>{
 			physicalPromise(table.children[i]);
 		}
 	}
+    var d = new Date();
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array.push(timeP);
 	Promise.all(promise_array).then( ()=>{
 		window.location.replace(location.href)
 	});
@@ -55,7 +57,6 @@ upload.addEventListener("click", ()=>{
 
 function physicalPromise(row){
 	physicalRef = firebase.database().ref("physical/" + userData.currentFarm + "/").push();
-	//keys = ["earmark", "volume", "concentration", "activity", var5, var6, var7, "dilute", "available", "note"]
 	const p = physicalRef.set({
 		earmark:row.children[0].innerHTML,
 		sex:(row.children[1].innerHTML=='母豬'?'F':'M'),
@@ -67,22 +68,18 @@ function physicalPromise(row){
 		date:date.value
 	});
 	promise_array.push(p);
-    logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + semObj["earmark"]).push();
-    logP = logRef.set({date:date.value, eventName:"semen"});
+    logRef = firebase.database().ref("log/" + userData.currentFarm + "/" + row.children[0].innerHTML).push();
+    logP = logRef.set({date:date.value, eventName:"physical"});
     promise_array.push(logP);
 }
 
 form.addEventListener("submit", (event)=>{
 	event.preventDefault();
-	console.log(row.children[1].children[0].children["sex"].value)
-	console.log(document.getElementById("form"));
-	console.log(table);
 	var newRow = table.insertRow(table.rows.length-1);
 	newRow.setAttribute('class', 'newRow');
 	var cells = [];
 	for(i=0;i<row.children.length-1;i++){
 		var cell = newRow.insertCell(i);
-		console.log(row.children[i]);
 		cell.innerHTML = i!=1?row.children[i].children[0].value:(document.getElementById("f").checked?"母豬":"公豬");
 		row.children[i].children[0].value='';
 	}

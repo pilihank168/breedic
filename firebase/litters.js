@@ -3,7 +3,7 @@ var table = document.getElementById("tableBody");
 var dataTable = '';
 var litterRefPath;
 var litterKeys = ['strain', 'litterNo', 'fatherNo', 'motherNo', 'birthday', 'location', 'weanDate', 'note'];
-var suckingKey = ['pigNo', 'gender', 'litterWeight', 'nippleNo', 'note']; 
+var suckingKey = ['pigNo', 'sex', 'litterWeight', 'nipple', 'note']; 
 var litterTable = document.getElementById("litterTable");
 var suckingTable = document.getElementById("suckingTable");
 var next = document.getElementById("next");
@@ -58,7 +58,7 @@ function initPage(){
                 else
                     cell.innerHTML = childSnapshot.child(litterKeys[i]).val();
             }
-            row.setAttribute("data-key", childSnapshot.key);
+            row.setAttribute("data-key", childSnapshot.child("strain").val()+childSnapshot.child("litterNo").val());
             row.setAttribute("data-litterweight", childSnapshot.child("totalLitterWeight").val());
         });
     }).then(function(){makeDataTable("#table");}).catch((err)=>{conosle.log(err)});
@@ -66,7 +66,6 @@ function initPage(){
 
 function loadLitter(dataRow){
     var data = dataRow.data();
-    console.log(data)
 	// clean modal
 	litterTable.innerHTML = '';
 	suckingTable.innerHTML = '';
@@ -109,7 +108,12 @@ function loadLitter(dataRow){
 			var suckingRow = suckingTable.insertRow(-1);
 			for(i=0;i<suckingKey.length;i++){
 				var cell = suckingRow.insertCell(i);
-                cell.innerHTML = childSnapshot.child(suckingKey[i]).val();
+                if(i===0)
+                    cell.innerHTML = childSnapshot.key;
+                else if(i===1)
+                    cell.innerHTML = childSnapshot.key==="F"?"母豬":"公豬";
+                else
+                    cell.innerHTML = childSnapshot.child(suckingKey[i]).val();
 			}
             var cell = suckingRow.insertCell(-1);
             if(childSnapshot.child("status").val()==="dead"){
@@ -138,7 +142,9 @@ function loadLitter(dataRow){
                     promise_array.push(p);
                 }
             }
-            console.log(promise_array.length);
+            var d = new Date();
+            const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+            promise_array.push(timeP);
             Promise.all(promise_array).then( ()=>{
                 $("#myModal").modal("toggle");
             });

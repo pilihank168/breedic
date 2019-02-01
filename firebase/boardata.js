@@ -38,7 +38,7 @@ boarsRef.once('value').then(function(snapshot){
 	//cell7.innerHTML = entry.age
 	weight.innerHTML += "<a href='#' class='button small'>編輯</a></br>體重："+entry.weight+"<br>\背脂："+entry.backFat;
 	origin.innerHTML = "豬隻來源："+entry.source;
-	photoPath = "0/"+entry.earmark+".png";
+	photoPath = "0/"+snapshot.key+".png";
 	console.log(photoPath);
 	var photoRef = firebase.storage().ref(photoPath);
 	photoRef.getDownloadURL().then(function(url) {

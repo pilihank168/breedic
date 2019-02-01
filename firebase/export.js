@@ -23,7 +23,7 @@ function two_step_query(firstStepRef){
         firstSteps.push(stepRef.once("value"));
     });
     dataList = [];
-    return firstSteps.once("value").then((snapshots)=>{
+    return Promise.all(firstSteps).then((snapshots)=>{
         var secondSteps = [];
         var exportIds = []
         snapshots.forEach((snapshot)=>{
@@ -31,7 +31,7 @@ function two_step_query(firstStepRef){
                 // make second steps
                 exportId = childSnapshot.val()["exportId"];
                 if(exportId && !exportIds.includes(exportId)){
-                    var secondRef = firebase.database().ref("export/" + userData.currentFarm + "/exportId");
+                    var secondRef = firebase.database().ref("export/" + userData.currentFarm + "/" + exportId);
                     const secondP = secondRef.once("value");
                     exportIds.push(exportId);
                     secondSteps.push(secondP);
@@ -62,11 +62,10 @@ function main_step(snapshot){
 }
 
 search.addEventListener("submit", function(event){
-	console.log(event);
 	event.preventDefault();
     dataList = []
 	if(dateRadio.checked)
-        if(dateType==="birthday")
+        if(dateType.value==="birthday")
             two_step_query([boarRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value), 
                             sowRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value),
                             weanerRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value)]).then(renderTable);
@@ -74,9 +73,9 @@ search.addEventListener("submit", function(event){
             one_step_query(exportRef.orderByChild("date").startAt(date1.value).endAt(date2.value)).then(renderTable);
 	else if(pigRadio.checked)
 		if(filter.value==="location")
-			two_step_query([boarRef.orderByChild("loaction").startAt(query.value).endAt(query.value+"\uf8ff"),
-                            sowRef.orderByChild("loaction").startAt(query.value).endAt(query.value+"\uf8ff"),
-                            weanerRef.orderByChild("loaction").startAt(query.value).endAt(query.value+"\uf8ff")]).then(renderTable);
+			two_step_query([boarRef.orderByChild("location").startAt(query.value).endAt(query.value+"\uf8ff"),
+                            sowRef.orderByChild("location").startAt(query.value).endAt(query.value+"\uf8ff"),
+                            weanerRef.orderByChild("location").startAt(query.value).endAt(query.value+"\uf8ff")]).then(renderTable);
         else if(filter.value==="earmark")
 			two_step_query([boarRef.orderByKey().equalTo(query.value), 
                             sowRef.orderByKey().equalTo(query.value),
@@ -137,7 +136,6 @@ var content_table = document.getElementById("content-table");
 // Clickable Row in DataTable
 $('#tableBody').on('click', 'tr', function () {
 	var data = this.getAttribute("data-earmarks");
-	console.log(data);
 	modal_title.innerHTML = "出豬詳情："+this.children[1].innerHTML+"（"+this.children[0].innerHTML+"）";
 	data = data.split(',');
 	content_table.innerHTML = "";

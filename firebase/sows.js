@@ -35,7 +35,6 @@ Dropzone.on('drag dragstart dragend dragover dragenter dragleave drop', function
 });
 
 fileInput.addEventListener('change', function(e) {
-    console.log(document.getElementById("fileLabel").style.display);
 	var file = fileInput.files[0];
     previewPhoto(fileInput.files[0]);
 });
@@ -94,12 +93,12 @@ upload.addEventListener("submit", function(e){
 	}
     // add production promise
     var productionKeys = ["boarEar", "litterStrain", "litterNo", "litterNote", "serviceDate", "diagnosisDate", "dueDate", 
-                            "parturitionDate", "weanDate", "totalPiglet", "live", "mummy", "stillborn", "totalWeight", "weanWeight", "weanNumber"];
+                    "partDate", "weanDate", "totalPiglet", "live", "mummy", "stillborn", "totalLitterWeight", "totalWeanWeight", "weanNumber"];
     var lastParity = 0
-    var lastDate = {serviceDate:"", dueDate:"", parturitionDate:"", weanDate:""}
+    var lastDate = {serviceDate:"", dueDate:"", partDate:"", weanDate:""}
     for(i=0;i<productionTable.rows.length-1;i++){
         var parity = productionTable.rows[i].getAttribute("data-parity");
-        if(parity){
+        if(parity.length>0){
             var productionObj = {}
             for(j=0;j<productionKeys.length;j++)
                 productionObj[productionKeys[j]] = productionTable.rows[i].getAttribute("data-"+productionKeys[j]);
@@ -107,9 +106,9 @@ upload.addEventListener("submit", function(e){
             const productionPromise = productionRef.set(productionObj);
             promise_array.push(productionPromise);
             lastParity = Math.max(parseInt(parity), lastParity)
-            lastKeys = ["serviceDate", "dueDate", "parturitionDate", "weanDate"];
+            lastKeys = ["serviceDate", "dueDate", "partDate", "weanDate"];
             for(j=0;j<4;j++)
-                if(lastDate[lastKeys[j]].localeComapre(productionObj[lastKeys[j]])<0){
+                if(lastDate[lastKeys[j]].localeCompare(productionObj[lastKeys[j]])<0){
                     lastDate[lastKeys[j]] = productionObj[lastKeys[j]];
                     lastDate["update"] = true;
                 }
@@ -120,12 +119,22 @@ upload.addEventListener("submit", function(e){
         promise_array.push(lastP);
     }
     if(lastDate.update){
-        const lastDateP = firebase.database().ref("sows/" + userData.currentFarm + "/" + sowId).update(lastDate);
+        const lastDateP = firebase.database().ref("sows/" + userData.currentFarm + "/" + sowId).update({
+            lastService:lastDate.serviceDate!==""?lastDate.serviceDate:null,
+            lastDue:lastDate.dueDate!==""?lastDate.dueDate:null,
+            lastParturition:lastDate.partDate!==""?lastDate.partDate:null,
+            lastWean:lastDate.weanDate!==""?lastDate.weanDate:null
+        });
         promise_array.push(lastDateP);
     }
     var sexRef = firebase.database().ref("sex/" + userData.currentFarm + "/" + sowId);
     const sexP = sexRef.set("sow");
     promise_array.push(sexP);
+    var d = new Date();
+    const logP = firebase.database().ref("log/" + userData.currentFarm + "/" + sowId + "/addLog").set({date:localDateStr(d), eventName:"add"});
+    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+    promise_array.push(logP);
+    promise_array.push(timeP)
 	Promise.all(promise_array).then(function(){
 		console.log("新增母豬資料成功");
 		window.location.replace("sow.html?id="+sowId);
@@ -139,7 +148,7 @@ addProduction.addEventListener("click", function(){
     var inputNames = [["胎次", "公豬", "品種", "胎號", "備註"], ["配種", "測孕", "預產", "分娩", "離乳"],
                         ["總仔", "活仔", "黑仔", "白仔"], ["出生窩重", "離乳窩重", "離乳仔數"]];
     var inputIds = [["parity", "boarEar", "litterStrain", "litterNo", "litterNote"], 
-                    ["serviceDate", "diagnosisDate", "dueDate", "parturitionDate", "weanDate"],
+                    ["serviceDate", "diagnosisDate", "dueDate", "partDate", "weanDate"],
                     ["totalPiglet", "live", "mummy", "stillborn"], ["totalWeight", "weanWeight", "weanNumber"]];
     for(i=0;i<inputNames.length;i++){
         var cell = row.insertCell(i);
@@ -168,7 +177,6 @@ addProduction.addEventListener("click", function(){
 });
 
 search.addEventListener("submit", function(event){
-	console.log(event);
 	event.preventDefault();
 	if(dateRadio.checked)
 		ref = sowRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value);
@@ -206,7 +214,6 @@ function localDateStr(d){
 }
 
 function daysFromNow(date){
-    console.log(date);
     d0 = new Date();
     d0 = new Date(localDateStr(d0));
     d1 = new Date(date);

@@ -49,12 +49,12 @@ function main_step(snapshot){
 }
 
 search.addEventListener("submit", function(event){
-	console.log(event);
 	event.preventDefault();
     dataList = [];
 	if(dateRadio.checked)
-        if(dateType==="birthday")
+        if(dateType.value==="birthday"){
             two_step_query(boarRef.orderByChild("birthday").startAt(date1.value).endAt(date2.value)).then(renderTable);
+        }
         else
             one_step_query(semenRef.orderByChild("date").startAt(date1.value).endAt(date2.value)).then(renderTable);
 	else if(boarRadio.checked)

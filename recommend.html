@@ -33,48 +33,38 @@
 				</header>
 
 		<!-- Modal -->
-			<div class="modal fade" id="myModal1" role="dialog" style="z-index:10002!important;">
+			<div class="modal fade" id="myModal" role="dialog" style="z-index:10002!important;">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h3 class="modal-title">資料下載</h3>
+							<h3 class="modal-title">意見回饋</h3>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
 						<div class="modal-body">
-								<div id="content">
+								<div>
 
 									<!-- Content -->
 									<div class="row">
 										<div class="4u" align="right">
-											<span class="label">資料範圍：</span>
+											<span class="label">提問：</span>
 										</div>
-										<div class="4u" style="padding-left:0.5em!important">
-											<input type="date">
+										<div class="8u" style="padding-left:0.5em!important" id="message">
 										</div>
-										<div class="4u" style="padding-left:0.5em!important">
-											<input type="date">
-										</div>
+                                    </div>
+                                    <div class="row" id="response">
 										<div class="4u" align="right">
-											<span class="label">豬隻性別：</span>
+											<span class="label">分析師回覆：</span>
 										</div>
 										<div class="8u" style="padding-left:0.5em!important">
-											<span class="label">
-												<input type="radio" id='sow' name="sex" checked>
-												<label for="sow">母豬</label>
-											</span>
-											<span class="label">
-												<input type="radio" id='boar' name="sex">
-												<label for="boar">公豬</label>
-											</span>
+                                            <span class="label" id="responseContent"></span>
 										</div>
 									</div>
 								</div>
 						</div>
 						<div class="modal-footer">
-								<span class="button alt" id="nextt">生成報表</span>
-								<span class="button disabled" id="nextt">下載</span>
+								<span class="button disabled" id="send">送出</span>
 						</div>
 					</div>
 				</div>
@@ -108,13 +98,7 @@
 												<th>意見回饋</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td>2018-12-12</td>
-												<td>選拔建議</td>
-												<td><a data-toggle="modal" data-target="#myModal3" href>待回覆</a></td>
-											</tr>
-											<tr></tr>
+										<tbody id="tableBody">
 										</tbody>
 									</table>
 								</div>
@@ -159,8 +143,7 @@
 			<script src="firebase/init.js"></script>
 			<script src="firebase/main.js"></script>
 			<script src="firebase/nav.js"></script>
-			<script src="firebase/lineChart.js"></script>
-         	<script src="firebase/upload.js"></script>
+         	<script src="firebase/recommend.js"></script>
 
 	</body>
 </html>
