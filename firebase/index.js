@@ -53,7 +53,7 @@ function localDateStr(d){
 
 // Contact Form
 function initPage(){
-    //firebase.auth().currentUser.getIdTokenResult(true).then((result)=>console.log(result.claims));
+    firebase.auth().currentUser.getIdTokenResult(true).then((result)=>console.log(result.claims));
     //window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
     grecaptcha.render("recaptcha", {
         'size' : 'normal',
