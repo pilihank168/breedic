@@ -70,6 +70,7 @@ right.addEventListener('click', function(){
 });
 
 function renderCalendar(){
+    d.setDate(1);
 	week = [];
 	weeks = [];
 	year = d.getFullYear();

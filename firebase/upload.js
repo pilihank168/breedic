@@ -10,7 +10,7 @@ function initPage(){
         snapshot.forEach(function(childSnapshot){
             var entry = childSnapshot.val()
             var row = table.insertRow(0);
-            cell = row.insertCell(0);
+            var cell = row.insertCell(0);
             cell.innerHTML = childSnapshot.child("date").val();
             cell = row.insertCell(1);
             fileType = entry.type;
@@ -30,6 +30,7 @@ function initPage(){
             fileName = entry.fileName;
             cell.innerHTML = '<a download="'+fileName+'">'+fileName+'</a>';
             firebase.storage().ref("upload/"+userData.currentFarm+"/"+childSnapshot.key).getDownloadURL().then(function(url){
+                console.log(url, cell.closest("tr"));
                 cell.children[0].setAttribute("href", url);
             }).catch(error=>console.log(error));
         });
@@ -91,7 +92,7 @@ document.getElementById("fileUploader").addEventListener("submit", function(e){
 
 function productionParser(data){
     var sowKeys = ["strain", "earmark", "registerNo", "birthday", "fatherEar", "fatherNo", "motherEar", "motherNo"]
-    var productionKeys = ["boarNo", "serviceLocation", "partDate", "partLocation", "strain", "litterNo", "totalPiglet", "totalDead", "dead", 
+    var productionKeys = ["boarEar", "serviceLocation", "partDate", "partLocation", "strain", "litterNo", "totalPiglet", "totalDead", "dead", 
                             "mummy", "stillborn", "lied", "weakDead", "smallDead", "live", "normal", "weak", "small", "fostering", "fosteringPlus",
                             "fosteringMinus", "totalLitterWeight", "live", "weanDate", "weanNumber", "totalWeanWeight", "eliminated", "note"];
     var updateObj = {};
@@ -133,7 +134,8 @@ function boarParser(data){
         var id = data[i][2]+data[i][3];
         updateObj[boarPath+id] = {}
         boarKeys.forEach(function(key, j){
-            updateObj[boarPath+id][key] = data[i][j];
+            updateObj[sowPath+id][key] = (key==='registerNo'||key==='fatherNo'||key==='motherNo')?data[i][j].toString():data[i][j];
+            //updateObj[boarPath+id][key] = data[i][j];
         });
         updateObj["sex/"+userData.currentFarm+"/"+id] = "boar";
         //log
@@ -158,7 +160,7 @@ function sowParser(data){
         var id = data[i][3]+data[i][4];
         updateObj[sowPath+id] = {};
         sowKeys.forEach(function(key, j){
-            updateObj[sowPath+id][key] = data[i][j];
+            updateObj[sowPath+id][key] = (key==='registerNo'||key==='fatherNo'||key==='motherNo')?data[i][j].toString():data[i][j];
         });
         updateObj["sex/"+userData.currentFarm+"/"+id] = "sow"
         //log
@@ -187,6 +189,121 @@ function weanerParser(data){
     }
     return firebase.database().ref().update(updateObj);
 }
+
+// generate
+var date1 = document.getElementById("date1");
+var date2 = document.getElementById("date2");
+var downloadBtn = document.getElementById("download");
+
+document.getElementById("downloadModal").addEventListener("click", function(){
+    date1.value = "";
+    date2.value = "";
+    downloadBtn.setAttribute("class", "button disabled");
+    $("#myModal").modal("toggle");
+});
+
+var sowFields = ["母豬品種", "母豬耳號", "母豬序號", "出生日期", "父畜耳號", "父畜序號", "母畜耳號", "母畜序號",
+                "配種日期", "胎次", "與配公豬序號", "配種位置", "分娩日期", "分娩位置", "仔豬品種", "胎號", "總仔", "死總", "死亡", "黑", "白", "壓", 
+        "弱", "小", "活總", "正常", "弱", "小", "代養", "代養(+)", "代養(-)", "出生窩重", "哺乳頭數", "離乳日期", "離乳頭數", "離乳窩重", "淘汰", "備註"];
+var productionKeys = ["boarNo", "serviceLocation", "partDate", "partLocation", "strain", "litterNo", "totalPiglet", "totalDead",
+                    "dead", "mummy", "stillborn", "lied", "weakDead", "smallDead", "live", "normal", "weak", "small", "fostering", "fosteringPlus",
+                    "fosteringMinus", "totalLitterWeight", "litterNumber", "weanDate", "weanNumber", "totalWeanWeight", "eliminated", "note"];
+var boarFields = ["公豬品種", "公豬耳號", "公豬序號", "出生日期", "父畜耳號", "父畜序號", "母畜耳號", "母畜序號", "採精次數",
+                    "採精日期", "精液量", "精液濃度", "活力", "畸形", "頭頸", "中片", "稀釋數", "可用", "備註"];
+var pigKeys = ["strain", "earmark", "registerNo", "birthday", "fatherEar", "fatherNo", "motherEar", "motherNo"];
+var semenKeys = ["date", "volume", "concentration", "activity", "abnormalities", "acrosome", "midpiece", "dilute", "available", "note"];
+document.getElementById("generate").addEventListener("click", function(){
+    // query data
+    console.log(document.getElementById("sow").checked)
+    if(document.getElementById("sow").checked){
+        const sowP1 =firebase.database().ref("sows/"+userData.currentFarm).orderByChild("birthday").startAt(date1.value).endAt(date2.value).once("value");
+        const sowP2 =firebase.database().ref("sows/"+userData.currentFarm).orderByChild("birthday").endAt("").once("value");
+        var sowData = [];
+        var productionPromises = [];
+        Promise.all([sowP1, sowP2]).then(function(snapshots){
+            snapshots.forEach(function(snapshot){
+                snapshot.forEach(function(childSnapshot){
+                    //get sow entry
+                    var data = [];
+                    pigKeys.forEach(function(key){
+                        data.push(childSnapshot.child(key).val());
+                    });
+                    sowData.push(data);
+                    //make promise
+                    productionPromises.push(firebase.database().ref("production/"+userData.currentFarm+"/"+childSnapshot.key).once("value"));
+                })
+            });
+            return Promise.all(productionPromises);
+        }).then(function(snapshots){
+            var data = [];
+            snapshots.forEach(function(snapshot, idx){
+                snapshot.forEach(function(childSnapshot){
+                    if(childSnapshot.key!=="parity"){
+                        //concat sow data [idx] and childsnapshot
+                        var productionData = [childSnapshot.child("serviceDate").val(), childSnapshot.key];
+                        productionKeys.forEach(function(key){
+                            productionData.push(childSnapshot.child(key).val());
+                        });
+                        data.push(sowData[idx].concat(productionData));
+                    }
+                })
+            });
+            // make csv here
+            csv = unparseToCSV({fields:sowFields, data:data});
+            downloadBtn.href = 'data:text/csv;charset=utf-8,' + csv;
+            downloadBtn.target = '_blank';
+            downloadBtn.download = userData.currentFarm+'號場母豬資料匯出-'+date1.value+'-'+date2.value+'.csv';
+            downloadBtn.setAttribute("class", "button");
+        });
+    }
+    else{
+        console.log(1)
+        const boarP1=firebase.database().ref("boars/"+userData.currentFarm).orderByChild("birthday").startAt(date1.value).endAt(date2.value).once("value")
+        const boarP2=firebase.database().ref("boars/"+userData.currentFarm).orderByChild("birthday").endAt("").once("value");
+        var boarData = [];
+        var semenPromises = [];
+        Promise.all([boarP1, boarP2]).then(function(snapshots){
+            snapshots.forEach(function(snapshot){
+                snapshot.forEach(function(childSnapshot){
+                    //get boar entry
+                    var data = [];
+                    pigKeys.forEach(function(key){
+                        data.push(childSnapshot.child(key).val());
+                    });
+                    boarData.push(data);
+                    //make promise
+            semenPromises.push(firebase.database().ref("semen/"+userData.currentFarm).orderByChild("earmark").equalTo(childSnapshot.key).once("value"));
+                })
+            });
+            return Promise.all(semenPromises);
+        }).then(function(snapshots){
+            console.log(2)
+            var data = [];
+            snapshots.forEach(function(snapshot, idx){
+                console.log(3);
+                var semenNo = 0
+                snapshot.forEach(function(childSnapshot){
+                    //concat boar data [idx] and childsnapshot
+                    semenNo += 1;
+                    var semenData = [semenNo];
+                    semenKeys.forEach(function(key){
+                        semenData.push(childSnapshot.child(key).val());
+                    });
+                    data.push(boarData[idx].concat(semenData));
+            console.log(4)
+                })
+            });
+            // make csv here
+            console.log(4)
+            csv = unparseToCSV({fields:boarFields, data:data});
+            console.log(4)
+            downloadBtn.href = 'data:text/csv;charset=utf-8,' + csv;
+            downloadBtn.target = '_blank';
+            downloadBtn.download = userData.currentFarm+'號場公豬資料匯出-'+date1.value+'-'+date2.value+'.csv';
+            downloadBtn.setAttribute("class", "button");
+        });
+    }
+});
 
 // this should be only used to add litters which haven't been weaned and need to be modified for this purpose
 /*

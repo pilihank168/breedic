@@ -10,7 +10,7 @@ function initPage(){
         snapshot.forEach(function(childSnapshot){
             var entry = childSnapshot.val()
             var row = table.insertRow(0);
-            cell = row.insertCell(0);
+            var cell = row.insertCell(0);
             cell.innerHTML = childSnapshot.child("date").val();
             cell = row.insertCell(1);
             fileType = entry.type;

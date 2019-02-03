@@ -1,3 +1,8 @@
+// Footer
+document.getElementById("footer").innerHTML = '<ul class="icons"><li>台鼎生物科技</li><li>電子信箱：breedic4288@gmail.com</li></ul>'+
+        '<!-- Copyright --><ul class="copyright"><li>&copy; Untitled. All rights reserved</li><li><a href="index.html">台鼎生物科技</a></li>'+
+        '<li>Design: <a href="http://html5up.net">HTML5 UP</a></li></ul>';
+
 // Get Elements
 var nav = document.getElementById('ul');
 // Logout

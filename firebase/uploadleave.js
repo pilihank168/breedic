@@ -2,6 +2,7 @@ var inputRow = document.getElementById("inputRow");
 var table = document.getElementById("tableBody");
 var form = document.getElementById("form");
 var upload = document.getElementById("upload");
+var uploaded = false;
 var d = new Date();
 var promise_array=[];
 var todayDate;
@@ -20,17 +21,26 @@ function initPage(){
 }
 
 upload.addEventListener("click", ()=>{
+    if(uploaded)
+        return
+    uploaded = true;
+    var newData = false;
+    upload.setAttribute("class", "disabled button");
+    upload.innerHTML = "上傳中";
     var sexRef = firebase.database().ref("sex/" + userData.currentFarm);
     sexRef.once("value").then( (snapshot)=>{
         sexData = snapshot.val();
         for(i=0;i<table.children.length-1;i++){
             if(table.children[i].getAttribute('class')=="newRow"){
                 leavePromise(table.children[i], sexData);
+                newData = true;
             }
         }
-        var d = new Date();
-        const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
-        promise_array.push(timeP);
+        if(newData){
+            var d = new Date();
+            const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+            promise_array.push(timeP);
+        }
         return Promise.all(promise_array);
     }).then( ()=>{
 		window.location.replace(location.href)

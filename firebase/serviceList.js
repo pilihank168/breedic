@@ -4,6 +4,7 @@ var date = document.getElementById("date");
 var table = document.getElementById("tableBody");
 var form = document.getElementById("form");
 var upload = document.getElementById("upload");
+var uploaded = false;
 var info = document.getElementById("relatedInfo");
 var count = 0;
 var countNew = 0;
@@ -79,6 +80,12 @@ date.addEventListener('change', function(){
 });
 
 upload.addEventListener("click", ()=>{
+    if(uploaded)
+        return
+    uploaded = true;
+    var newData = false;
+    upload.setAttribute("class", "disabled button");
+    upload.innerHTML = "上傳中";
 	[yStr, mStr, dStr] = date.value.split("-");
 	countRef = firebase.database().ref("calendar/" + userData.currentFarm + "/" + yStr + "/" + mStr + "/" + dStr + "/");
 	const p0 = countRef.set(count+countNew);
@@ -86,11 +93,14 @@ upload.addEventListener("click", ()=>{
 	for(i=0;i<table.children.length-1;i++){
 		if(table.children[i].getAttribute('class')=="newRow"){
 			servicePromise(table.children[i]);
+            newData = true;
 		}
 	}
-    var d = new Date();
-    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
-    promise_array.push(timeP);
+    if(newData){
+        var d = new Date();
+        const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+        promise_array.push(timeP);
+    }
 	Promise.all(promise_array).then( ()=>{
         var sync_promise = [];
         newService = firebase.functions().httpsCallable('newService');

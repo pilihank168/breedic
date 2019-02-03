@@ -36,14 +36,20 @@ function loadExistedData(){
 }
 
 upload.addEventListener("click", ()=>{
+    var newData = false;
+    upload.setAttribute("class", "disabled button");
+    upload.innerHTML = "上傳中";
 	for(i=0;i<table.children.length-1;i++){
 		if(table.children[i].getAttribute('class')=="newRow"){
 			semenPromise(table.children[i]);
+            newData = true;
 		}
 	}
-    var d = new Date();
-    const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
-    promise_array.push(timeP);
+    if(newData){
+        var d = new Date();
+        const timeP = firebase.database().ref("farms/" + userData.currentFarm + "/lastData").set(d.getTime());
+        promise_array.push(timeP);
+    }
 	Promise.all(promise_array).then( ()=>{
 		window.location.replace("semen.html")//location.href)
 	});

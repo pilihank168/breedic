@@ -137,7 +137,7 @@ function basicData(snapshot){
     birthday = entry.birthday;
     if(entry.score){
         document.getElementById("score").innerHTML = '分數：'+entry.score+'<a href="#" data-toggle="modal" data-target="#myModal">(檢視詳情)</a>'
-        renderGenogramNode(entry.registerNo, entry.source, entry.score, entry.fatherNo, entry.motherNo);
+        renderGenogramNode(id, entry.source, entry.score, entry.fatherEar, entry.motherEar);
     }
     else
         document.getElementById("score").innerHTML = '分數：未評'
@@ -278,19 +278,19 @@ function renderLineChart(dataKey, name){
     lineChart = renderChart(ctx, lineData["week"], lineData[dataKey], name);
 }
 
-function renderGenogramNode(registerNo, source, score, fatherNo, motherNo){
-    fillNode("self", registerNo, source, score, '');
+function renderGenogramNode(earmark, source, score, fatherEar, motherEar){
+    fillNode("self", earmark, source, score, '');
     var parentP = [];
     var parentNode = [];
     var gparentNode = [];
-    if(fatherNo){
-        fatherRef = firebase.database().ref("boars/" + userData.currentFarm).orderByChild("registerNo").equalTo(fatherNo).limitToFirst(1);
+    if(fatherEar && fatherEar!==""){
+        fatherRef = firebase.database().ref("boars/" + userData.currentFarm + "/" + fatherEar)
         const fatherP = fatherRef.once("value");
         parentP.push(fatherP);
-       parentNode.push("father");
+        parentNode.push("father");
     }
-    if(motherNo){
-        motherRef = firebase.database().ref("sows/" + userData.currentFarm).orderByChild("registerNo").equalTo(motherNo).limitToFirst(1);
+    if(motherEar && motherEar!==""){
+        motherRef = firebase.database().ref("sows/" + userData.currentFarm + "/" + motherEar)
         const motherP = motherRef.once("value");
         parentP.push(motherP);
         parentNode.push("mother");
@@ -298,23 +298,18 @@ function renderGenogramNode(registerNo, source, score, fatherNo, motherNo){
     Promise.all(parentP).then( (snapshot)=>{
         gparentsP = [];
         for(i=0;i<parentNode.length;i++){
-            var entry;
-            var parentId;
-            snapshot[i].forEach( (childSnapshot)=>{
-                entry = childSnapshot.val();
-                parentId = childSnapshot.key;
-                return true;
-            });
+            var entry = snapshot[i].val();
+            var parentId = snapshot[i].key;
             if(entry){
-                fillNode(parentNode[i], entry.registerNo, entry.source, entry.score, parentNode[i]==="father"?"boar":"sow", parentId);
-                if(entry.fatherNo){
-                    gfatherRef = firebase.database().ref("boars/"+userData.currentFarm).orderByChild("registerNo").equalTo(entry.fatherNo).limitToFirst(1)
+                fillNode(parentNode[i], parentId, entry.source, entry.score, parentNode[i]==="father"?"boar":"sow", parentId);
+                if(entry.fatherEar && entry.fatherEar!==""){
+                    gfatherRef = firebase.database().ref("boars/"+userData.currentFarm+"/"+entry.fatherEar)
                     const gfatherP = gfatherRef.once("value");
                     gparentsP.push(gfatherP);
                     gparentNode.push((parentNode[i]==="father"?"fgfather":"mgfather"));
                 }
-                if(entry.motherNo){
-                    gmotherRef = firebase.database().ref("sows/"+userData.currentFarm).orderByChild("registerNo").equalTo(entry.motherNo).limitToFirst(1)
+                if(entry.motherEar && entry.motherEar!==""){
+                    gmotherRef = firebase.database().ref("sows/"+userData.currentFarm+"/"+entry.motherEar)
                     const gmotherP = gmotherRef.once("value");
                     gparentsP.push(gmotherP);
                     gparentNode.push((parentNode[i]==="father"?"fgmother":"mgmother"));
@@ -324,10 +319,8 @@ function renderGenogramNode(registerNo, source, score, fatherNo, motherNo){
         return Promise.all(gparentsP);
     }).then( (snapshot)=>{
         for(i=0;i<gparentNode.length;i++){
-            snapshot[i].forEach( (childSnapshot)=>{
-                entry = childSnapshot.val();
-                fillNode(gparentNode[i], entry.registerNo, entry.source, entry.score, gparentNode[i].slice(2)==="father"?"boar":"sow", childSnapshot.key);
-            });
+            var entry = snapshot[i].val();
+            fillNode(gparentNode[i], snapshot[i].key, entry.source, entry.score, gparentNode[i].slice(2)==="father"?"boar":"sow", snapshot[i].key);
         }
     });
 }
