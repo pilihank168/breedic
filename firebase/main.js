@@ -32,7 +32,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 	else{
 		console.log("User is not logined yet.");
 		makeNav('none');
-		if(url_page!=='index.html' && url_page!=='login.html'){
+		if(url_page!=='index.html' && url_page!=='login.html' && url_page!==''){
 			//console.log('login.html?go='+url_page+url_search);
 			window.location.replace('login.html?go='+url_page+url_search);
 		}

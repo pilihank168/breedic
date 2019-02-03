@@ -14,6 +14,8 @@ function logout(){
 function changeFarm(farmNo){
     changeCurrentFarm = firebase.functions().httpsCallable('changeCurrentFarm');
     changeCurrentFarm({farm:farmNo}).then((result)=>{
+        return firebase.auth().currentUser.getIdTokenResult(true);
+    }).then((result)=>{
 		window.location.replace(window.location.href);
 	}).catch((error)=>{console.log(error)});
 }
@@ -61,7 +63,7 @@ function makeNav(role){
 		'</li>' +
 		'<li> <a href="accountManage.html" class="icon fa-angle-down">帳號管理</a>' +
 			'<ul id="accountList">' +
-				'<li><a href="choosefarm.html" name="list">豬場管理</a></li>' +
+				'<li><a href="farm.html" name="list">豬場管理</a></li>' +
 				'<li><a href="owner.html" name="list">場主帳號</a></li>' +
 				'<li><a href="analyst.html" name="list">分析師帳號</a></li>' +
 			'</ul>' +
@@ -73,7 +75,7 @@ function makeNav(role){
 		nav.innerHTML = '<li> <a href="index.html">首頁</a> </li>' + 
 		'<li> <a href="#data" class="icon fa-angle-down">數據分析</a>' +
 			'<ul id="dataList">' +
-				'<li><a href="upload.html" name="list">資料查看</a></li>' +
+				'<li><a href="choosefarm.html" name="list">資料查看</a></li>' +
 				'<li><a href="analysis.html" name="list">資料分析</a></li>' +
 			'</ul>'+
 		'</li>' +
